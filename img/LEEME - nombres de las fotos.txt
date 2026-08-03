@@ -10,43 +10,47 @@ No hace falta tocar código: si el nombre coincide, se ve;
 si aún no pones una, queda el recuadro gris de siempre.
 
 --------------------------------------------------------
-LISTA DE NOMBRES (7 espacios)
+LISTA DE NOMBRES
 --------------------------------------------------------
 
+INICIO — CARRUSEL (fondo del encabezado, rotan solas)
+  1) hero-1.jpg
+  2) hero-2.jpg
+  3) hero-3.jpg
+       -> Fotos ANCHAS/horizontales (mín. 1600 px de ancho):
+          taller, motores, bobinados en proceso, etc.
+
 INICIO
-  1) inicio-maquinaria.jpg
-       -> Foto grande de la maquinaria / interior del taller.
-  2) inicio-mapa.jpg
-       -> Captura del mapa de ubicación (o foto de fachada).
+  4) inicio-maquinaria.jpg
+       -> Foto de la maquinaria / interior del taller.
 
 SERVICIOS
-  3) servicio-rebobinado.jpg
-       -> Foto de un motor rebobinado o bobinado en proceso.
-  4) servicio-mantenimiento.jpg
-       -> Foto de mantenimiento / equipos de medición.
-  5) servicio-suministro.jpg
-       -> Foto de motores, bombas o repuestos nuevos.
+  5) servicio-rebobinado.jpg
+       -> Motor rebobinado o bobinado en proceso.
+  6) servicio-mantenimiento.jpg
+       -> Mantenimiento / equipos de medición.
+  7) servicio-suministro.jpg
+       -> Motores, bombas o repuestos nuevos.
 
 NOSOTROS
-  6) nosotros-fachada.jpg
-       -> Foto de la fachada del taller o del equipo trabajando.
+  8) nosotros-fachada.jpg
+       -> Fachada del taller o el equipo trabajando.
 
-CONTACTO
-  7) contacto-mapa.jpg
-       -> Captura del mapa de ubicación del taller.
+--------------------------------------------------------
+NOTA SOBRE LOS MAPAS
+--------------------------------------------------------
+Los mapas de "Inicio" y "Contacto" YA son mapas en vivo de
+Google Maps (no necesitan foto). El botón "Cómo llegar"
+abre la ruta al taller automáticamente.
 
 --------------------------------------------------------
 RECOMENDACIONES
 --------------------------------------------------------
-
 - Formato: usa .jpg. Si tu foto es .png, renómbrala a .jpg.
 - Nombre EXACTO: sin mayúsculas, sin espacios, sin acentos.
-  Ej. correcto:  servicio-rebobinado.jpg
-      incorrecto: Servicio Rebobinado.JPG
-- Tamaño ideal: fotos horizontales, mínimo 1000 px de ancho.
-  (las de "fachada" y "maquinaria" se ven mejor apaisadas)
+- Tamaño ideal: fotos horizontales, mínimo 1000 px de ancho
+  (las del carrusel, mínimo 1600 px).
 - No pesado: si una foto pesa más de ~2 MB, conviene reducirla.
 
-Cuando termines de colocar las fotos, súbelas a GitHub
-(Commit -> Push en GitHub Desktop) y en ~1 minuto se ven
-en la web.
+Cuando termines, súbelas a GitHub (Commit -> Push en
+GitHub Desktop) y en ~1 minuto se ven en la web.
