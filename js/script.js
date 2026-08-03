@@ -14,7 +14,7 @@ const CONFIG = {
   telefono: "+58 414 563.2964",
 
   // Mensaje que se abre al pulsar los botones de WhatsApp.
-  mensajeWhatsapp: "Hola TELVE C.A., quiero información sobre reparación / rebobinado de mi motor o generador."
+  mensajeWhatsapp: "Hola TELVE C.A., quiero información sobre reparación y/o rebobinado de mi motor o generador electrico."
 };
 
 /* ------------------------------------------------------------------- */

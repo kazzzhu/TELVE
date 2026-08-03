@@ -124,6 +124,11 @@ body {
   border-bottom: 3px solid var(--red);
 }
 .nav__brand { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.nav__logoimg {
+  height: 54px; width: auto; display: block;
+  background: #fff; padding: 6px 12px; border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.18);
+}
 .nav__mark {
   width: 40px; height: 40px; flex: none;
 }
@@ -137,6 +142,15 @@ body {
   color: #cfe0df;
   font-weight: 500;
   margin-top: 3px;
+}
+.nav__rif {
+  font-family: 'Oswald', sans-serif;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a9c4c3;
+  font-weight: 500;
+  margin-top: 1px;
 }
 .nav__links {
   display: flex;
@@ -445,6 +459,7 @@ body {
 
 @media (max-width: 860px) {
   .nav { flex-wrap: wrap; padding: 12px 20px; }
+  .nav__logoimg { height: 44px; padding: 5px 9px; }
   .burger { display: inline-flex; }
   .nav__links {
     display: none; width: 100%; flex-direction: column;
