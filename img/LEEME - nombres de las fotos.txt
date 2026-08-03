@@ -1,0 +1,52 @@
+========================================================
+   FOTOS DE LA WEB TELVE — CÓMO COLOCARLAS
+========================================================
+
+Coloca aquí, en esta carpeta "img", cada foto con el
+NOMBRE EXACTO de la lista de abajo (todo en minúsculas y
+terminando en .jpg). La foto aparecerá sola en su lugar.
+
+No hace falta tocar código: si el nombre coincide, se ve;
+si aún no pones una, queda el recuadro gris de siempre.
+
+--------------------------------------------------------
+LISTA DE NOMBRES (7 espacios)
+--------------------------------------------------------
+
+INICIO
+  1) inicio-maquinaria.jpg
+       -> Foto grande de la maquinaria / interior del taller.
+  2) inicio-mapa.jpg
+       -> Captura del mapa de ubicación (o foto de fachada).
+
+SERVICIOS
+  3) servicio-rebobinado.jpg
+       -> Foto de un motor rebobinado o bobinado en proceso.
+  4) servicio-mantenimiento.jpg
+       -> Foto de mantenimiento / equipos de medición.
+  5) servicio-suministro.jpg
+       -> Foto de motores, bombas o repuestos nuevos.
+
+NOSOTROS
+  6) nosotros-fachada.jpg
+       -> Foto de la fachada del taller o del equipo trabajando.
+
+CONTACTO
+  7) contacto-mapa.jpg
+       -> Captura del mapa de ubicación del taller.
+
+--------------------------------------------------------
+RECOMENDACIONES
+--------------------------------------------------------
+
+- Formato: usa .jpg. Si tu foto es .png, renómbrala a .jpg.
+- Nombre EXACTO: sin mayúsculas, sin espacios, sin acentos.
+  Ej. correcto:  servicio-rebobinado.jpg
+      incorrecto: Servicio Rebobinado.JPG
+- Tamaño ideal: fotos horizontales, mínimo 1000 px de ancho.
+  (las de "fachada" y "maquinaria" se ven mejor apaisadas)
+- No pesado: si una foto pesa más de ~2 MB, conviene reducirla.
+
+Cuando termines de colocar las fotos, súbelas a GitHub
+(Commit -> Push en GitHub Desktop) y en ~1 minuto se ven
+en la web.
