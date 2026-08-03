@@ -93,4 +93,68 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  /* ---------- 6. Carrusel del hero (imágenes rotativas) ---------- */
+  initHeroSlider();
+
 });
+
+function initHeroSlider() {
+  const hero = document.querySelector(".hero--slider");
+  if (!hero) return;
+
+  const dotsWrap = hero.querySelector(".hero__dots");
+  const btnPrev  = hero.querySelector(".hero__arrow--prev");
+  const btnNext  = hero.querySelector(".hero__arrow--next");
+  const INTERVALO = 5000; // milisegundos entre imágenes
+
+  function start() {
+    // Solo consideramos las imágenes que SÍ cargaron (existen en /img).
+    const slides = Array.from(hero.querySelectorAll(".hero__slide"))
+      .filter(function (img) { return img.complete && img.naturalWidth > 0; });
+
+    // Si hay menos de 2 fotos, no hay carrusel: ocultamos los controles.
+    if (slides.length < 2) {
+      if (dotsWrap) dotsWrap.hidden = true;
+      if (btnPrev)  btnPrev.hidden = true;
+      if (btnNext)  btnNext.hidden = true;
+      if (slides.length === 1) slides[0].classList.add("is-active");
+      return;
+    }
+
+    let idx = 0, timer = null;
+
+    // construir puntitos
+    if (dotsWrap) {
+      dotsWrap.innerHTML = "";
+      slides.forEach(function (_, i) {
+        const d = document.createElement("span");
+        d.className = "hero__dot" + (i === 0 ? " is-active" : "");
+        d.addEventListener("click", function () { show(i); restart(); });
+        dotsWrap.appendChild(d);
+      });
+    }
+
+    function show(i) {
+      idx = (i + slides.length) % slides.length;
+      slides.forEach(function (el, n) { el.classList.toggle("is-active", n === idx); });
+      if (dotsWrap) {
+        dotsWrap.querySelectorAll(".hero__dot").forEach(function (d, n) {
+          d.classList.toggle("is-active", n === idx);
+        });
+      }
+    }
+    function next()    { show(idx + 1); }
+    function prev()    { show(idx - 1); }
+    function restart() { clearInterval(timer); timer = setInterval(next, INTERVALO); }
+
+    if (btnNext) btnNext.addEventListener("click", function () { next(); restart(); });
+    if (btnPrev) btnPrev.addEventListener("click", function () { prev(); restart(); });
+
+    show(0);
+    restart();
+  }
+
+  // Esperamos a que las imágenes intenten cargar antes de decidir.
+  if (document.readyState === "complete") start();
+  else window.addEventListener("load", start);
+}
