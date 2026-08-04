@@ -213,21 +213,6 @@ body {
 .hero--slider .hazard-top { z-index: 3; }
 .hero--slider .hero__inner { position: relative; z-index: 3; }
 
-.hero__arrow {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  z-index: 4;
-  width: 44px; height: 44px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,.25);
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 50%;
-  color: #fff; font-size: 26px; line-height: 1;
-  cursor: pointer; transition: background .15s;
-}
-.hero__arrow:hover { background: rgba(198,40,40,.85); }
-.hero__arrow--prev { left: 18px; }
-.hero__arrow--next { right: 18px; }
-
 .hero__dots {
   position: absolute; z-index: 4;
   bottom: 18px; left: 0; right: 0;
@@ -241,7 +226,7 @@ body {
 .hero__dot.is-active { background: var(--red); width: 26px; border-radius: 6px; }
 
 /* Ocultar controles si aún no hay imágenes cargadas */
-.hero__arrow[hidden], .hero__dots[hidden] { display: none; }
+.hero__dots[hidden] { display: none; }
 .hazard-top {
   position: absolute;
   top: 0; left: 0; right: 0;
