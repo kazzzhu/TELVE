@@ -36,6 +36,19 @@ NOSOTROS
   8) nosotros-fachada.jpg
        -> Fachada del taller o el equipo trabajando.
 
+CLIENTES (logos, sección "Nos avalan" en Inicio)
+   cliente-sidor.png
+   cliente-bauxilum.png
+   cliente-corpoelec.png
+   cliente-cabelum.png
+   cliente-mayasol.png
+   cliente-hidrobolivar.png
+   cliente-fapco.png
+       -> Logo oficial de cada empresa. IDEAL: PNG con fondo
+          TRANSPARENTE (o fondo blanco). Se ven sobre un
+          recuadro blanco. Mientras no pongas uno, aparece
+          el nombre de la empresa en su lugar.
+
 --------------------------------------------------------
 NOTA SOBRE LOS MAPAS
 --------------------------------------------------------

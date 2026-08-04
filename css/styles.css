@@ -312,6 +312,46 @@ body {
   min-height: 380px; display: flex; align-items: center; justify-content: center;
 }
 .split__body { padding: 74px 56px; display: flex; flex-direction: column; justify-content: center; }
+
+/* Panel dividido en 3 (fundador / gerente / dirección) */
+.split__team {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+  align-items: stretch;
+  justify-items: stretch;
+  justify-content: normal;
+  min-height: 420px;
+}
+.team {
+  position: relative; margin: 0; overflow: hidden; height: 100%;
+  background: repeating-linear-gradient(45deg, #24272c, #24272c 14px, #1e2126 14px, #1e2126 28px);
+  border-right: 1px solid rgba(0,0,0,.25);
+  display: flex; align-items: flex-end;
+}
+.team:last-child { border-right: none; }
+.team__img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 22%; z-index: 0;
+}
+.team__cap {
+  position: relative; z-index: 1; width: 100%;
+  background: linear-gradient(to top, rgba(14,22,20,.92) 0%, rgba(14,22,20,.72) 70%, rgba(14,22,20,0) 100%);
+  color: #fff; padding: 22px 14px 12px; text-align: center;
+}
+.team__name {
+  display: block; font-family: 'Oswald', sans-serif; font-weight: 600;
+  font-size: 14.5px; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.2;
+}
+.team__role {
+  display: block; font-family: 'Oswald', sans-serif; font-size: 11.5px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: #ffb3ab; margin-top: 3px;
+}
+@media (max-width: 560px) {
+  .split__team { min-height: 300px; }
+  .team__name { font-size: 12.5px; }
+  .team__role { font-size: 10.5px; }
+}
 .split__body .eyebrow { color: #ffd0cb; }
 .split__body .h2 { color: #fff; }
 .split__body .lead-muted { color: #d5e3e2; }
@@ -428,16 +468,31 @@ body {
   display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
 }
 .client {
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 6px;
-  padding: 14px 24px;
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  width: 160px; height: 84px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 12px 18px;
   font-family: 'Oswald', sans-serif;
   font-size: 15px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #eaf3f2;
+  text-align: center;
+  color: var(--teal-dark);
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
 }
+.client__logo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: #fff;
+}
+.client--dark { background: #0e1626; color: #fff; }
+.client--dark .client__logo { background: #0e1626; }
+@media (max-width: 560px) { .client { width: 132px; height: 74px; } }
 
 /* ---------- Distribuidores ---------- */
 .brands { display: flex; flex-wrap: wrap; gap: 12px; }
