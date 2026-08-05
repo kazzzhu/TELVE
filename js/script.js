@@ -96,7 +96,41 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ---------- 6. Carrusel del hero (imágenes rotativas) ---------- */
   initHeroSlider();
 
+  /* ---------- 7. Mini-carruseles de cada servicio ---------- */
+  initServiceCarousels();
+
 });
+
+function initServiceCarousels() {
+  const carruseles = document.querySelectorAll(".svc-carousel");
+  if (!carruseles.length) return;
+  const INTERVALO = 4000; // milisegundos entre fotos
+
+  function start() {
+    carruseles.forEach(function (box, i) {
+      // Solo las fotos que SÍ cargaron (existen en /img).
+      const slides = Array.from(box.querySelectorAll(".svc-slide"))
+        .filter(function (img) { return img.complete && img.naturalWidth > 0; });
+
+      if (slides.length === 0) return;          // sin fotos: queda el marcador
+      slides[0].classList.add("is-active");
+      if (slides.length < 2) return;            // una sola: se queda fija
+
+      let idx = 0;
+      // Desfase por tarjeta para que no cambien todas al mismo tiempo.
+      setTimeout(function () {
+        setInterval(function () {
+          slides[idx].classList.remove("is-active");
+          idx = (idx + 1) % slides.length;
+          slides[idx].classList.add("is-active");
+        }, INTERVALO);
+      }, i * 1300);
+    });
+  }
+
+  if (document.readyState === "complete") start();
+  else window.addEventListener("load", start);
+}
 
 function initHeroSlider() {
   const hero = document.querySelector(".hero--slider");

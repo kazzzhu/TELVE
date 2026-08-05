@@ -24,13 +24,26 @@ INICIO
   4) inicio-maquinaria.jpg
        -> Foto de la maquinaria / interior del taller.
 
-SERVICIOS
-  5) servicio-rebobinado.jpg
-       -> Motor rebobinado o bobinado en proceso.
-  6) servicio-mantenimiento.jpg
-       -> Mantenimiento / equipos de medición.
-  7) servicio-suministro.jpg
-       -> Motores, bombas o repuestos nuevos.
+SERVICIOS (cada cuadro es un mini-carrusel: hasta 3 fotos que rotan)
+  Rebobinado y reparación:
+     servicio-rebobinado-1.jpg
+     servicio-rebobinado-2.jpg
+     servicio-rebobinado-3.jpg
+  Mantenimiento y análisis:
+     servicio-mantenimiento-1.jpg
+     servicio-mantenimiento-2.jpg
+     servicio-mantenimiento-3.jpg
+  Servicios de mecanizado:
+     servicio-mecanizado-1.jpg
+     servicio-mecanizado-2.jpg
+     servicio-mecanizado-3.jpg
+  Suministro y distribución:
+     servicio-suministro-1.jpg
+     servicio-suministro-2.jpg
+     servicio-suministro-3.jpg
+       -> Puedes poner de 1 a 3 fotos por cuadro. Si pones solo
+          una, se queda fija; con 2 o 3, rotan solas. Si no pones
+          ninguna, queda el recuadro gris.
 
 NOSOTROS
   8) nosotros-fachada.jpg
