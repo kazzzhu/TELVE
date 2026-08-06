@@ -158,6 +158,7 @@ body {
   margin-top: 1px;
 }
 .nav__links {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 28px;
@@ -169,7 +170,18 @@ body {
 }
 .nav__link { cursor: pointer; color: #d3e2e1; transition: color .15s; }
 .nav__link:hover { color: #fff; }
-.nav__link.is-active { color: #fff; border-bottom: 2px solid var(--red); padding-bottom: 2px; }
+.nav__link.is-active { color: #fff; }
+
+/* Barra roja deslizante bajo el enlace apuntado / activo */
+.nav__indicator {
+  position: absolute;
+  left: 0; top: 0; width: 0; height: 3px;
+  background: var(--red);
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: left .25s ease, width .25s ease, top .25s ease, opacity .2s ease;
+}
 
 .burger {
   display: none;
@@ -607,6 +619,7 @@ body {
   }
   .nav__links.is-open { display: flex; }
   .nav__link.is-active { border-bottom: none; }
+  .nav__indicator { display: none; }
   .nav__links .btn--wa { width: 100%; margin-top: 6px; }
 }
 
@@ -622,15 +635,16 @@ body {
 .page-anim { animation: pageIn .5s ease both; }
 @keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
+/* Entrada del hero al cargar (se ve apenas abre la página) */
+.hero__inner .eyebrow { animation: heroIn .7s ease both; }
+.hero__inner .hero__title { animation: heroIn .7s ease .12s both; }
+.hero__inner .hero__lead { animation: heroIn .7s ease .24s both; }
+.hero__inner .hero__actions { animation: heroIn .7s ease .36s both; }
+@keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
 /* 3) Efectos sutiles al pasar el mouse */
 .card, .step, .client, .brand, .tag { transition: transform .2s ease, box-shadow .2s ease; }
 .card:hover, .step:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(27,59,59,.14); }
 .client:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.20); }
 .brand:hover, .tag:hover { transform: translateY(-2px); }
 
-/* Respeta a quienes prefieren menos movimiento */
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1 !important; transform: none !important; transition: none; }
-  .page-anim { animation: none; }
-  .card:hover, .step:hover, .client:hover, .brand:hover, .tag:hover { transform: none; }
-}

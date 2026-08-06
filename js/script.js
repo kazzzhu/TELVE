@@ -122,12 +122,40 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ---------- 8. Animaciones (revelado + contadores) ---------- */
   initAnimations();
 
+  /* ---------- 9. Barra roja deslizante del menú ---------- */
+  initNavIndicator();
+
 });
 
-function initAnimations() {
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce) return;
+function initNavIndicator() {
+  var wrap = document.querySelector(".nav__links");
+  if (!wrap) return;
+  var barra = wrap.querySelector(".nav__indicator");
+  var enlaces = Array.prototype.slice.call(wrap.querySelectorAll(".nav__link"));
+  if (!barra || !enlaces.length) return;
 
+  function moverA(el) {
+    if (!el) { barra.style.opacity = "0"; return; }
+    barra.style.opacity = "1";
+    barra.style.left = el.offsetLeft + "px";
+    barra.style.width = el.offsetWidth + "px";
+    barra.style.top = (el.offsetTop + el.offsetHeight + 4) + "px";
+  }
+  function activo() { return wrap.querySelector(".nav__link.is-active"); }
+  function reposar() { moverA(activo()); }
+
+  enlaces.forEach(function (l) {
+    l.addEventListener("mouseenter", function () { moverA(l); });
+    l.addEventListener("click", function () { setTimeout(reposar, 0); });
+  });
+  wrap.addEventListener("mouseleave", reposar);
+
+  reposar();
+  window.addEventListener("load", reposar);   // tras cargar las fuentes
+  window.addEventListener("resize", reposar);
+}
+
+function initAnimations() {
   /* --- 8a. Revelado al hacer scroll --- */
   var seleccion = ".specs__item, .card, .step, .service, .client, .team, .split__body, .info, .map, .facade";
   var elementos = Array.prototype.slice.call(document.querySelectorAll(seleccion));
