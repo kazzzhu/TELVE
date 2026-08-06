@@ -609,3 +609,28 @@ body {
   .nav__link.is-active { border-bottom: none; }
   .nav__links .btn--wa { width: 100%; margin-top: 6px; }
 }
+
+/* ===================================================================
+   ANIMACIONES (sutiles)
+   =================================================================== */
+
+/* 1) Revelado al hacer scroll (la clase .reveal la añade el JS) */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* 2) Transición al cambiar de pestaña */
+.page-anim { animation: pageIn .5s ease both; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* 3) Efectos sutiles al pasar el mouse */
+.card, .step, .client, .brand, .tag { transition: transform .2s ease, box-shadow .2s ease; }
+.card:hover, .step:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(27,59,59,.14); }
+.client:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.20); }
+.brand:hover, .tag:hover { transform: translateY(-2px); }
+
+/* Respeta a quienes prefieren menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+  .page-anim { animation: none; }
+  .card:hover, .step:hover, .client:hover, .brand:hover, .tag:hover { transform: none; }
+}

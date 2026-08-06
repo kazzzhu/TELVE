@@ -29,7 +29,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function goTo(name, guardar) {
     pages.forEach(function (p) {
-      p.hidden = p.getAttribute("data-page") !== name;
+      var mostrar = p.getAttribute("data-page") === name;
+      p.hidden = !mostrar;
+      // Transición de entrada al cambiar de pestaña
+      if (mostrar) {
+        p.classList.remove("page-anim");
+        void p.offsetWidth; // reinicia la animación
+        p.classList.add("page-anim");
+      }
     });
     links.forEach(function (l) {
       l.classList.toggle("is-active", l.getAttribute("data-nav") === name);
@@ -112,7 +119,64 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ---------- 7. Mini-carruseles de cada servicio ---------- */
   initServiceCarousels();
 
+  /* ---------- 8. Animaciones (revelado + contadores) ---------- */
+  initAnimations();
+
 });
+
+function initAnimations() {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) return;
+
+  /* --- 8a. Revelado al hacer scroll --- */
+  var seleccion = ".specs__item, .card, .step, .service, .client, .team, .split__body, .info, .map, .facade";
+  var elementos = Array.prototype.slice.call(document.querySelectorAll(seleccion));
+  elementos.forEach(function (el) { el.classList.add("reveal"); });
+
+  if (!("IntersectionObserver" in window)) {
+    elementos.forEach(function (el) { el.classList.add("is-visible"); });
+  } else {
+    var obsReveal = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-visible");
+          obsReveal.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    elementos.forEach(function (el) { obsReveal.observe(el); });
+  }
+
+  /* --- 8b. Contadores animados (specs) --- */
+  function contar(el) {
+    var txt = el.textContent.trim();
+    var m = txt.match(/^(\d+)(.*)$/);
+    if (!m) return;                       // no empieza por número (ej. "AC/DC")
+    var sufijo = m[2];
+    if (sufijo.charAt(0) === "/") return; // evita "24/7"
+    var objetivo = parseInt(m[1], 10);
+    var dur = 1200, inicio = null;
+    function paso(ts) {
+      if (!inicio) inicio = ts;
+      var p = Math.min((ts - inicio) / dur, 1);
+      var val = Math.round(objetivo * (1 - Math.pow(1 - p, 3))); // easeOutCubic
+      el.textContent = val + sufijo;
+      if (p < 1) requestAnimationFrame(paso);
+      else el.textContent = objetivo + sufijo;
+    }
+    requestAnimationFrame(paso);
+  }
+
+  var numeros = Array.prototype.slice.call(document.querySelectorAll(".specs__num"));
+  if (numeros.length && "IntersectionObserver" in window) {
+    var obsNum = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { contar(e.target); obsNum.unobserve(e.target); }
+      });
+    }, { threshold: 0.6 });
+    numeros.forEach(function (el) { obsNum.observe(el); });
+  }
+}
 
 function initServiceCarousels() {
   const carruseles = document.querySelectorAll(".svc-carousel");
