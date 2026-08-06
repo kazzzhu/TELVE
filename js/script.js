@@ -3,7 +3,7 @@
    =================================================================== */
 
 /* -------------------------------------------------------------------
-   👉 DATOS DEL TALLER — edita aquí y se actualiza en toda la web
+    DATOS DEL TALLER — edita aquí y se actualiza en toda la web
    ------------------------------------------------------------------- */
 const CONFIG = {
   // Número de WhatsApp en formato internacional, SOLO dígitos (sin +, espacios ni guiones).
@@ -25,7 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const pages = document.querySelectorAll("[data-page]");
   const links = document.querySelectorAll(".nav__link");
 
-  function goTo(name) {
+  const validPages = Array.from(pages).map(function (p) { return p.getAttribute("data-page"); });
+
+  function goTo(name, guardar) {
     pages.forEach(function (p) {
       p.hidden = p.getAttribute("data-page") !== name;
     });
@@ -35,6 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // cierra el menú móvil si estaba abierto
     const menu = document.querySelector("[data-links]");
     if (menu) menu.classList.remove("is-open");
+    // Guarda la pestaña actual en la URL (#servicios, #contacto, …) para que
+    // al recargar (F5) vuelva a la misma pestaña en vez de ir al inicio.
+    if (guardar !== false) {
+      try { history.replaceState(null, "", "#" + name); } catch (e) {}
+    }
     try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { window.scrollTo(0, 0); }
   }
 
@@ -44,6 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
       goTo(el.getAttribute("data-nav"));
     });
   });
+
+  // Al cargar, restaurar la pestaña guardada en la URL.
+  var pestanaInicial = (location.hash || "").replace("#", "");
+  if (validPages.indexOf(pestanaInicial) >= 0 && pestanaInicial !== "inicio") {
+    goTo(pestanaInicial, false);
+  }
 
   /* ---------- 2. Menú hamburguesa (móvil) ---------- */
   const burger = document.getElementById("burger");
