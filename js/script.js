@@ -438,29 +438,64 @@ function initServiceCarousels() {
   function start() {
     carruseles.forEach(function (box, i) {
       // Solo las fotos que SÍ cargaron (existen en /img).
-      const slides = Array.from(box.querySelectorAll(".svc-slide"))
+      var fotos = Array.prototype.slice.call(box.querySelectorAll("img.svc-slide"))
         .filter(function (img) { return img.complete && img.naturalWidth > 0; });
+      var marcadores = Array.prototype.slice.call(box.querySelectorAll(".svc-ph"));
 
-      // Sin fotos: se marca la ficha para que el texto ocupe todo el ancho
-      // en vez de dejar una columna vacía al costado.
+      // Las fotos reales mandan: en cuanto exista al menos una, los
+      // marcadores de color sobran y se quitan del DOM.
+      var slides;
+      if (fotos.length) {
+        marcadores.forEach(function (m) { m.remove(); });
+        slides = fotos;
+      } else {
+        slides = marcadores;
+      }
+
+      // Ni fotos ni marcadores: la columna vacía no aporta, el texto ocupa
+      // todo el ancho.
       if (slides.length === 0) {
         var ficha = box.closest(".service");
         if (ficha) ficha.classList.add("service--sinfoto");
         return;
       }
-      slides[0].classList.add("is-active");
-      if (slides.length < 2) return;            // una sola: se queda fija
 
-      let idx = 0;
+      slides[0].classList.add("is-active");
+
+      var dotsWrap = box.querySelector(".svc-dots");
+      if (slides.length < 2) {                  // una sola: se queda fija
+        if (dotsWrap) dotsWrap.hidden = true;
+        return;
+      }
+
+      // Puntitos: además de indicar cuántas fotos hay, dejan saltar a una.
+      var puntos = [];
+      if (dotsWrap) {
+        dotsWrap.innerHTML = "";
+        slides.forEach(function (_, n) {
+          var d = document.createElement("span");
+          d.className = "svc-dot" + (n === 0 ? " is-active" : "");
+          dotsWrap.appendChild(d);
+          puntos.push(d);
+        });
+      }
+
+      var idx = 0;
+      function mostrar(n) {
+        slides[idx].classList.remove("is-active");
+        if (puntos[idx]) puntos[idx].classList.remove("is-active");
+        idx = (n + slides.length) % slides.length;
+        slides[idx].classList.add("is-active");
+        if (puntos[idx]) puntos[idx].classList.add("is-active");
+      }
+
       // Desfase por tarjeta para que no cambien todas al mismo tiempo.
       setTimeout(function () {
         setInterval(function () {
           // Con movimiento reducido el intervalo sigue vivo pero no avanza:
           // así reanuda al instante si el visitante cambia el ajuste.
           if (prefiereMenosMovimiento()) return;
-          slides[idx].classList.remove("is-active");
-          idx = (idx + 1) % slides.length;
-          slides[idx].classList.add("is-active");
+          mostrar(idx + 1);
         }, INTERVALO);
       }, i * 1300);
     });

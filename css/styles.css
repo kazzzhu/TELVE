@@ -686,7 +686,7 @@ body {
   background:
     repeating-linear-gradient(45deg, #dde5e4, #dde5e4 14px, #e9efee 14px, #e9efee 28px);
   display: flex; align-items: center; justify-content: center;
-  min-height: 260px;
+  min-height: 300px;
   border-left: 1px solid var(--border);
 }
 /* Mini-carrusel dentro de cada servicio */
@@ -700,9 +700,42 @@ body {
 }
 .svc-slide.is-active { opacity: 1; }
 
-/* Si el cliente aún no entregó las fotos de ese servicio, la columna vacía
-   no aporta nada: el JS marca la ficha y el texto ocupa todo el ancho.
-   Antes quedaba una franja gris de 280px sin contenido. */
+/* --- PROVISIONAL: marcadores de color ---------------------------------
+   Ocupan el lugar de las fotos que el cliente aún no entrega y giran con
+   el mismo carrusel, para poder ver el cambio. Los tres tonos salen de la
+   paleta de marca; no son colores nuevos.
+   Cuando lleguen las fotos: borrar los <span class="svc-ph"> del HTML y
+   este bloque de CSS. El carrusel toma las fotos reales sin más cambios. */
+.svc-ph {
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 58px;
+  line-height: 1;
+}
+.svc-ph--1 { background: var(--teal);        color: rgba(255,255,255,.30); }
+.svc-ph--2 { background: var(--surface-2);   color: rgba(27,59,59,.22); }
+.svc-ph--3 { background: var(--teal-darker); color: rgba(255,255,255,.26); }
+
+/* Puntitos del mini-carrusel: mismo lenguaje que los del hero, más chicos. */
+.svc-dots {
+  position: absolute; z-index: 3;
+  bottom: 12px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 7px;
+}
+.svc-dots[hidden] { display: none; }
+.svc-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 1px 3px rgba(0,0,0,.35);
+  transition: background .15s, width .15s;
+}
+.svc-dot.is-active { background: var(--red); width: 22px; border-radius: 4px; }
+
+/* El marcador de texto ("foto · rebobinado") va por encima de las capas. */
+.service__media .ph { position: relative; z-index: 2; }
+
+/* Red de seguridad para el futuro: si algún día no hay ni fotos ni
+   marcadores, la columna vacía no aporta y el texto ocupa todo el ancho. */
 .service--sinfoto .service__grid { grid-template-columns: 1fr; }
 .service--sinfoto .service__media { display: none; }
 
