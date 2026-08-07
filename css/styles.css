@@ -617,44 +617,39 @@ body {
    Antes eran cuatro bloques idénticos con una tira de foto de 280px al
    costado; el título quedaba flotando en blanco sin jerarquía y la lista de
    capacidades se leía como viñetas sueltas en vez de datos. */
-/* Sin caja. Las cuatro fichas son hermanas del mismo nivel: elevarlas no
-   comunicaba jerarquía, solo agregaba cromo de "card" genérica. Y peor:
-   se levantaban al pasar el mouse sin ser clicables — afordancia falsa.
-   Ahora se separan por regla fina y aire, como entradas de un catálogo
-   técnico impreso. El contenido descansa sobre la página, no flota. */
+/* Sin caja: las cuatro fichas son hermanas del mismo nivel, elevarlas solo
+   agregaba cromo de "card" genérica.
+
+   La foto manda. Antes flotaba pequeña a un costado mientras siete filas
+   de igual peso ocupaban la mayor parte del bloque — por eso se leía como
+   formulario. Ahora ocupa una columna alta a la izquierda y la placa del
+   título la monta por encima: ese solape es lo que hace que la ficha se
+   lea compuesta en vez de apilada.
+
+   Se eliminó el folio 01–04: cuatro servicios no son una secuencia, el
+   número no codificaba nada. */
 .service {
+  display: grid;
+  grid-template-columns: 38% 1fr;
+  align-items: stretch;
   border-top: 1px solid var(--border);
   padding-top: var(--space-lg);
-
-  /* Una sola medida gobierna la sangría de toda la ficha, para que el
-     título de la placa y el cuerpo de abajo caigan en la misma vertical.
-     El folio cuelga en el margen, como el número de entrada en un
-     catálogo impreso. */
-  --svc-inset: 26px;
-  --svc-folio: 52px;
 }
 .service:first-child { border-top: none; padding-top: 0; }
 
-/* ----- Cabecera: la chapa -----
-   Único elemento con fondo. Es la placa de datos remachada: se lee como
-   rótulo de equipo, no como encabezado de tarjeta. */
+.service__body { display: flex; flex-direction: column; min-width: 0; }
+
+/* ----- Placa del título -----
+   Monta sobre la foto por su borde izquierdo. Es la chapa remachada del
+   equipo, no un encabezado de tarjeta. */
 .service__head {
-  display: grid;
-  grid-template-columns: var(--svc-folio) 1fr;
-  align-items: baseline;
-  padding: 18px var(--svc-inset);
+  position: relative;
+  z-index: 2;
+  margin: 40px 0 0 -60px;
+  padding: 20px 26px;
   background: var(--teal-dark);
   border-bottom: 3px solid var(--red);
-}
-/* El folio es un índice de catálogo (1 de 4), no un paso de un proceso:
-   se deja legible pero en segundo plano, sin competir con el título. */
-.service__folio {
-  flex: none;
-  font-family: 'Anton', sans-serif;
-  font-size: 32px;
-  line-height: 1;
-  color: rgba(255,255,255,.38);
-  font-variant-numeric: tabular-nums;
+  box-shadow: 0 2px 10px rgba(27,59,59,.12);
 }
 .service__title {
   font-family: 'Oswald', sans-serif;
@@ -662,26 +657,16 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.01em;
-  line-height: 1.2;
+  line-height: 1.22;
   color: #fff;
   margin: 0;
 }
 
-/* ----- Cuerpo: especificaciones | foto ----- */
-.service__grid {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  align-items: stretch;
-  gap: 34px;
-}
-/* Misma vertical que el título de la placa: sangría + columna del folio. */
-.service__main {
-  padding: 26px 0 0 calc(var(--svc-inset) + var(--svc-folio));
-  min-width: 0;
-}
+/* Texto y especificaciones alinean con el borde interno de la placa. */
 .service__text {
-  font-size: 15.5px; color: var(--text-muted); line-height: 1.6;
-  margin: 0 0 20px; max-width: 62ch;
+  font-size: 15px;      /* {typography.body-sm} */
+  color: var(--text-muted); line-height: 1.65;
+  margin: 24px 0 22px; padding-left: 26px; max-width: 60ch;
 }
 
 /* La lista de capacidades pasa de viñetas a filas de tabla técnica:
@@ -691,19 +676,20 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 34px;
-  margin: 0;
+  margin: 0 0 0 26px;
   border-top: 1px solid var(--border);
 }
 .service__list li {
-  font-size: 14.5px; color: var(--text); line-height: 1.45;
-  padding: 10px 0 10px 16px;
+  font-size: 15px;      /* {typography.body-sm} */
+  color: var(--text); line-height: 1.45;
+  padding: 12px 0 12px 18px;
   border-bottom: 1px solid var(--border);
   position: relative;
 }
 .service__list li::before {
   content: "";
-  position: absolute; left: 0; top: 17px;
-  width: 6px; height: 2px;
+  position: absolute; left: 0; top: 19px;
+  width: 7px; height: 2px;
   background: var(--red);
 }
 /* Los servicios tienen 7 capacidades: en dos columnas la última quedaba
@@ -715,14 +701,14 @@ body {
 /* La foto ya no vive dentro de una caja: es un bloque propio, a ras del
    borde derecho del contenedor. Sin borde ni radio — el corte limpio la
    hace leer como lámina de catálogo, no como miniatura de tarjeta. */
+/* Columna alta, a ras del borde. Sin marco ni radio: el corte limpio la
+   hace leer como lámina de catálogo y no como miniatura. */
 .service__media {
-  position: relative; overflow: hidden;
+  position: relative; overflow: hidden; z-index: 1;
   background:
     repeating-linear-gradient(45deg, #dde5e4, #dde5e4 14px, #e9efee 14px, #e9efee 28px);
   display: flex; align-items: center; justify-content: center;
-  min-height: 300px;
-  align-self: start;
-  margin-top: 26px;
+  min-height: 380px;
 }
 /* Mini-carrusel dentro de cada servicio */
 .svc-slide {
@@ -771,12 +757,14 @@ body {
 
 /* Red de seguridad para el futuro: si algún día no hay ni fotos ni
    marcadores, la columna vacía no aporta y el texto ocupa todo el ancho. */
-.service--sinfoto .service__grid { grid-template-columns: 1fr; }
+.service--sinfoto { grid-template-columns: 1fr; }
 .service--sinfoto .service__media { display: none; }
+/* Sin foto no hay nada que montar: la placa vuelve a su sitio. */
+.service--sinfoto .service__head { margin-left: 0; margin-top: 0; }
 
 /* ----- Pie: valores destacados -----
    Sin banda de fondo: el aire y la alineación bastan para separarlo. */
-.service__foot { padding: 20px 0 0 calc(var(--svc-inset) + var(--svc-folio)); }
+.service__foot { padding: 22px 0 0 26px; margin-top: auto; }
 .tags, .brands { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag {
   border: 1px solid var(--teal); border-radius: 4px; padding: 6px 12px;
@@ -1026,17 +1014,15 @@ body {
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
   .grid--2, .split { grid-template-columns: 1fr; gap: 28px; }
   /* La ficha se apila: cabecera, especificaciones, foto, pie. */
-  /* En móvil el folio deja de colgar: el ancho no alcanza para una columna
-     de margen, así que la sangría vuelve a ser simple. */
-  .service { --svc-inset: 18px; --svc-folio: 38px; }
-  .service__grid { grid-template-columns: 1fr; gap: 0; }
-  .service__media { min-height: 220px; margin-top: 22px; }
-  .service__head { padding: 14px var(--svc-inset); }
-  .service__folio { font-size: 26px; }
+  /* Apilado: foto arriba, placa montándola por el borde inferior. El solape
+     lateral no cabe a este ancho, así que la placa se corre en vertical. */
+  .service { grid-template-columns: 1fr; }
+  .service__media { min-height: 240px; }
+  .service__head { margin: -28px 18px 0 18px; padding: 16px 18px; }
   .service__title { font-size: 19px; }
-  .service__main { padding: 22px 0 0 var(--svc-inset); }
-  .service__list { grid-template-columns: 1fr; }
-  .service__foot { padding: 18px 0 0 var(--svc-inset); }
+  .service__text { padding-left: 18px; margin: 20px 0 18px; }
+  .service__list { grid-template-columns: 1fr; margin-left: 18px; }
+  .service__foot { padding: 18px 0 0 18px; }
 
   .hero__title { font-size: 42px; }
   .hero__title--sm { font-size: 36px; }
