@@ -20,7 +20,11 @@
 
 /* ---------- Reset ---------- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { max-width: 100%; overflow-x: hidden; }
+html, body { max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; }
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--teal-darker); }
+::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 6px; border: 2px solid var(--teal-darker); }
+::-webkit-scrollbar-thumb:hover { background: var(--red); }
 img, svg, video { max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 
@@ -38,27 +42,79 @@ body {
 .mb-40 { margin-bottom: 40px; }
 .pending { color: #9aa7a7; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
 
-.eyebrow {
-  font-family: 'Oswald', sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--red);
-  font-weight: 600;
-  margin-bottom: 14px;
+/* ---------- Encabezado de sección (etiqueta + título) ---------- */
+/* La etiqueta va junto al título (no apilada encima) para que se lea como
+   una ficha técnica: código de sección + título, no un "kicker" genérico. */
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 24px;
+  row-gap: 10px;
+  margin-bottom: 40px;
 }
+.section-head--tight { margin-bottom: 18px; }
+.section-head > .h2, .section-head > .h2--sm { margin: 0; flex: 1 1 260px; }
+
+.section-head__label {
+  flex: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--red);
+  padding-right: 22px;
+  border-right: 1px solid var(--border);
+}
+.section-head--dark .section-head__label { color: #ffd0cb; border-right-color: rgba(255,255,255,.25); }
+
+@media (max-width: 560px) {
+  .section-head { flex-direction: column; align-items: flex-start; }
+  .section-head__label { border-right: none; padding-right: 0; }
+}
+
+/* Variante para h1 de hero: etiqueta como placa/sello sobre el titular
+   (en vez de línea flotante) para no competir con un título tan grande. */
+.section-head--hero {
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.section-head--hero .section-head__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  font-size: 11.5px;
+}
+.section-head--hero .section-head__label::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red-bright);
+  flex: none;
+}
+.section-head--hero .hero__title { margin-top: 0; }
+
+/* Variante centrada: reusa la placa de --hero pero centrada, para bloques
+   de contenido que también están centrados (ej. "Nos avalan"). */
+.section-head--center { align-items: center; margin-bottom: 40px; }
+.section-head--center .h2 { flex-basis: 100%; }
 
 .h2 {
   font-family: 'Anton', sans-serif;
-  font-size: 44px;
+  font-size: clamp(32px, 4vw, 44px);
   text-transform: uppercase;
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1.05;
-  margin-bottom: 40px;
+  margin-bottom: clamp(24px, 4vw, 40px);
   color: var(--teal-dark);
 }
-.h2--sm { font-size: 38px; margin-bottom: 18px; }
+.h2--sm { font-size: clamp(28px, 3.5vw, 38px); margin-bottom: 18px; }
 .h2--light { color: #fff; }
 
 .lead-muted { font-size: 16px; line-height: 1.65; color: var(--text-muted); }
@@ -89,12 +145,24 @@ body {
   letter-spacing: 0.06em;
   font-size: 16px;
   padding: 15px 30px;
-  border-radius: 5px;
+  border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition: transform .05s, filter .15s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: transform .2s cubic-bezier(0.34, 1.56, 0.64, 1), filter .2s ease, box-shadow .2s ease;
 }
-.btn:hover { filter: brightness(1.08); }
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.4s ease;
+  z-index: -1;
+}
+.btn:hover::before { left: 100%; }
+.btn:hover { filter: brightness(1.08); box-shadow: 0 6px 16px rgba(0,0,0,.2); }
 .btn:active { transform: translateY(1px); }
 .btn--primary { background: var(--red); color: #fff; }
 .btn--ghost { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.5); font-weight: 500; }
@@ -120,7 +188,9 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 14px 56px;
-  background: var(--teal);
+  background: rgba(51, 102, 102, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 3px solid var(--red);
 }
 .nav__brand { display: flex; align-items: center; gap: 12px; cursor: pointer; }
@@ -216,9 +286,10 @@ body {
   width: 100%; height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity .9s ease;
+  transform: scale(1.05);
+  transition: opacity .9s ease, transform 6s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.hero__slide.is-active { opacity: 1; }
+.hero__slide.is-active { opacity: 1; transform: scale(1); }
 .hero__overlay {
   position: absolute; inset: 0; z-index: 1;
   background:
@@ -246,18 +317,24 @@ body {
   top: 0; left: 0; right: 0;
   height: 8px;
   background: repeating-linear-gradient(45deg, var(--red), var(--red) 16px, #1b3b3b 16px, #1b3b3b 32px);
+  background-size: 45.25px 45.25px;
+  animation: hazardMove 2s linear infinite;
+}
+@keyframes hazardMove {
+  from { background-position: 0 0; }
+  to { background-position: -45.25px 0; }
 }
 .hero__inner { max-width: 860px; position: relative; }
 .hero__title {
   font-family: 'Anton', sans-serif;
-  font-size: 70px;
+  font-size: clamp(42px, 6.5vw, 70px);
   line-height: 0.98;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.005em;
   margin: 0 0 22px;
 }
-.hero__title--sm { font-size: 58px; line-height: 1; margin-bottom: 16px; }
+.hero__title--sm { font-size: clamp(36px, 5.5vw, 58px); line-height: 1; margin-bottom: 16px; }
 .hero__lead { font-size: 20px; line-height: 1.55; color: #dbe7e6; margin: 0 0 34px; max-width: 620px; }
 .hero--sub .hero__lead { font-size: 18px; margin-bottom: 0; }
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
@@ -293,14 +370,49 @@ body {
   padding: 32px;
   border-top: 3px solid var(--red);
   box-shadow: 0 2px 10px rgba(27,59,59,.05);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
-.card__num { font-family: 'Anton', sans-serif; font-size: 15px; color: var(--red); margin-bottom: 14px; }
+.card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 24px rgba(27,59,59,.12);
+}
+/* card__num ahora solo se usa como folio grande dentro de cada servicio
+   (ver .service__body); a este tamaño la usa la ficha de servicio, no la
+   tarjeta pequeña. */
+.card__num { font-family: 'Anton', sans-serif; font-size: 34px; color: var(--red); margin-bottom: 10px; line-height: 1; }
 .card__title {
   font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600;
   text-transform: uppercase; margin-bottom: 10px; color: var(--teal-dark);
 }
 .card__title--lg { font-size: 22px; }
 .card__text { font-size: 15px; color: var(--text-muted); line-height: 1.55; }
+
+/* Variante plana: mismo contenido (título + texto), sin caja/sombra —
+   se usa en listados de 3 elementos donde el número/borde de color eran
+   un adorno reflejo, no información. El acento rojo se conserva como una
+   pequeña marca, no como fondo o borde de color. */
+.grid--divided { gap: 0; border-top: 1px solid var(--border); }
+.card--plain {
+  background: none; border: none; border-radius: 0; box-shadow: none;
+  padding: 36px 32px;
+  transform: none !important;
+}
+.card--plain:hover { box-shadow: none !important; }
+.grid--divided .card--plain { border-left: 1px solid var(--border); }
+.grid--divided .card--plain:first-child { border-left: none; padding-left: 0; }
+.grid--divided .card--plain:last-child { padding-right: 0; }
+.card--plain::before {
+  content: ""; display: block; width: 28px; height: 3px;
+  background: var(--red); margin-bottom: 18px;
+}
+@media (max-width: 900px) {
+  .grid--divided { grid-template-columns: 1fr !important; border-top: none; }
+  .grid--divided .card--plain {
+    border-left: none !important; padding: 28px 0;
+    border-top: 1px solid var(--border);
+  }
+  .grid--divided .card--plain:first-child { border-top: none; }
+}
 
 /* ---------- Split ---------- */
 .split { display: grid; grid-template-columns: 1fr 1.05fr; background: var(--teal); color: #fff; }
@@ -332,7 +444,9 @@ body {
 .team__img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: center 22%; z-index: 0;
+  transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
 }
+.team:hover .team__img { transform: scale(1.06); }
 .team__cap {
   position: relative; z-index: 1; width: 100%;
   background: linear-gradient(to top, rgba(14,22,20,.92) 0%, rgba(14,22,20,.72) 70%, rgba(14,22,20,0) 100%);
@@ -351,7 +465,6 @@ body {
   .team__name { font-size: 12.5px; }
   .team__role { font-size: 10.5px; }
 }
-.split__body .eyebrow { color: #ffd0cb; }
 .split__body .h2 { color: #fff; }
 .split__body .lead-muted { color: #d5e3e2; }
 .split__body .link-arrow { color: #fff; }
@@ -394,7 +507,7 @@ body {
 }
 
 /* Imágenes reales: cubren su recuadro. Si el archivo no existe todavía,
-   el <img> se elimina solo (onerror) y queda el marcador de fondo. */
+   la imagen se elimina sola (onerror) y queda el marcador de fondo. */
 .split__media, .service__media, .media { position: relative; overflow: hidden; }
 .media__img {
   position: absolute; inset: 0;
@@ -406,20 +519,31 @@ body {
 .service-list { padding: 72px 56px; display: flex; flex-direction: column; gap: 24px; }
 .service {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 36px;
+  grid-template-columns: 280px 10px 1fr;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
-  border-left: 4px solid var(--red);
   box-shadow: 0 2px 12px rgba(27,59,59,.05);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+.service:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 24px rgba(27,59,59,.12);
 }
 .service__media {
   position: relative; overflow: hidden;
   background:
     repeating-linear-gradient(45deg, #dde5e4, #dde5e4 14px, #e9efee 14px, #e9efee 28px);
   display: flex; align-items: center; justify-content: center; min-height: 240px;
+}
+/* Costura de franja de peligro entre la foto y la ficha — lleva el motivo
+   de marca (ya usado en la barra superior del hero) dentro de la propia
+   tarjeta de servicio, no solo como decoración de página. */
+.service__seam {
+  background: repeating-linear-gradient(45deg, var(--red), var(--red) 10px, var(--teal-darker) 10px, var(--teal-darker) 20px);
+  background-size: 28.28px 28.28px;
+  animation: hazardMove 2s linear infinite;
 }
 /* Mini-carrusel dentro de cada servicio */
 .svc-slide {
@@ -431,7 +555,7 @@ body {
   z-index: 0;
 }
 .svc-slide.is-active { opacity: 1; }
-.service__body { padding: 34px 34px 34px 0; }
+.service__body { padding: 34px 34px 34px 28px; }
 .service__title {
   font-family: 'Oswald', sans-serif; font-size: 27px; font-weight: 700;
   text-transform: uppercase; margin: 0 0 12px; color: var(--teal-dark);
@@ -445,7 +569,7 @@ body {
   font-size: 14.5px; color: var(--text); line-height: 1.5; padding-left: 18px; position: relative;
 }
 .service__list li::before {
-  content: "▪"; color: var(--red); position: absolute; left: 0; top: 0;
+  content: "▪"; color: var(--teal); position: absolute; left: 0; top: 0;
 }
 .tags { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag {
@@ -466,8 +590,18 @@ body {
 .band--teal .h2 { color: #fff; }
 
 /* ---------- Proceso ---------- */
-.step { padding: 28px; border-top: 3px solid var(--red); background: var(--surface); border-radius: 0 0 8px 8px; box-shadow: 0 2px 10px rgba(27,59,59,.05); }
-.step__num { font-family: 'Anton', sans-serif; font-size: 40px; color: #cdd8d7; line-height: 1; margin-bottom: 12px; }
+.step { padding: 32px 28px 28px; background: var(--surface); border-radius: 8px; box-shadow: 0 2px 10px rgba(27,59,59,.05); }
+/* Un ícono propio por paso en vez de un número — el orden ya lo dice el
+   título ("Inspección" -> "Reparación" -> "Pruebas"); el ícono muestra
+   qué es cada paso, no solo en qué lugar de la fila va. */
+.step__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px;
+  background: var(--red); color: #fff;
+  border-radius: 50%;
+  margin-bottom: 18px;
+}
+.step__icon svg { width: 20px; height: 20px; }
 .step__title {
   font-family: 'Oswald', sans-serif; font-size: 20px; text-transform: uppercase;
   font-weight: 600; margin-bottom: 8px; color: var(--teal-dark);
@@ -520,11 +654,12 @@ body {
 .contact-info { display: flex; flex-direction: column; gap: 18px; }
 .info {
   background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-  padding: 22px 26px; border-left: 4px solid var(--red);
+  padding: 22px 26px;
 }
 .info__label {
   font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 0.1em;
-  text-transform: uppercase; color: var(--red); font-weight: 600; margin-bottom: 8px;
+  text-transform: uppercase; color: var(--red); font-weight: 600;
+  margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
 }
 .info__value { font-size: 16px; color: var(--text); line-height: 1.5; }
 .info__value a { color: var(--teal-dark); font-weight: 600; }
@@ -585,6 +720,7 @@ body {
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
   .grid--2, .split { grid-template-columns: 1fr; gap: 28px; }
   .service { grid-template-columns: 1fr; }
+  .service__seam { height: 8px; }
   .service__body { padding: 28px; }
   .service__list { grid-template-columns: 1fr; }
 
@@ -636,15 +772,16 @@ body {
 @keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
 /* Entrada del hero al cargar (se ve apenas abre la página) */
-.hero__inner .eyebrow { animation: heroIn .7s ease both; }
+.hero__inner .section-head__label { animation: heroIn .7s ease both; }
 .hero__inner .hero__title { animation: heroIn .7s ease .12s both; }
 .hero__inner .hero__lead { animation: heroIn .7s ease .24s both; }
 .hero__inner .hero__actions { animation: heroIn .7s ease .36s both; }
 @keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
-/* 3) Efectos sutiles al pasar el mouse */
-.card, .step, .client, .brand, .tag { transition: transform .2s ease, box-shadow .2s ease; }
-.card:hover, .step:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(27,59,59,.14); }
-.client:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,.20); }
-.brand:hover, .tag:hover { transform: translateY(-2px); }
+/* 3) Efectos sutiles al pasar el mouse — solo en elementos donde el
+   levantamiento aporta (tarjetas de proceso y logos de cliente); tags,
+   marcas y las tarjetas planas ya no compiten por atención. */
+.step, .client { transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .3s ease; }
+.step:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 12px 24px rgba(27,59,59,.14); }
+.client:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 22px rgba(0,0,0,.20); }
 
