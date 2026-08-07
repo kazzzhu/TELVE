@@ -23,6 +23,12 @@
         ],
         "createdAt": "2026-08-07T14:03:24.469Z",
         "reason": "DESIGN.md Components/Cards define la combinacion como firma deliberada: 'Corner Style: 8px' + 'Accent: borde superior de 3px en Rojo Senal - firma de tarjeta de contenido en todo el sitio'."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0,0,0,.25)",
+        "createdAt": "2026-08-07T14:37:23.737Z",
+        "reason": "Documentado en DESIGN.md:175 como el token de sombra 'action-btn' (boton flotante). El detector solo compara contra la paleta del frontmatter, que no incluye sombras. Confirmado por Ricardo."
       }
     ]
   }
