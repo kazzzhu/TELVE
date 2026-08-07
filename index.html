@@ -18,29 +18,56 @@
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+
+  <!-- Se aplican las preferencias guardadas ANTES de pintar, para que no se
+       vea un parpadeo de animación o un cambio de idioma a media carga.
+       Debe quedar aquí, en línea: un archivo externo llegaría tarde. -->
+  <script>
+    (function () {
+      try {
+        var m = localStorage.getItem("telve-motion");
+        if (!m) {
+          m = (window.matchMedia &&
+               window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+              ? "reduced" : "full";
+        }
+        document.documentElement.setAttribute("data-motion", m);
+
+        var l = localStorage.getItem("telve-lang") || "es";
+        document.documentElement.setAttribute("data-lang", l);
+        document.documentElement.lang = l;
+      } catch (e) {
+        document.documentElement.setAttribute("data-motion", "full");
+      }
+    })();
+  </script>
 </head>
 
 <body>
 
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
   <!-- ===================== NAV ===================== -->
   <header class="nav">
-    <div class="nav__brand" data-nav="inicio">
-      <img class="nav__logoimg" src="img/logo-telve.png"
+    <button class="nav__brand" data-nav="inicio" type="button" aria-label="TELVE, C.A. — ir al inicio">
+      <img class="nav__logoimg" src="img/logo-telve.png" width="260" height="68"
         alt="TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2">
-      <img class="nav__easa" src="img/easa-member.png" alt="Miembro EASA — The Electro-Mechanical Authority">
-    </div>
-    <button id="burger" class="burger" aria-label="Abrir menú" type="button"><span></span></button>
-    <nav class="nav__links" data-links>
-      <span class="nav__link is-active" data-nav="inicio">Inicio</span>
-      <span class="nav__link" data-nav="servicios">Servicios</span>
-      <span class="nav__link" data-nav="nosotros">Nosotros</span>
-      <span class="nav__link" data-nav="contacto">Contacto</span>
+      <img class="nav__easa" src="img/easa-member.png" width="120" height="52"
+        alt="Miembro EASA — The Electro-Mechanical Authority">
+    </button>
+    <button id="burger" class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links"
+      type="button"><span></span></button>
+    <nav class="nav__links" id="nav-links" data-links aria-label="Navegación principal">
+      <button class="nav__link is-active" data-nav="inicio" type="button" aria-current="page">Inicio</button>
+      <button class="nav__link" data-nav="servicios" type="button">Servicios</button>
+      <button class="nav__link" data-nav="nosotros" type="button">Nosotros</button>
+      <button class="nav__link" data-nav="contacto" type="button">Contacto</button>
       <a href="#" data-wa class="btn btn--wa">WhatsApp</a>
       <span class="nav__indicator" aria-hidden="true"></span>
     </nav>
   </header>
 
-  <main>
+  <main id="contenido">
 
     <!-- ===================== INICIO ===================== -->
     <section class="page" data-page="inicio">
@@ -64,7 +91,7 @@
             nacional.</p>
           <div class="hero__actions">
             <a href="#" data-wa class="btn btn--primary">Cotiza por WhatsApp</a>
-            <span class="btn btn--ghost" data-nav="servicios">Ver servicios</span>
+            <button class="btn btn--ghost" data-nav="servicios" type="button">Ver servicios</button>
           </div>
         </div>
         <div class="hero__dots" aria-hidden="true"></div>
@@ -113,24 +140,24 @@
               electrógenos, rodamientos y repuestos afines a las máquinas eléctricas rotativas.</p>
           </div>
         </div>
-        <span class="link-arrow" data-nav="servicios">Ver todos los servicios →</span>
+        <button class="link-arrow" data-nav="servicios" type="button">Ver todos los servicios →</button>
       </div>
 
       <!-- Why us -->
       <div class="split">
         <div class="split__media split__team">
           <figure class="team">
-            <img class="team__img" src="img/equipo-pier.jpg" alt="Pier Pianca, fundador de TELVE"
+            <img class="team__img" loading="lazy" decoding="async" src="img/equipo-pier.jpg" alt="Pier Pianca, fundador de TELVE"
               onerror="this.remove()">
             <figcaption class="team__cap"><span class="team__name">Fundador</span></figcaption>
           </figure>
           <figure class="team">
-            <img class="team__img" src="img/equipo-christian.jpg" alt="Christian Pianca, gerente general de TELVE"
+            <img class="team__img" loading="lazy" decoding="async" src="img/equipo-christian.jpg" alt="Christian Pianca, gerente general de TELVE"
               onerror="this.remove()">
             <figcaption class="team__cap"><span class="team__name">Generación de relevo</span></figcaption>
           </figure>
           <figure class="team">
-            <img class="team__img" src="img/equipo-gianpier.jpg" alt="Gian Pier Pianca" onerror="this.remove()">
+            <img class="team__img" loading="lazy" decoding="async" src="img/equipo-gianpier.jpg" alt="Gian Pier Pianca" onerror="this.remove()">
             <figcaption class="team__cap"><span class="team__name">Generación de relevo</span></figcaption>
           </figure>
         </div>
@@ -144,7 +171,7 @@
             fabricantes originales de equipos eléctricos. Nuestra trayectoria y control de calidad nos permiten operar
             con un nivel de servicio de garantía menor del uno por ciento. Nos adaptamos a las exigencias de nuestros
             clientes y siempre buscaremos la forma de superar sus expectativas…</p>
-          <span class="link-arrow" data-nav="nosotros">Conoce nuestra historia →</span>
+          <button class="link-arrow" data-nav="nosotros" type="button">Conoce nuestra historia →</button>
         </div>
       </div>
 
@@ -156,22 +183,22 @@
             <h2 class="h2 h2--sm h2--light center">Clientela pública y privada</h2>
           </div>
           <div class="clients">
-            <div class="client"><img class="client__logo" src="img/cliente-sidor.png" alt="SIDOR"
+            <div class="client"><img class="client__logo" loading="lazy" decoding="async" src="img/cliente-sidor.png" alt="SIDOR"
                 onerror="this.remove()"><span class="client__name">SIDOR</span></div>
-            <div class="client"><img class="client__logo" src="img/cliente-corpoelec.jpeg" alt="Corpoelec"
+            <div class="client"><img class="client__logo" loading="lazy" decoding="async" src="img/cliente-corpoelec.jpeg" alt="Corpoelec"
                 onerror="this.remove()"><span class="client__name">Corpoelec</span></div>
-            <div class="client"><img class="client__logo" src="img/cliente-bauxilum.jpeg" alt="C.V.G. Bauxilum"
+            <div class="client"><img class="client__logo" loading="lazy" decoding="async" src="img/cliente-bauxilum.jpeg" alt="C.V.G. Bauxilum"
                 onerror="this.remove()"><span class="client__name">C.V.G. Bauxilum</span></div>
-            <div class="client"><img class="client__logo" src="img/cliente-cabelum.jpeg" alt="C.V.G. Cabelum"
+            <div class="client"><img class="client__logo" loading="lazy" decoding="async" src="img/cliente-cabelum.jpeg" alt="C.V.G. Cabelum"
                 onerror="this.remove()"><span class="client__name">C.V.G. Cabelum</span></div>
-            <div class="client"><img class="client__logo" src="img/cliente-hidrobolivar.jpeg" alt="Hidrobolívar"
+            <div class="client"><img class="client__logo" loading="lazy" decoding="async" src="img/cliente-hidrobolivar.jpeg" alt="Hidrobolívar"
                 onerror="this.remove()"><span class="client__name">Hidrobolívar</span></div>
-            <div class="client"><img class="client__logo" src="img/cliente-fapco.jpeg" alt="Fapco"
+            <div class="client"><img class="client__logo" loading="lazy" decoding="async" src="img/cliente-fapco.jpeg" alt="Fapco"
                 onerror="this.remove()"><span class="client__name">Fapco</span></div>
-            <div class="client"><img class="client__logo" src="img/cliente-tuboconcreto.jpeg"
+            <div class="client"><img class="client__logo" loading="lazy" decoding="async" src="img/cliente-tuboconcreto.jpeg"
                 alt="Tubo Concreto, S.C.A." onerror="this.remove()"><span class="client__name">Tubo Concreto</span>
             </div>
-            <div class="client client--dark"><img class="client__logo" src="img/cliente-ciudadorinoco.jpeg"
+            <div class="client client--dark"><img class="client__logo" loading="lazy" decoding="async" src="img/cliente-ciudadorinoco.jpeg"
                 alt="Ciudad Orinoco" onerror="this.remove()"><span class="client__name">Ciudad Orinoco</span></div>
           </div>
         </div>
@@ -425,7 +452,7 @@
             de un mercado de servicios en donde nuestros clientes requieren que cubramos y rebasemos sus expectativas
             sobre el servicio que podamos ofrecerles.</p>
         </div>
-        <div class="media media--rounded media--tall"><img class="media__img" src="img/nosotros-fachada.jpg"
+        <div class="media media--rounded media--tall"><img class="media__img" loading="lazy" decoding="async" src="img/nosotros-fachada.jpg"
             alt="Fachada del taller TELVE" onerror="this.remove()"><span class="ph">foto · fachada / equipo del
             taller</span></div>
       </div>
@@ -525,7 +552,7 @@
               </svg>Cómo llegar</a>
           </div>
           <div class="facade">
-            <img class="facade__img" src="img/fachada.jpg" alt="Fachada del taller TELVE en Ciudad Bolívar"
+            <img class="facade__img" loading="lazy" decoding="async" src="img/fachada.jpg" alt="Fachada del taller TELVE en Ciudad Bolívar"
               onerror="this.remove()">
             <span class="ph">foto · fachada del taller</span>
           </div>
@@ -547,6 +574,41 @@
       industriales</span>
   </footer>
 
+  <!-- ===================== AJUSTES (movimiento + idioma) ===================== -->
+  <div class="prefs">
+    <button id="prefsToggle" class="prefs__toggle" type="button" aria-expanded="false"
+      aria-controls="prefsPanel" aria-label="Ajustes de la página" data-i18n-aria="prefs.abrir">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+        stroke-linejoin="round" aria-hidden="true">
+        <line x1="4" y1="8" x2="20" y2="8" />
+        <circle cx="10" cy="8" r="2.4" />
+        <line x1="4" y1="16" x2="20" y2="16" />
+        <circle cx="15" cy="16" r="2.4" />
+      </svg>
+    </button>
+
+    <div class="prefs__panel" id="prefsPanel" role="group" aria-label="Ajustes de la página" hidden>
+      <div class="prefs__group">
+        <span class="prefs__label" id="lblMotion" data-i18n="prefs.animaciones">Animaciones</span>
+        <div class="prefs__opts" role="group" aria-labelledby="lblMotion">
+          <button class="prefs__opt" type="button" data-motion-set="full"
+            data-i18n="prefs.completas">Completas</button>
+          <button class="prefs__opt" type="button" data-motion-set="reduced"
+            data-i18n="prefs.reducidas">Reducidas</button>
+        </div>
+        <p class="prefs__hint" data-i18n="prefs.pista">Reducidas detiene la franja y los carruseles automáticos.</p>
+      </div>
+
+      <div class="prefs__group">
+        <label class="prefs__label" for="prefsLang">Idioma</label>
+        <!-- Las opciones las genera el JS desde TELVE_I18N.idiomas, para que
+             agregar un idioma no obligue a tocar este archivo. -->
+        <select class="prefs__select" id="prefsLang"></select>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
   <script src="js/script.js"></script>
 </body>
 

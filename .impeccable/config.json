@@ -1,0 +1,29 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "bounce-easing",
+        "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "createdAt": "2026-08-07T14:01:33.919Z",
+        "reason": "Ricardo confirmo explicitamente que el rebote es intencional: decision de diseno previa (commit 'Animaciones Update 0.6')."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "rgba(0,0,0,.18)",
+        "createdAt": "2026-08-07T14:02:55.996Z",
+        "reason": "Documentado en DESIGN.md:174 como el token de sombra 'badge' (logo TELVE y sello EASA en el nav). El detector solo compara contra la paleta del frontmatter, que no incluye sombras."
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "css/styles.css"
+        ],
+        "createdAt": "2026-08-07T14:03:24.469Z",
+        "reason": "DESIGN.md Components/Cards define la combinacion como firma deliberada: 'Corner Style: 8px' + 'Accent: borde superior de 3px en Rojo Senal - firma de tarjeta de contenido en todo el sitio'."
+      }
+    ]
+  }
+}

@@ -16,6 +16,23 @@
   --text:        #1f2b2b;
   --text-muted:  #5c6b6b;
   --border:      #dbe3e2;
+
+  /* Escala de espaciado — tomada tal cual de DESIGN.md (spacing.*), para que
+     el ritmo vertical deje de ser números sueltos por sección (78/72/64/52…)
+     y pase a salir de una sola escala declarada. */
+  --space-xs:  8px;
+  --space-sm:  14px;
+  --space-md:  20px;
+  --space-lg:  32px;
+  --space-xl:  56px;
+  --space-2xl: 78px;   /* padding de sección en escritorio */
+
+  --pad-x: var(--space-xl);   /* margen lateral de página */
+}
+
+@media (max-width: 900px) {
+  /* DESIGN.md §Layout: 78px → 56px de sección, 24px de margen lateral. */
+  :root { --pad-x: 24px; --space-2xl: 56px; }
 }
 
 /* ---------- Reset ---------- */
@@ -27,6 +44,64 @@ html, body { max-width: 100%; overflow-x: hidden; scroll-behavior: smooth; }
 ::-webkit-scrollbar-thumb:hover { background: var(--red); }
 img, svg, video { max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
+
+/* La navegación entre secciones, el botón de marca y los enlaces "ver más"
+   antes eran <span> con un onclick: no se podía llegar a ellos con Tab ni
+   activarlos con Enter. Ahora son <button> reales; este reset les quita la
+   apariencia nativa para que se vean exactamente igual que antes. */
+.nav__brand, .nav__link, .link-arrow {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  /* Los controles de formulario no heredan text-transform/letter-spacing del
+     contenedor como sí lo hacía el <span>: hay que pedirlo explícitamente o
+     la navegación se ve en minúscula. */
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+
+/* ---------- Foco visible (teclado) ----------
+   Un solo anillo para todo el sitio. Se usa :focus-visible para que el
+   anillo salga al navegar con teclado pero no al hacer clic con el mouse. */
+:focus-visible {
+  outline: 3px solid var(--red-bright);
+  outline-offset: 3px;
+  border-radius: 4px;   /* {rounded.sm} */
+}
+/* Sobre fondo verde oscuro el rojo no resalta lo suficiente: allí el anillo
+   va en blanco. */
+.nav :focus-visible,
+.hero :focus-visible,
+.split__body :focus-visible,
+.cta-center :focus-visible,
+.band--teal :focus-visible,
+.footer :focus-visible {
+  outline-color: #fff;
+}
+
+/* Enlace de salto: oculto hasta que recibe foco con Tab. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--red);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 13px;      /* {typography.label} */
+  padding: 14px 20px;
+  border-radius: 0 0 6px 0;
+}
+.skip-link:focus {
+  left: 0;
+}
 
 body {
   background: var(--bg);
@@ -270,14 +345,14 @@ body {
 /* ---------- Hero ---------- */
 .hero {
   position: relative;
-  padding: 92px 56px 84px;
+  padding: var(--space-2xl) var(--pad-x);
   background:
     linear-gradient(150deg, rgba(27,59,59,.92) 0%, rgba(36,77,77,.90) 55%, rgba(51,102,102,.88) 100%),
     var(--teal);
   color: #fff;
   border-bottom: 3px solid var(--red);
 }
-.hero--sub { padding: 72px 56px 58px; }
+.hero--sub { padding: var(--space-2xl) var(--pad-x) var(--space-xl); }
 
 /* ----- Carrusel del hero ----- */
 .hero--slider { overflow: hidden; }
@@ -347,7 +422,7 @@ body {
   background: var(--teal-dark);
 }
 .specs__item { padding: 26px 40px; border-right: 1px solid rgba(255,255,255,.12); }
-.specs__item:first-child { padding-left: 56px; }
+.specs__item:first-child { padding-left: var(--pad-x); }
 .specs__item:last-child { border-right: none; }
 .specs__num { font-family: 'Anton', sans-serif; font-size: 34px; color: #fff; }
 .specs__label {
@@ -356,7 +431,7 @@ body {
 }
 
 /* ---------- Secciones y grids ---------- */
-.section { padding: 78px 56px; }
+.section { padding: var(--space-2xl) var(--pad-x); }
 .grid { display: grid; gap: 20px; }
 .grid--3 { grid-template-columns: repeat(3, 1fr); }
 .grid--2 { grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -423,7 +498,7 @@ body {
     var(--teal-dark);
   min-height: 380px; display: flex; align-items: center; justify-content: center;
 }
-.split__body { padding: 74px 56px; display: flex; flex-direction: column; justify-content: center; }
+.split__body { padding: var(--space-2xl) var(--pad-x); display: flex; flex-direction: column; justify-content: center; }
 
 /* Panel dividido en 3 (fundador / gerente / dirección) */
 .split__team {
@@ -517,7 +592,7 @@ body {
 }
 
 /* ---------- Servicios ---------- */
-.service-list { padding: 72px 56px; display: flex; flex-direction: column; gap: 24px; }
+.service-list { padding: var(--space-2xl) var(--pad-x); display: flex; flex-direction: column; gap: var(--space-md); }
 .service {
   display: grid;
   grid-template-columns: 280px 10px 1fr;
@@ -584,7 +659,7 @@ body {
   background: var(--surface-2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 72px 56px;
+  padding: var(--space-2xl) var(--pad-x);
 }
 .band .container { padding: 0; }
 .band--teal { background: var(--teal-dark); color: #fff; border: none; }
@@ -648,7 +723,7 @@ body {
 }
 
 /* ---------- CTA centrado ---------- */
-.cta-center { text-align: center; padding: 64px 56px; background: var(--teal); color: #fff; }
+.cta-center { text-align: center; padding: var(--space-2xl) var(--pad-x); background: var(--teal); color: #fff; }
 .cta-center .h2 { margin-bottom: 20px; color: #fff; }
 
 /* ---------- Contacto ---------- */
@@ -693,7 +768,7 @@ body {
 
 /* ---------- Footer ---------- */
 .footer {
-  background: var(--teal-darker); color: #b9cccb; padding: 40px 56px;
+  background: var(--teal-darker); color: #b9cccb; padding: var(--space-lg) var(--pad-x);
   display: flex; justify-content: space-between; align-items: center;
   font-size: 13px; border-top: 3px solid var(--red); flex-wrap: wrap; gap: 16px;
 }
@@ -704,16 +779,95 @@ body {
   text-transform: uppercase; font-size: 12px;
 }
 
+/* ---------- Panel de ajustes (movimiento + idioma) ----------
+   Botón circular fijo abajo a la derecha que despliega dos ajustes. No usa
+   la franja de peligro: DESIGN.md la reserva para el hero y los marcadores
+   de foto, así que aquí el acento va en rojo señal plano. */
+.prefs { position: fixed; right: 20px; bottom: 20px; z-index: 60; }
+
+.prefs__toggle {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: var(--teal); color: #fff;
+  border: 2px solid rgba(255,255,255,.25);
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);   /* {shadow.action-btn} — mismo token
+                                              que el botón "Cómo llegar" del mapa */
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; padding: 0;
+  transition: background .2s ease, transform .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.prefs__toggle:hover { background: var(--teal-dark); transform: translateY(-2px); }
+.prefs__toggle svg { width: 24px; height: 24px; }
+.prefs__toggle[aria-expanded="true"] { background: var(--red); }
+
+.prefs__panel {
+  position: absolute; right: 0; bottom: 66px;
+  width: 232px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--red);
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(27,59,59,.22);
+  padding: 18px;
+}
+.prefs__panel[hidden] { display: none; }
+
+.prefs__group + .prefs__group { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+.prefs__label {
+  font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--red);
+  margin-bottom: 10px; display: block;
+}
+.prefs__opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.prefs__opt {
+  font-family: 'Oswald', sans-serif; font-size: 13.5px; font-weight: 500;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 10px 6px; border-radius: 6px; cursor: pointer;
+  background: var(--surface); color: var(--teal-dark);
+  border: 1px solid var(--border);
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.prefs__opt:hover { border-color: var(--teal); }
+.prefs__opt[aria-pressed="true"] {
+  background: var(--teal-dark); color: #fff; border-color: var(--teal-dark);
+}
+.prefs__hint { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; margin-top: 8px; }
+
+/* Desplegable de idioma. Se le quita la apariencia nativa y se le dibuja
+   una flecha propia para que combine con los botones de arriba; el elemento
+   sigue siendo un <select> real, así que teclado y lectores de pantalla
+   funcionan sin código extra. */
+.prefs__select {
+  width: 100%;
+  font-family: 'Oswald', sans-serif; font-size: 13.5px; font-weight: 500;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--teal-dark); background-color: var(--surface);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 34px 10px 12px;
+  cursor: pointer;
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23244d4d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 15px 15px;
+  transition: border-color .15s ease;
+}
+.prefs__select:hover { border-color: var(--teal); }
+/* El menú desplegado lo pinta el sistema, no el CSS de la página: se fija
+   un color legible por si el visitante usa tema oscuro. */
+.prefs__select option { color: var(--text); background: var(--surface); }
+
+@media (max-width: 560px) {
+  .prefs { right: 14px; bottom: 14px; }
+  .prefs__panel { width: 210px; }
+}
+
 /* ===================================================================
    RESPONSIVE
    =================================================================== */
 @media (max-width: 900px) {
-  .hero { padding: 56px 24px 48px; }
-  .hero--sub { padding: 52px 24px; }
-  .section { padding: 56px 24px; }
-  .service-list { padding: 52px 24px; }
-  .band, .cta-center { padding: 52px 24px; }
-  .split__body { padding: 40px 24px; }
+  /* Los paddings de hero / section / service-list / band / cta-center /
+     split__body ya no se repiten aquí: salen de --space-2xl y --pad-x, que
+     cambian solos en este mismo breakpoint (ver :root). */
 
   .specs { grid-template-columns: repeat(2, 1fr); }
   .specs__item { padding: 22px 24px !important; border-right: none; border-bottom: 1px solid rgba(255,255,255,.12); }
@@ -785,4 +939,40 @@ body {
 .step, .client { transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .3s ease; }
 .step:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 12px 24px rgba(27,59,59,.14); }
 .client:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 22px rgba(0,0,0,.20); }
+
+/* ===================================================================
+   4) MOVIMIENTO REDUCIDO
+   El sistema propone, el visitante dispone. El JS escribe data-motion en
+   <html> ("full" o "reduced") tomando como valor inicial la preferencia
+   del sistema, y el panel de ajustes deja cambiarlo a mano.
+
+   Se apaga SOLO el movimiento que ocurre sin que nadie lo pida: la franja
+   en bucle, la rotación de los carruseles, el zoom lento del hero y los
+   contadores. Se conservan hover, rebote de tarjetas y revelados: son
+   cortos y responden a una acción del visitante, no lo sorprenden.
+   =================================================================== */
+
+/* La franja se queda quieta, pero sigue viéndose: es firma de marca
+   (DESIGN.md §Hazard Stripe Rule), no decoración prescindible. */
+html[data-motion="reduced"] .hazard-top,
+html[data-motion="reduced"] .service__seam {
+  animation: none;
+}
+
+/* Sin zoom lento en las fotos del hero ni en las del equipo. */
+html[data-motion="reduced"] .hero__slide { transform: none; transition: opacity .4s ease; }
+html[data-motion="reduced"] .team:hover .team__img { transform: none; }
+
+/* El desplazamiento suave al cambiar de pestaña también es movimiento
+   que el visitante no pidió. */
+html[data-motion="reduced"] { scroll-behavior: auto; }
+html[data-motion="reduced"] .page-anim { animation: none; }
+
+/* Respaldo si el JS no corre: se respeta la preferencia del sistema. */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion]) .hazard-top,
+  html:not([data-motion]) .service__seam { animation: none; }
+  html:not([data-motion]) .hero__slide { transform: none; }
+  html:not([data-motion]) { scroll-behavior: auto; }
+}
 
