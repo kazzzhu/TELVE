@@ -593,9 +593,16 @@ body {
 
 /* ---------- Servicios ---------- */
 .service-list { padding: var(--space-2xl) var(--pad-x); display: flex; flex-direction: column; gap: var(--space-md); }
+/* Cada servicio se trata como la PLACA DE DATOS de un motor: la chapa
+   remachada que traen los equipos con marca, potencia, tensión y RPM.
+   Es el artefacto más característico de este oficio, y ordena la ficha en
+   tres franjas: cabecera identificatoria, cuerpo de especificaciones y pie
+   con los valores destacados.
+
+   Antes eran cuatro bloques idénticos con una tira de foto de 280px al
+   costado; el título quedaba flotando en blanco sin jerarquía y la lista de
+   capacidades se leía como viñetas sueltas en vez de datos. */
 .service {
-  display: grid;
-  grid-template-columns: 280px 10px 1fr;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -607,19 +614,80 @@ body {
   transform: translateY(-4px) scale(1.01);
   box-shadow: 0 12px 24px rgba(27,59,59,.12);
 }
+
+/* ----- Cabecera: la chapa ----- */
+.service__head {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 28px;
+  background: var(--teal-dark);
+  border-bottom: 3px solid var(--red);
+}
+/* El folio es un índice de catálogo (1 de 4), no un paso de un proceso:
+   se deja legible pero en segundo plano, sin competir con el título. */
+.service__folio {
+  flex: none;
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  line-height: 1;
+  color: rgba(255,255,255,.38);
+  font-variant-numeric: tabular-nums;
+}
+.service__title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 23px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  color: #fff;
+  margin: 0;
+}
+
+/* ----- Cuerpo: especificaciones | foto ----- */
+.service__grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  align-items: stretch;
+}
+.service__main { padding: 26px 28px; min-width: 0; }
+.service__text {
+  font-size: 15.5px; color: var(--text-muted); line-height: 1.6;
+  margin: 0 0 20px; max-width: 62ch;
+}
+
+/* La lista de capacidades pasa de viñetas a filas de tabla técnica:
+   línea fina entre datos, marca roja al inicio, sin sangría decorativa. */
+.service__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 34px;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.service__list li {
+  font-size: 14.5px; color: var(--text); line-height: 1.45;
+  padding: 10px 0 10px 16px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.service__list li::before {
+  content: "";
+  position: absolute; left: 0; top: 17px;
+  width: 6px; height: 2px;
+  background: var(--red);
+}
+
+/* ----- Foto ----- */
 .service__media {
   position: relative; overflow: hidden;
   background:
     repeating-linear-gradient(45deg, #dde5e4, #dde5e4 14px, #e9efee 14px, #e9efee 28px);
-  display: flex; align-items: center; justify-content: center; min-height: 240px;
-}
-/* Costura de franja de peligro entre la foto y la ficha — lleva el motivo
-   de marca (ya usado en la barra superior del hero) dentro de la propia
-   tarjeta de servicio, no solo como decoración de página. */
-.service__seam {
-  background: repeating-linear-gradient(45deg, var(--red), var(--red) 10px, var(--teal-darker) 10px, var(--teal-darker) 20px);
-  background-size: 28.28px 28.28px;
-  animation: hazardMove 2s linear infinite;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 260px;
+  border-left: 1px solid var(--border);
 }
 /* Mini-carrusel dentro de cada servicio */
 .svc-slide {
@@ -631,28 +699,27 @@ body {
   z-index: 0;
 }
 .svc-slide.is-active { opacity: 1; }
-.service__body { padding: 34px 34px 34px 28px; }
-.service__title {
-  font-family: 'Oswald', sans-serif; font-size: 27px; font-weight: 700;
-  text-transform: uppercase; margin: 0 0 12px; color: var(--teal-dark);
+
+/* Si el cliente aún no entregó las fotos de ese servicio, la columna vacía
+   no aporta nada: el JS marca la ficha y el texto ocupa todo el ancho.
+   Antes quedaba una franja gris de 280px sin contenido. */
+.service--sinfoto .service__grid { grid-template-columns: 1fr; }
+.service--sinfoto .service__media { display: none; }
+
+/* ----- Pie: valores destacados ----- */
+.service__foot {
+  padding: 16px 28px;
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
 }
-.service__text { font-size: 15.5px; color: var(--text-muted); line-height: 1.6; margin: 0 0 16px; max-width: 680px; }
-.service__list {
-  list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px;
-  margin: 0 0 16px; max-width: 680px;
-}
-.service__list li {
-  font-size: 14.5px; color: var(--text); line-height: 1.5; padding-left: 18px; position: relative;
-}
-.service__list li::before {
-  content: "▪"; color: var(--teal); position: absolute; left: 0; top: 0;
-}
-.tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.tags, .brands { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag {
   border: 1px solid var(--teal); border-radius: 4px; padding: 6px 12px;
   font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 0.04em;
   text-transform: uppercase; color: var(--teal-dark);
 }
+/* Sobre la banda del pie los chips van en blanco para que no se pierdan. */
+.service__foot .tag { background: var(--surface); }
 
 /* ---------- Band ---------- */
 .band {
@@ -874,10 +941,19 @@ body {
 
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
   .grid--2, .split { grid-template-columns: 1fr; gap: 28px; }
-  .service { grid-template-columns: 1fr; }
-  .service__seam { height: 8px; }
-  .service__body { padding: 28px; }
+  /* La ficha se apila: cabecera, especificaciones, foto, pie. */
+  .service__grid { grid-template-columns: 1fr; }
+  .service__media {
+    min-height: 220px;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+  .service__head { padding: 16px 22px; gap: 14px; }
+  .service__folio { font-size: 26px; }
+  .service__title { font-size: 19px; }
+  .service__main { padding: 22px; }
   .service__list { grid-template-columns: 1fr; }
+  .service__foot { padding: 14px 22px; }
 
   .hero__title { font-size: 42px; }
   .hero__title--sm { font-size: 36px; }
@@ -954,8 +1030,7 @@ body {
 
 /* La franja se queda quieta, pero sigue viéndose: es firma de marca
    (DESIGN.md §Hazard Stripe Rule), no decoración prescindible. */
-html[data-motion="reduced"] .hazard-top,
-html[data-motion="reduced"] .service__seam {
+html[data-motion="reduced"] .hazard-top {
   animation: none;
 }
 
@@ -970,8 +1045,7 @@ html[data-motion="reduced"] .page-anim { animation: none; }
 
 /* Respaldo si el JS no corre: se respeta la preferencia del sistema. */
 @media (prefers-reduced-motion: reduce) {
-  html:not([data-motion]) .hazard-top,
-  html:not([data-motion]) .service__seam { animation: none; }
+  html:not([data-motion]) .hazard-top { animation: none; }
   html:not([data-motion]) .hero__slide { transform: none; }
   html:not([data-motion]) { scroll-behavior: auto; }
 }

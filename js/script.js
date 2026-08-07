@@ -441,7 +441,13 @@ function initServiceCarousels() {
       const slides = Array.from(box.querySelectorAll(".svc-slide"))
         .filter(function (img) { return img.complete && img.naturalWidth > 0; });
 
-      if (slides.length === 0) return;          // sin fotos: queda el marcador
+      // Sin fotos: se marca la ficha para que el texto ocupe todo el ancho
+      // en vez de dejar una columna vacía al costado.
+      if (slides.length === 0) {
+        var ficha = box.closest(".service");
+        if (ficha) ficha.classList.add("service--sinfoto");
+        return;
+      }
       slides[0].classList.add("is-active");
       if (slides.length < 2) return;            // una sola: se queda fija
 
