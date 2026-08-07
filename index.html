@@ -14,7 +14,13 @@
     href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Oswald:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="css/styles.css">
+  <!-- El ?v= es a propósito y hay que SUBIRLO en cada versión publicada.
+       GitHub Pages sirve el CSS con Cache-Control: max-age=600, así que sin
+       esto un visitante que ya conocía el sitio se queda con el CSS viejo
+       pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
+       enlace "Saltar al contenido" visible). Cambiar el número obliga al
+       navegador a pedir el archivo de nuevo. -->
+  <link rel="stylesheet" href="css/styles.css?v=0.7.2">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -608,8 +614,9 @@
     </div>
   </div>
 
-  <script src="js/i18n.js"></script>
-  <script src="js/script.js"></script>
+  <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
+  <script src="js/i18n.js?v=0.7.2"></script>
+  <script src="js/script.js?v=0.7.2"></script>
 </body>
 
 </html>
