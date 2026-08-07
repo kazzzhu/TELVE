@@ -28,6 +28,13 @@
   --space-2xl: 78px;   /* padding de sección en escritorio */
 
   --pad-x: var(--space-xl);   /* margen lateral de página */
+
+  /* Curvas de movimiento. Las integradas del navegador (ease, ease-out) son
+     demasiado suaves y hacen que todo se sienta lento. Estas dos gobiernan
+     el sitio; el rebote de las tarjetas es aparte y está registrado como
+     decisión de marca. */
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);      /* entradas y salidas */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);     /* movimiento en pantalla */
 }
 
 @media (max-width: 900px) {
@@ -71,6 +78,9 @@ a { color: inherit; text-decoration: none; }
   outline: 3px solid var(--red-bright);
   outline-offset: 3px;
   border-radius: 4px;   /* {rounded.sm} */
+  /* El anillo crece desde el borde en vez de aparecer de golpe: ayuda a
+     seguir el foco cuando se tabula rápido por el menú. */
+  transition: outline-offset .12s var(--ease-out);
 }
 /* Sobre fondo verde oscuro el rojo no resalta lo suficiente: allí el anillo
    va en blanco. */
@@ -448,9 +458,11 @@ body {
   box-shadow: 0 2px 10px rgba(27,59,59,.05);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
 }
-.card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 12px 24px rgba(27,59,59,.12);
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 24px rgba(27,59,59,.12);
+  }
 }
 /* card__num ahora solo se usa como folio grande dentro de cada servicio
    (ver .service__body); a este tamaño la usa la ficha de servicio, no la
@@ -522,7 +534,9 @@ body {
   object-fit: cover; object-position: center 22%; z-index: 0;
   transition: transform 0.6s cubic-bezier(0.33, 1, 0.68, 1);
 }
-.team:hover .team__img { transform: scale(1.06); }
+@media (hover: hover) and (pointer: fine) {
+  .team:hover .team__img { transform: scale(1.06); }
+}
 .team__cap {
   position: relative; z-index: 1; width: 100%;
   background: linear-gradient(to top, rgba(14,22,20,.92) 0%, rgba(14,22,20,.72) 70%, rgba(14,22,20,0) 100%);
@@ -592,7 +606,8 @@ body {
 }
 
 /* ---------- Servicios ---------- */
-.service-list { padding: var(--space-2xl) var(--pad-x); display: flex; flex-direction: column; gap: var(--space-md); }
+/* Separación por regla y aire, no por hueco entre cajas. */
+.service-list { padding: var(--space-2xl) var(--pad-x); display: flex; flex-direction: column; gap: var(--space-lg); }
 /* Cada servicio se trata como la PLACA DE DATOS de un motor: la chapa
    remachada que traen los equipos con marca, potencia, tensión y RPM.
    Es el artefacto más característico de este oficio, y ordena la ficha en
@@ -602,25 +617,32 @@ body {
    Antes eran cuatro bloques idénticos con una tira de foto de 280px al
    costado; el título quedaba flotando en blanco sin jerarquía y la lista de
    capacidades se leía como viñetas sueltas en vez de datos. */
+/* Sin caja. Las cuatro fichas son hermanas del mismo nivel: elevarlas no
+   comunicaba jerarquía, solo agregaba cromo de "card" genérica. Y peor:
+   se levantaban al pasar el mouse sin ser clicables — afordancia falsa.
+   Ahora se separan por regla fina y aire, como entradas de un catálogo
+   técnico impreso. El contenido descansa sobre la página, no flota. */
 .service {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(27,59,59,.05);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-}
-.service:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 12px 24px rgba(27,59,59,.12);
-}
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-lg);
 
-/* ----- Cabecera: la chapa ----- */
+  /* Una sola medida gobierna la sangría de toda la ficha, para que el
+     título de la placa y el cuerpo de abajo caigan en la misma vertical.
+     El folio cuelga en el margen, como el número de entrada en un
+     catálogo impreso. */
+  --svc-inset: 26px;
+  --svc-folio: 52px;
+}
+.service:first-child { border-top: none; padding-top: 0; }
+
+/* ----- Cabecera: la chapa -----
+   Único elemento con fondo. Es la placa de datos remachada: se lee como
+   rótulo de equipo, no como encabezado de tarjeta. */
 .service__head {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 28px;
+  display: grid;
+  grid-template-columns: var(--svc-folio) 1fr;
+  align-items: baseline;
+  padding: 18px var(--svc-inset);
   background: var(--teal-dark);
   border-bottom: 3px solid var(--red);
 }
@@ -648,10 +670,15 @@ body {
 /* ----- Cuerpo: especificaciones | foto ----- */
 .service__grid {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 1fr 340px;
   align-items: stretch;
+  gap: 34px;
 }
-.service__main { padding: 26px 28px; min-width: 0; }
+/* Misma vertical que el título de la placa: sangría + columna del folio. */
+.service__main {
+  padding: 26px 0 0 calc(var(--svc-inset) + var(--svc-folio));
+  min-width: 0;
+}
 .service__text {
   font-size: 15.5px; color: var(--text-muted); line-height: 1.6;
   margin: 0 0 20px; max-width: 62ch;
@@ -679,15 +706,23 @@ body {
   width: 6px; height: 2px;
   background: var(--red);
 }
+/* Los servicios tienen 7 capacidades: en dos columnas la última quedaba
+   sola y su línea inferior cortaba a media caja. Se le deja ocupar el
+   ancho completo para que la tabla cierre pareja. */
+.service__list li:last-child:nth-child(odd) { grid-column: 1 / -1; }
 
 /* ----- Foto ----- */
+/* La foto ya no vive dentro de una caja: es un bloque propio, a ras del
+   borde derecho del contenedor. Sin borde ni radio — el corte limpio la
+   hace leer como lámina de catálogo, no como miniatura de tarjeta. */
 .service__media {
   position: relative; overflow: hidden;
   background:
     repeating-linear-gradient(45deg, #dde5e4, #dde5e4 14px, #e9efee 14px, #e9efee 28px);
   display: flex; align-items: center; justify-content: center;
   min-height: 300px;
-  border-left: 1px solid var(--border);
+  align-self: start;
+  margin-top: 26px;
 }
 /* Mini-carrusel dentro de cada servicio */
 .svc-slide {
@@ -739,20 +774,15 @@ body {
 .service--sinfoto .service__grid { grid-template-columns: 1fr; }
 .service--sinfoto .service__media { display: none; }
 
-/* ----- Pie: valores destacados ----- */
-.service__foot {
-  padding: 16px 28px;
-  background: var(--surface-2);
-  border-top: 1px solid var(--border);
-}
+/* ----- Pie: valores destacados -----
+   Sin banda de fondo: el aire y la alineación bastan para separarlo. */
+.service__foot { padding: 20px 0 0 calc(var(--svc-inset) + var(--svc-folio)); }
 .tags, .brands { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag {
   border: 1px solid var(--teal); border-radius: 4px; padding: 6px 12px;
   font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 0.04em;
   text-transform: uppercase; color: var(--teal-dark);
 }
-/* Sobre la banda del pie los chips van en blanco para que no se pierdan. */
-.service__foot .tag { background: var(--surface); }
 
 /* ---------- Band ---------- */
 .band {
@@ -895,7 +925,9 @@ body {
   cursor: pointer; padding: 0;
   transition: background .2s ease, transform .3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.prefs__toggle:hover { background: var(--teal-dark); transform: translateY(-2px); }
+@media (hover: hover) and (pointer: fine) {
+  .prefs__toggle:hover { background: var(--teal-dark); transform: translateY(-2px); }
+}
 .prefs__toggle svg { width: 24px; height: 24px; }
 .prefs__toggle[aria-expanded="true"] { background: var(--red); }
 
@@ -909,7 +941,26 @@ body {
   box-shadow: 0 12px 28px rgba(27,59,59,.22);
   padding: 18px;
 }
-.prefs__panel[hidden] { display: none; }
+/* Apertura del panel: crece desde el botón que lo abrió, no desde su propio
+   centro — eso es lo que hace legible de dónde salió. Se usa transición y no
+   keyframes porque se puede abrir y cerrar rápido: la transición retoma
+   desde el valor actual, un keyframe reinicia desde cero.
+   El atributo hidden se conserva (el JS lo alterna), pero se le quita el
+   display:none del navegador para poder animarlo; visibility saca el panel
+   del orden de tabulación igual que antes. */
+.prefs__panel {
+  transform-origin: bottom right;
+  transition: opacity .18s var(--ease-out),
+              transform .18s var(--ease-out),
+              visibility .18s;
+}
+.prefs__panel[hidden] {
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(.96) translateY(6px);
+  pointer-events: none;
+}
 
 .prefs__group + .prefs__group { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
 .prefs__label {
@@ -975,18 +1026,17 @@ body {
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
   .grid--2, .split { grid-template-columns: 1fr; gap: 28px; }
   /* La ficha se apila: cabecera, especificaciones, foto, pie. */
-  .service__grid { grid-template-columns: 1fr; }
-  .service__media {
-    min-height: 220px;
-    border-left: none;
-    border-top: 1px solid var(--border);
-  }
-  .service__head { padding: 16px 22px; gap: 14px; }
+  /* En móvil el folio deja de colgar: el ancho no alcanza para una columna
+     de margen, así que la sangría vuelve a ser simple. */
+  .service { --svc-inset: 18px; --svc-folio: 38px; }
+  .service__grid { grid-template-columns: 1fr; gap: 0; }
+  .service__media { min-height: 220px; margin-top: 22px; }
+  .service__head { padding: 14px var(--svc-inset); }
   .service__folio { font-size: 26px; }
   .service__title { font-size: 19px; }
-  .service__main { padding: 22px; }
+  .service__main { padding: 22px 0 0 var(--svc-inset); }
   .service__list { grid-template-columns: 1fr; }
-  .service__foot { padding: 14px 22px; }
+  .service__foot { padding: 18px 0 0 var(--svc-inset); }
 
   .hero__title { font-size: 42px; }
   .hero__title--sm { font-size: 36px; }
@@ -1017,7 +1067,17 @@ body {
     display: none; width: 100%; flex-direction: column;
     align-items: flex-start; gap: 8px; margin-top: 12px;
   }
-  .nav__links.is-open { display: flex; }
+  /* El menú móvil aparecía de golpe. La altura sí cambia al instante (no hay
+     equivalente en transform para eso), pero el contenido entra con un
+     desplazamiento corto que hace legible que se desplegó hacia abajo. */
+  .nav__links.is-open {
+    display: flex;
+    animation: navIn .2s var(--ease-out) both;
+  }
+  @keyframes navIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: none; }
+  }
   .nav__link.is-active { border-bottom: none; }
   .nav__indicator { display: none; }
   .nav__links .btn--wa { width: 100%; margin-top: 6px; }
@@ -1027,13 +1087,21 @@ body {
    ANIMACIONES (sutiles)
    =================================================================== */
 
-/* 1) Revelado al hacer scroll (la clase .reveal la añade el JS) */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+/* 1) Revelado al hacer scroll (la clase .reveal la añade el JS)
+   Entrada: ease-out fuerte. Con la curva genérica arrancaba blando y se
+   sentía más lento de lo que dura. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+}
 .reveal.is-visible { opacity: 1; transform: none; }
 
-/* 2) Transición al cambiar de pestaña */
-.page-anim { animation: pageIn .5s ease both; }
-@keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+/* 2) Transición al cambiar de pestaña
+   Estaba en 500ms con curva genérica: por encima del techo de 300ms para
+   interfaz, y se notaba pesada en algo que se dispara a cada clic del menú. */
+.page-anim { animation: pageIn .26s var(--ease-out) both; }
+@keyframes pageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
 /* Entrada del hero al cargar (se ve apenas abre la página) */
 .hero__inner .section-head__label { animation: heroIn .7s ease both; }
@@ -1046,8 +1114,14 @@ body {
    levantamiento aporta (tarjetas de proceso y logos de cliente); tags,
    marcas y las tarjetas planas ya no compiten por atención. */
 .step, .client { transition: transform .3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow .3s ease; }
-.step:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 12px 24px rgba(27,59,59,.14); }
-.client:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 22px rgba(0,0,0,.20); }
+
+/* Todo levantamiento por hover queda detrás de un puntero real: en pantalla
+   táctil el toque dispara un hover falso y la tarjeta se quedaba levantada
+   después de soltar. Afectaba a las 14 reglas :hover del sitio. */
+@media (hover: hover) and (pointer: fine) {
+  .step:hover   { transform: translateY(-4px) scale(1.01); box-shadow: 0 12px 24px rgba(27,59,59,.14); }
+  .client:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 22px rgba(0,0,0,.20); }
+}
 
 /* ===================================================================
    4) MOVIMIENTO REDUCIDO
@@ -1075,6 +1149,14 @@ html[data-motion="reduced"] .team:hover .team__img { transform: none; }
    que el visitante no pidió. */
 html[data-motion="reduced"] { scroll-behavior: auto; }
 html[data-motion="reduced"] .page-anim { animation: none; }
+html[data-motion="reduced"] .nav__links.is-open { animation: none; }
+
+/* Movimiento reducido no es cero movimiento: el panel y los revelados
+   conservan el fundido, que ayuda a entender qué apareció, y pierden solo
+   el desplazamiento. */
+html[data-motion="reduced"] .prefs__panel { transition: opacity .15s linear, visibility .15s; }
+html[data-motion="reduced"] .prefs__panel[hidden] { transform: none; }
+html[data-motion="reduced"] .reveal { transform: none; transition: opacity .3s linear; }
 
 /* Respaldo si el JS no corre: se respeta la preferencia del sistema. */
 @media (prefers-reduced-motion: reduce) {

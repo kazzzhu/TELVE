@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=0.9">
+  <link rel="stylesheet" href="css/styles.css?v=1.1">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -31,12 +31,14 @@
   <script>
     (function () {
       try {
-        var m = localStorage.getItem("telve-motion");
-        if (!m) {
-          m = (window.matchMedia &&
-               window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-              ? "reduced" : "full";
-        }
+        // Por decisión del cliente el sitio arranca con TODAS las animaciones,
+        // sin consultar la preferencia del sistema. Quien las quiera menos las
+        // apaga en el panel de ajustes y la elección queda guardada.
+        // Para volver a respetar el sistema, reemplazar la línea de abajo por:
+        //   var m = localStorage.getItem("telve-motion") ||
+        //     ((window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+        //       ? "reduced" : "full");
+        var m = localStorage.getItem("telve-motion") || "full";
         document.documentElement.setAttribute("data-motion", m);
 
         var l = localStorage.getItem("telve-lang") || "es";
@@ -659,8 +661,8 @@
   </div>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=0.9"></script>
-  <script src="js/script.js?v=0.9"></script>
+  <script src="js/i18n.js?v=1.1"></script>
+  <script src="js/script.js?v=1.1"></script>
 </body>
 
 </html>
