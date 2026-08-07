@@ -73,6 +73,7 @@ body {
 @media (max-width: 560px) {
   .section-head { flex-direction: column; align-items: flex-start; }
   .section-head__label { border-right: none; padding-right: 0; }
+  .section-head > .h2, .section-head > .h2--sm { flex-basis: auto; }
 }
 
 /* Variante para h1 de hero: etiqueta como placa/sello sobre el titular
