@@ -636,7 +636,7 @@ body {
 }
 .service__title {
   font-family: 'Oswald', sans-serif;
-  font-size: 23px;
+  font-size: 22px;      /* {typography.title} */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.01em;

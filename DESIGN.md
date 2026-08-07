@@ -16,6 +16,29 @@ colors:
   whatsapp-green: "#25D366"
   whatsapp-green-text: "#04210f"
   hero-plate-pink: "#ffd0cb"
+  # --- Tintes de apoyo sobre fondos verdes ---
+  # Escalones claros del verde petróleo, usados para texto secundario según
+  # cuán oscuro sea el fondo. No son colores nuevos de marca: son la rampa
+  # que ya existía en el CSS y que este archivo no declaraba.
+  mist-100: "#d3e2e1"   # enlaces de nav en reposo
+  mist-200: "#cfe0df"   # bajada del nav
+  mist-300: "#b9cccb"   # texto del pie
+  mist-400: "#a9c4c3"   # etiquetas de la franja de specs
+  mist-500: "#9aa7a7"   # marcador .pending
+  mist-600: "#6f8180"   # texto de los marcadores de foto (.ph)
+  salmon-light: "#ffb3ab"  # rol del equipo sobre foto oscura
+  # --- Neutros oscuros de fotografía ---
+  # Fondo de los recuadros de equipo y del logo de cliente en negativo.
+  ink-navy: "#0e1626"
+  ink-slate: "#1e2126"
+  ink-scrim: "rgba(14,22,20,.92)"      # base del degradado sobre foto
+  ink-scrim-soft: "rgba(14,22,20,.72)" # tramo medio del mismo degradado
+  # --- Sombras (ver Shadow Vocabulary más abajo) ---
+  shadow-ambient: "rgba(0,0,0,.12)"
+  shadow-hover: "rgba(0,0,0,.2)"
+  shadow-badge: "rgba(0,0,0,.18)"
+  shadow-action: "rgba(0,0,0,.25)"
+  shadow-toggle: "rgba(0,0,0,.28)"
 typography:
   display:
     fontFamily: "Anton, sans-serif"
@@ -51,7 +74,69 @@ typography:
     fontSize: "13px"
     fontWeight: 400
     lineHeight: 1.4
+  # --- Escalones intermedios y variantes responsive ---
+  # Los seis roles de arriba nombran la intención; estos son los tamaños
+  # concretos que la hoja de estilos usa además, incluidos los escalones a
+  # los que bajan los títulos en móvil vía clamp(). Estaban en el CSS desde
+  # el inicio pero no declarados aquí.
+  display-sm:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "58px"        # hero de páginas internas; baja a 42/36/32/28
+  headline-sm:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "38px"        # h2--sm; baja a 32/28/26
+  figure:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "34px"        # cifras de la franja de specs y folio de servicio
+  title-sm:
+    fontFamily: "Oswald, sans-serif"
+    fontSize: "20px"        # títulos de paso del proceso; 18/19 en variantes
+  body-sm:
+    fontFamily: "Barlow, sans-serif"
+    fontSize: "15px"        # texto de tarjeta y de servicio
+  body-xs:
+    fontFamily: "Barlow, sans-serif"
+    fontSize: "14.5px"      # filas de especificación de las fichas
+  label-sm:
+    fontFamily: "Oswald, sans-serif"
+    fontSize: "12px"        # etiquetas de sección y del pie
+  label-xs:
+    fontFamily: "Oswald, sans-serif"
+    fontSize: "11.5px"      # placa del hero, rol del equipo; 10.5 en móvil
+  micro:
+    fontFamily: "Oswald, sans-serif"
+    fontSize: "9.5px"       # bajada y RIF del nav
+  # Escalones a los que bajan los titulares en pantallas chicas (los extremos
+  # inferiores de cada clamp() y los overrides de los media queries).
+  display-900:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "42px"
+  display-560:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "36px"
+  headline-900:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "32px"
+  headline-560:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "28px"
+  headline-xs:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "26px"
+  brandmark:
+    fontFamily: "Anton, sans-serif"
+    fontSize: "24px"        # logotipo de texto del nav
+  title-xs:
+    fontFamily: "Oswald, sans-serif"
+    fontSize: "19px"
+  subtitle:
+    fontFamily: "Oswald, sans-serif"
+    fontSize: "18px"        # bajada del hero interno y título de formulario
+  micro-sm:
+    fontFamily: "Oswald, sans-serif"
+    fontSize: "10.5px"      # rol del equipo en móvil
 rounded:
+  xs: "2px"    # barra deslizante del nav
   sm: "4px"
   md: "6px"
   lg: "8px"

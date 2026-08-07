@@ -29,6 +29,15 @@
         "value": "rgba(0,0,0,.25)",
         "createdAt": "2026-08-07T14:37:23.737Z",
         "reason": "Documentado en DESIGN.md:175 como el token de sombra 'action-btn' (boton flotante). El detector solo compara contra la paleta del frontmatter, que no incluye sombras. Confirmado por Ricardo."
+      },
+      {
+        "rule": "layout-transition",
+        "value": "*",
+        "files": [
+          "css/styles.css"
+        ],
+        "createdAt": "2026-08-07T18:29:45.990Z",
+        "reason": "Barra deslizante del nav (documentada en DESIGN.md Navigation: 'transicion de posicion y ancho') y puntito del hero. Son elementos de 3px y 10px; el ancho es la animacion, no un efecto secundario. Confirmado por Ricardo."
       }
     ]
   }
