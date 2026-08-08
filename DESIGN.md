@@ -244,6 +244,10 @@ Paleta de taller industrial: verde petróleo como base dominante, rojo señal co
 ### Named Rules
 **The All-Caps Label Rule.** Todo lo que sea funcional (nav, botón, tag, eyebrow, etiqueta de campo) va en Oswald, mayúscula, con tracking amplio. Todo lo que sea lectura corrida va en Barlow, minúscula normal. Nunca se mezclan los dos roles.
 
+**The Heading Case Rule.** Un encabezado de contenido NO es una etiqueta funcional. Los títulos de tarjeta, de servicio y de paso van en Oswald pero en **caja normal**, no en mayúscula: nombran contenido, no rotulan un control. La mayúscula queda para los dos extremos — Anton en los titulares de sección y hero (el letrero de galpón), y Oswald en las etiquetas funcionales.
+
+*Por qué:* Anton y Oswald son ambas condensadas. Cuando además casi todo iba en caja alta, la página no tenía un solo contraste de ancho y se leía dura. La caja normal en los encabezados intermedios devuelve ese contraste sin tocar la paleta ni las familias.
+
 ## Layout
 
 Contenedor centrado con `max-width: 1280px`. El ritmo vertical es generoso: 78px de padding de sección en escritorio, bajando a 56px (≤900px) y 24px de margen lateral en móvil. Las cuadrículas de tarjetas van de 3 columnas → 2 columnas (≤900px) → 1 columna (≤560px). La navegación colapsa a menú hamburguesa por debajo de 860px. El layout es mayormente de bloques apilados de ancho completo (hero, franja de specs, bandas de color) intercalados con grids de tarjetas — nunca sidebars ni layouts asimétricos complejos.

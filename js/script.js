@@ -277,12 +277,28 @@ function initPrefs() {
   }
 }
 
-/* Escribe el código del idioma activo en la insignia del círculo. */
+/* Marca el idioma activo en la insignia del círculo.
+   Si existe img/bandera-<code>.png la usa; si no, muestra el código de dos
+   letras. Mismo patrón que el resto del sitio: la imagen se borra sola con
+   onerror y queda el respaldo. No se usan banderas emoji porque Windows no
+   las trae y salen como un recuadro vacío. */
 function pintarCodigoIdioma() {
   var el = document.getElementById("prefsCode");
   if (!el) return;
   var lang = document.documentElement.getAttribute("data-lang") || "es";
+
   el.textContent = lang.toUpperCase();
+  el.classList.remove("prefs__code--bandera");
+
+  var img = new Image();
+  img.onload = function () {
+    el.textContent = "";
+    el.appendChild(img);
+    el.classList.add("prefs__code--bandera");
+  };
+  img.src = "img/bandera-" + lang + ".png";
+  img.alt = "";
+  img.className = "prefs__flag";
 }
 
 /* ===================================================================

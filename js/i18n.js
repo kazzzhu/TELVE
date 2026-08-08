@@ -36,6 +36,24 @@ window.TELVE_I18N = {
 
   /* Orden en que aparecen en el desplegable. El nombre de cada idioma va
      escrito en ese idioma, como es costumbre en los selectores. */
+  /* PARA PONER BANDERAS EN LA INSIGNIA DEL BOTÓN DE AJUSTES
+     -----------------------------------------------------
+     Basta con dejar los archivos en img/ con estos nombres exactos:
+
+       img/bandera-es.png   (México, según eligió el cliente)
+       img/bandera-en.png   (Estados Unidos)
+       img/bandera-pt.png   (Brasil)
+       img/bandera-it.png   (Italia)
+
+     Tamaño sugerido: 40×28 px, PNG. En cuanto existan, la insignia las usa
+     sola. Mientras no estén, muestra el código de dos letras (ES/EN/PT/IT).
+     No hay que tocar código.
+
+     Por qué archivos y no emoji: Windows no incluye banderas en su fuente
+     de emoji, así que 🇲🇽 sale como un recuadro vacío en la mayoría de las
+     máquinas de los clientes. Y no sirve dibujarlas en SVG simplificado:
+     México e Italia son la misma tricolor verde-blanco-roja y solo las
+     distingue el escudo del águila. */
   idiomas: [
     { code: "es", nombre: "Español" },
     { code: "en", nombre: "English" },

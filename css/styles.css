@@ -196,7 +196,7 @@ body {
   text-transform: uppercase;
   font-weight: 400;
   letter-spacing: 0.01em;
-  line-height: 1.05;
+  line-height: 1.14;
   margin-bottom: clamp(24px, 4vw, 40px);
   color: var(--teal-dark);
 }
@@ -454,13 +454,16 @@ body {
 .hero__title {
   font-family: 'Anton', sans-serif;
   font-size: clamp(42px, 6.5vw, 70px);
-  line-height: 0.98;
+  /* Anton en mayúscula a 0.98 es altura de valla publicitaria: las líneas
+     se tocan y el bloque se lee como un muro. 1.06 respira sin perder el
+     peso de letrero. */
+  line-height: 1.06;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.005em;
   margin: 0 0 22px;
 }
-.hero__title--sm { font-size: clamp(36px, 5.5vw, 58px); line-height: 1; margin-bottom: 16px; }
+.hero__title--sm { font-size: clamp(36px, 5.5vw, 58px); line-height: 1.06; margin-bottom: 16px; }
 .hero__lead { font-size: 20px; line-height: 1.55; color: #dbe7e6; margin: 0 0 34px; max-width: 620px; }
 .hero--sub .hero__lead { font-size: 18px; margin-bottom: 0; }
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
@@ -508,9 +511,14 @@ body {
    (ver .service__body); a este tamaño la usa la ficha de servicio, no la
    tarjeta pequeña. */
 .card__num { font-family: 'Anton', sans-serif; font-size: 34px; color: var(--red); margin-bottom: 10px; line-height: 1; }
+/* Caja normal, no mayúscula. La regla de mayúsculas de DESIGN.md es para
+   texto FUNCIONAL (nav, botón, tag, etiqueta de campo); estos son
+   encabezados de contenido y estaban en mayúscula por arrastre. Entre
+   Anton y Oswald casi todo en la página era condensado y en caja alta, sin
+   un solo contraste de ancho — eso es lo que se leía como brusco. */
 .card__title {
   font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600;
-  text-transform: uppercase; margin-bottom: 10px; color: var(--teal-dark);
+  line-height: 1.3; margin-bottom: 10px; color: var(--teal-dark);
 }
 .card__title--lg { font-size: 22px; }
 .card__text { font-size: 15px; color: var(--text-muted); line-height: 1.55; }
@@ -694,9 +702,7 @@ body {
   font-family: 'Oswald', sans-serif;
   font-size: 22px;      /* {typography.title} */
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 1.22;
+  line-height: 1.3;
   color: #fff;
   margin: 0;
 }
@@ -851,8 +857,8 @@ body {
 }
 .step__icon svg { width: 20px; height: 20px; }
 .step__title {
-  font-family: 'Oswald', sans-serif; font-size: 20px; text-transform: uppercase;
-  font-weight: 600; margin-bottom: 8px; color: var(--teal-dark);
+  font-family: 'Oswald', sans-serif; font-size: 20px;
+  font-weight: 600; line-height: 1.3; margin-bottom: 8px; color: var(--teal-dark);
 }
 
 /* ---------- Clientes ---------- */
@@ -973,9 +979,9 @@ body {
 .prefs__toggle svg { width: 24px; height: 24px; }
 .prefs__toggle[aria-expanded="true"] { background: var(--red); }
 
-/* Código del idioma activo, pegado al círculo. Sin esto el ícono de
-   deslizadores no le dice a nadie que ahí se cambia el idioma; el aviso de
-   bienvenida solo lo ve quien entra por primera vez. */
+/* Idioma activo, pegado al círculo. Sin esto el ícono de deslizadores no le
+   dice a nadie que ahí se cambia el idioma; el aviso de bienvenida solo lo
+   ve quien entra por primera vez. */
 .prefs__code {
   position: absolute;
   top: -4px; left: -6px;
@@ -989,6 +995,23 @@ body {
   font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.4;
+  text-align: center;
+}
+/* Con bandera el recuadro pierde el fondo rojo —la bandera trae sus propios
+   colores y el rojo los ensuciaba— y gana un marco blanco que la despega
+   del verde del círculo. Solo aplica si el archivo existe en img/. */
+.prefs__code--bandera {
+  background: var(--surface);
+  padding: 2px;
+  min-width: 0;
+  line-height: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,.28);
+}
+.prefs__flag {
+  display: block;
+  width: 22px; height: 15px;
+  object-fit: cover;
+  border-radius: 2px;      /* {rounded.xs} */
 }
 
 /* ----- Aviso de primera visita -----
