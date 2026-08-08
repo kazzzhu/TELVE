@@ -1007,10 +1007,14 @@ body {
   line-height: 0;
   box-shadow: 0 1px 4px rgba(0,0,0,.28);
 }
+/* contain, no cover: las cuatro banderas vienen con proporciones distintas
+   (1.43 a 1.89) y recortar una bandera nacional le corta el emblema. Justo
+   el escudo de México es lo único que la distingue de la italiana. El
+   sobrante se disimula porque el recuadro ya es blanco. */
 .prefs__flag {
   display: block;
   width: 22px; height: 15px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 2px;      /* {rounded.xs} */
 }
 
