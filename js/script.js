@@ -480,7 +480,7 @@ function initServiceCarousels() {
         });
       }
 
-      var idx = 0;
+      var idx = 0, timer = null;
       function mostrar(n) {
         slides[idx].classList.remove("is-active");
         if (puntos[idx]) puntos[idx].classList.remove("is-active");
@@ -488,16 +488,23 @@ function initServiceCarousels() {
         slides[idx].classList.add("is-active");
         if (puntos[idx]) puntos[idx].classList.add("is-active");
       }
-
-      // Desfase por tarjeta para que no cambien todas al mismo tiempo.
-      setTimeout(function () {
-        setInterval(function () {
-          // Con movimiento reducido el intervalo sigue vivo pero no avanza:
-          // así reanuda al instante si el visitante cambia el ajuste.
+      // Al pulsar un punto se salta a esa foto y se reinicia la cuenta, para
+      // que no cambie sola justo después de elegirla.
+      puntos.forEach(function (d, n) {
+        d.addEventListener("click", function () { mostrar(n); reiniciar(); });
+      });
+      function reiniciar() {
+        clearInterval(timer);
+        timer = setInterval(function () {
           if (prefiereMenosMovimiento()) return;
           mostrar(idx + 1);
         }, INTERVALO);
-      }, i * 1300);
+      }
+
+      // Desfase por tarjeta para que no cambien todas al mismo tiempo.
+      // El intervalo vive siempre; con movimiento reducido no avanza, así
+      // reanuda al instante si el visitante cambia el ajuste.
+      setTimeout(reiniciar, i * 1300);
     });
   }
 

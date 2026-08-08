@@ -343,7 +343,7 @@ body {
   display: none;
   align-items: center; justify-content: center;
   background: transparent; border: 2px solid rgba(255,255,255,.5);
-  border-radius: 6px; width: 44px; height: 40px; cursor: pointer; padding: 0;
+  border-radius: 6px; width: 44px; height: 44px; cursor: pointer; padding: 0;
 }
 .burger span { display: block; width: 20px; height: 2px; background: #fff; position: relative; }
 .burger span::before, .burger span::after {
@@ -389,9 +389,15 @@ body {
   bottom: 18px; left: 0; right: 0;
   display: flex; justify-content: center; gap: 9px;
 }
+/* El punto se ve de 10px pero el área que responde al clic mide 24×24, el
+   mínimo que pide WCAG 2.5.8 para objetivos de puntero. El relleno es
+   transparente: background-clip lo deja fuera del color. */
 .hero__dot {
   width: 10px; height: 10px; border-radius: 50%;
+  box-sizing: content-box;
+  padding: 7px;
   background: rgba(255,255,255,.45);
+  background-clip: content-box;
   cursor: pointer; transition: background .15s, width .15s;
 }
 .hero__dot.is-active { background: var(--red); width: 26px; border-radius: 6px; }
@@ -751,10 +757,16 @@ body {
   display: flex; justify-content: center; gap: 7px;
 }
 .svc-dots[hidden] { display: none; }
+/* Mismo criterio de área que los del hero. Y ahora sí responden al clic:
+   antes se veían igual que los del hero pero no hacían nada, que es peor
+   que no tenerlos. */
 .svc-dot {
   width: 8px; height: 8px; border-radius: 50%;
+  box-sizing: content-box;
+  padding: 8px;
   background: rgba(255,255,255,.55);
-  box-shadow: 0 1px 3px rgba(0,0,0,.35);
+  background-clip: content-box;
+  cursor: pointer;
   transition: background .15s, width .15s;
 }
 .svc-dot.is-active { background: var(--red); width: 22px; border-radius: 4px; }
