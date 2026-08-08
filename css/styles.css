@@ -265,6 +265,40 @@ body {
   font-size: 15px;
 }
 
+/* ---------- Franja de emergencias ----------
+   Va sobre el nav y no es pegajosa: se ve al llegar sin robarle altura
+   permanente a la cabecera. El rojo señal está justificado aquí — es el
+   color de acción de la marca y esto es la acción más urgente del sitio
+   (DESIGN.md §The Signal Red Rule). */
+.utility {
+  background: var(--teal-darker);
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 var(--pad-x);
+}
+.utility__emg {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 0;
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;      /* {typography.label} */
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b9cccb;       /* mist-300 */
+  transition: color .15s ease;
+}
+.utility__emg svg { width: 15px; height: 15px; color: var(--red-bright); flex: none; }
+.utility__label { font-weight: 500; }
+.utility__num { color: #fff; font-weight: 600; letter-spacing: 0.06em; }
+@media (hover: hover) and (pointer: fine) {
+  .utility__emg:hover { color: #fff; }
+}
+@media (max-width: 560px) {
+  .utility { justify-content: center; padding: 0 24px; }
+  .utility__label { display: none; }   /* a este ancho manda el número */
+}
+
 /* ---------- Nav ---------- */
 .nav {
   position: sticky;
