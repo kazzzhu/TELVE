@@ -973,6 +973,90 @@ body {
 .prefs__toggle svg { width: 24px; height: 24px; }
 .prefs__toggle[aria-expanded="true"] { background: var(--red); }
 
+/* Código del idioma activo, pegado al círculo. Sin esto el ícono de
+   deslizadores no le dice a nadie que ahí se cambia el idioma; el aviso de
+   bienvenida solo lo ve quien entra por primera vez. */
+.prefs__code {
+  position: absolute;
+  top: -4px; left: -6px;
+  min-width: 26px;
+  padding: 2px 5px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 4px;      /* {rounded.sm} */
+  font-family: 'Oswald', sans-serif;
+  font-size: 11.5px;       /* {typography.label-xs} */
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+
+/* ----- Aviso de primera visita -----
+   Sale del círculo hacia la izquierda, con una punta que lo señala. A la
+   izquierda y no arriba para no chocar con el panel cuando se abre. */
+.prefs__callout {
+  position: absolute;
+  right: 66px;
+  bottom: 2px;
+  width: 232px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;      /* {rounded.lg} */
+  box-shadow: 0 8px 22px rgba(27,59,59,.22);
+  padding: 14px 16px;
+  transform-origin: right center;
+}
+.prefs__callout[hidden] { display: none; }
+/* La punta: cuadrado girado, con el mismo borde que la burbuja. */
+.prefs__callout::after {
+  content: "";
+  position: absolute;
+  right: -6px; bottom: 22px;
+  width: 10px; height: 10px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.prefs__callout-txt {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text);
+  margin: 0 0 10px;
+}
+.prefs__callout-ok {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;         /* {typography.label} */
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--red);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Entrada: crece desde el círculo que la origina. */
+html[data-motion="full"] .prefs__callout {
+  animation: calloutIn .24s var(--ease-out) both;
+}
+@keyframes calloutIn {
+  from { opacity: 0; transform: scale(.94) translateX(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (max-width: 560px) {
+  /* A este ancho no cabe al costado: se coloca encima del círculo. */
+  .prefs__callout {
+    right: 0; bottom: 66px;
+    width: min(248px, calc(100vw - 40px));
+    transform-origin: bottom right;
+  }
+  .prefs__callout::after { right: 18px; bottom: -6px; border: none;
+    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+}
+
 .prefs__panel {
   position: absolute; right: 0; bottom: 66px;
   width: 232px;

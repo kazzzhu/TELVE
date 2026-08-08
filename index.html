@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=1.6">
+  <link rel="stylesheet" href="css/styles.css?v=1.7">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -633,8 +633,15 @@
 
   <!-- ===================== AJUSTES (movimiento + idioma) ===================== -->
   <div class="prefs">
+    <!-- Aviso de primera visita. Sale del círculo apuntándolo, se muestra una
+         sola vez y se guarda que ya se vio. -->
+    <div class="prefs__callout" id="prefsCallout" role="status" hidden>
+      <p class="prefs__callout-txt">Cambia el idioma o reduce las animaciones aquí.</p>
+      <button class="prefs__callout-ok" id="prefsCalloutOk" type="button">Entendido</button>
+    </div>
+
     <button id="prefsToggle" class="prefs__toggle" type="button" aria-expanded="false"
-      aria-controls="prefsPanel" aria-label="Ajustes de la página" data-i18n-aria="prefs.abrir">
+      aria-controls="prefsPanel" aria-label="Ajustes de la página">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
         stroke-linejoin="round" aria-hidden="true">
         <line x1="4" y1="8" x2="20" y2="8" />
@@ -642,6 +649,10 @@
         <line x1="4" y1="16" x2="20" y2="16" />
         <circle cx="15" cy="16" r="2.4" />
       </svg>
+      <!-- El código de idioma activo, siempre visible: es lo que hace que el
+           botón se explique solo, con o sin el aviso de arriba. Lo escribe
+           el JS. aria-hidden porque el botón ya se nombra por su aria-label. -->
+      <span class="prefs__code" id="prefsCode" aria-hidden="true"></span>
     </button>
 
     <div class="prefs__panel" id="prefsPanel" role="group" aria-label="Ajustes de la página" hidden>
@@ -666,8 +677,8 @@
   </div>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=1.6"></script>
-  <script src="js/script.js?v=1.6"></script>
+  <script src="js/i18n.js?v=1.7"></script>
+  <script src="js/script.js?v=1.7"></script>
 </body>
 
 </html>

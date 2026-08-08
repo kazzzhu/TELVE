@@ -295,7 +295,10 @@ en: {
     "Reducidas": "Reduced",
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Reduced stops the stripe and the automatic carousels.",
-    "Idioma": "Language"
+    "Idioma": "Language",
+    "Cambia el idioma o reduce las animaciones aquí.":
+      "Change the language or reduce animations here.",
+    "Entendido": "Got it"
   }
 
 },  /* ---- fin del inglés ---- */
@@ -520,7 +523,10 @@ pt: {
     "Reducidas": "Reduzidas",
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Reduzidas para a faixa e os carrosséis automáticos.",
-    "Idioma": "Idioma"
+    "Idioma": "Idioma",
+    "Cambia el idioma o reduce las animaciones aquí.":
+      "Mude o idioma ou reduza as animações aqui.",
+    "Entendido": "Entendi"
   }
 
 },  /* ---- fin del portugués ---- */
@@ -745,7 +751,10 @@ it: {
     "Reducidas": "Ridotte",
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Ridotte ferma la fascia e i caroselli automatici.",
-    "Idioma": "Lingua"
+    "Idioma": "Lingua",
+    "Cambia el idioma o reduce las animaciones aquí.":
+      "Cambia lingua o riduci le animazioni qui.",
+    "Entendido": "Ho capito"
   }
 
 }   /* ---- fin del italiano. El siguiente idioma va aquí, al mismo nivel ---- */

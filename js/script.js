@@ -240,6 +240,49 @@ function initPrefs() {
   cacharTextos();
   var actual = raiz.getAttribute("data-lang") || base;
   if (actual !== base) aplicarIdioma(actual);
+  pintarCodigoIdioma();
+
+  /* --- aviso de primera visita --- */
+  var aviso  = document.getElementById("prefsCallout");
+  var avisoOk = document.getElementById("prefsCalloutOk");
+
+  function cerrarAviso() {
+    if (!aviso || aviso.hidden) return;
+    aviso.hidden = true;
+    guardar("telve-aviso-visto", "1");
+  }
+
+  if (aviso) {
+    var yaVisto;
+    try { yaVisto = localStorage.getItem("telve-aviso-visto"); } catch (e) { yaVisto = "1"; }
+    if (!yaVisto) {
+      // Con un respiro tras la carga: si aparece de una compite con el hero
+      // y el visitante todavía no está mirando esa esquina.
+      setTimeout(function () {
+        // Si mientras tanto ya abrió el panel por su cuenta, sobra el aviso.
+        if (panel.hidden) aviso.hidden = false;
+        else cerrarAviso();
+      }, 1400);
+    }
+    if (avisoOk) avisoOk.addEventListener("click", function (e) {
+      e.stopPropagation();
+      cerrarAviso();
+      toggle.focus();
+    });
+    // Abrir los ajustes ya cumple el propósito del aviso.
+    toggle.addEventListener("click", cerrarAviso);
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") cerrarAviso();
+    });
+  }
+}
+
+/* Escribe el código del idioma activo en la insignia del círculo. */
+function pintarCodigoIdioma() {
+  var el = document.getElementById("prefsCode");
+  if (!el) return;
+  var lang = document.documentElement.getAttribute("data-lang") || "es";
+  el.textContent = lang.toUpperCase();
 }
 
 /* ===================================================================
@@ -345,6 +388,8 @@ function aplicarIdioma(lang) {
   if (window.TELVE_refrescarWhatsapp) window.TELVE_refrescarWhatsapp();
   // Los enlaces del menú cambian de ancho: hay que recolocar la barra roja.
   window.dispatchEvent(new Event("resize"));
+  // La insignia del círculo debe reflejar el idioma recién elegido.
+  pintarCodigoIdioma();
 }
 
 function initNavIndicator() {
