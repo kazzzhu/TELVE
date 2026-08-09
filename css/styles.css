@@ -355,12 +355,21 @@ body {
   background: transparent; border: 2px solid rgba(255,255,255,.5);
   border-radius: 6px; width: 44px; height: 44px; cursor: pointer; padding: 0;
 }
-.burger span { display: block; width: 20px; height: 2px; background: #fff; position: relative; }
+.burger span {
+  display: block; width: 20px; height: 2px; background: #fff; position: relative;
+  transition: opacity .15s linear;
+}
 .burger span::before, .burger span::after {
   content: ""; position: absolute; left: 0; width: 20px; height: 2px; background: #fff;
+  transition: transform .2s var(--ease-out);
 }
 .burger span::before { top: -6px; }
 .burger span::after { top: 6px; }
+/* Morfa a X con el menú abierto: antes el ícono se quedaba igual y solo
+   el panel de abajo avisaba que había cambiado de estado. */
+.burger[aria-expanded="true"] span { opacity: 0; }
+.burger[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
+.burger[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -388,8 +397,11 @@ body {
 .hero__slide.is-active { opacity: 1; transform: scale(1); }
 .hero__overlay {
   position: absolute; inset: 0; z-index: 1;
+  /* Piso de opacidad subido de .60 a .75 en el extremo: por debajo de eso
+     una foto clara en ese borde podía bajar el contraste del texto blanco
+     debajo del mínimo WCAG. */
   background:
-    linear-gradient(150deg, rgba(20,45,45,.86) 0%, rgba(27,59,59,.72) 55%, rgba(36,77,77,.60) 100%);
+    linear-gradient(150deg, rgba(20,45,45,.86) 0%, rgba(27,59,59,.72) 55%, rgba(36,77,77,.75) 100%);
 }
 .hero--slider .hazard-top { z-index: 3; }
 .hero--slider .hero__inner { position: relative; z-index: 3; }
@@ -406,11 +418,13 @@ body {
   width: 10px; height: 10px; border-radius: 50%;
   box-sizing: content-box;
   padding: 7px;
+  border: none; font: inherit;
   background: rgba(255,255,255,.45);
   background-clip: content-box;
   cursor: pointer; transition: background .15s, width .15s;
 }
 .hero__dot.is-active { background: var(--red); width: 26px; border-radius: 6px; }
+.hero__dot:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 /* Ocultar controles si aún no hay imágenes cargadas */
 .hero__dots[hidden] { display: none; }
@@ -620,87 +634,160 @@ body {
   object-fit: cover; display: block;
 }
 
-/* ---------- Servicios ---------- */
-/* Separación por regla y aire, no por hueco entre cajas. */
-.service-list { padding: var(--space-2xl) var(--pad-x); display: flex; flex-direction: column; gap: var(--space-lg); }
-/* Cada servicio es una entrada de catálogo técnico: placa identificatoria,
-   descripción, tabla de capacidades y valores destacados. Sin caja ni
-   sombra — las cuatro son hermanas del mismo nivel y elevarlas solo
-   agregaba cromo. Se separan por regla fina y aire.
+/* ---------- Servicios: gabinete de herramientas ----------
+   FORM: "Gabinete de herramientas" (impeccable seed 9a10dead, candidate 5/7).
+   Cuatro servicios = cuatro cajones reales de un gabinete de taller, con
+   jaladera y porta-etiqueta metálico. <details>/<summary> nativo: el
+   despliegue es gratis, accesible y sin JS propio (ver script.js). Dentro de
+   cada cajón sobrevive la ficha técnica (descripción + tabla de capacidades)
+   que ya funcionaba — el cajón es el envoltorio nuevo, no un reemplazo del
+   contenido que ya se había afinado. */
+.service-list { padding: var(--space-2xl) var(--pad-x); }
 
-   La foto NO es protagonista, y esto es deliberado: hoy es un recuadro de
-   color plano porque el cliente aún no entrega las imágenes. Componer
-   alrededor de ese vacío fue el error de las versiones previas — media
-   ficha quedaba en blanco. Ocupa un bloque acotado junto a la descripción;
-   las especificaciones, que son el contenido real, se llevan el ancho
-   completo.
+/* El cuerpo oscuro del gabinete: los cajones son más claros que el marco,
+   separados por una rendija de 4px del mismo oscuro — así se lee la juntura
+   entre cajones sin dibujar una línea decorativa aparte. */
+.cabinet {
+  background: var(--teal-darker);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 2px 10px rgba(27,59,59,.05);
+}
 
-   Se eliminó el folio 01–04: cuatro servicios no son una secuencia, así
-   que el número no codificaba nada. */
-.service {
+.drawer { border-radius: 4px; overflow: hidden; }
+
+/* ----- Frente del cajón (control de apertura) ----- */
+.drawer__front {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+  background: var(--teal);
+  cursor: pointer;
+  list-style: none;
+  transition: filter .15s ease, transform 120ms var(--ease-out);
+}
+.drawer__front::-webkit-details-marker { display: none; }
+.drawer__front::marker { content: ""; }
+.drawer__front:hover { filter: brightness(1.06); }
+/* Feedback de "agarré la jaladera": confirma el click antes de que
+   termine de desplegarse el cajón (450ms). */
+.drawer__front:active { transform: scale(0.98); }
+/* Blanco, no rojo: rojo sobre el teal del cajón da ~1.1:1 de contraste,
+   muy por debajo del 3:1 mínimo WCAG para indicadores de foco. */
+.drawer__front:focus-visible { outline: 2px solid #fff; outline-offset: -3px; }
+
+/* La jaladera es el punto de acción: por eso lleva el rojo de marca, el
+   único color reservado para "aquí se actúa" (DESIGN.md §Signal Red Rule). */
+.drawer__pull {
+  flex: none;
+  width: 38px; height: 8px;
+  border-radius: 999px;
+  background: var(--red);
+  box-shadow: 0 2px 0 rgba(0,0,0,.22);
+}
+.drawer__front:hover .drawer__pull { background: var(--red-bright); }
+
+/* Porta-etiqueta metálico: placa blanca con dos remaches, como la que
+   llevan los cajones de un gabinete de taller de verdad. El título del
+   servicio es contenido, no una etiqueta funcional, así que va en caja
+   normal (DESIGN.md §Heading Case Rule), nunca en mayúscula. */
+.drawer__plate {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;   /* {rounded.xs} */
+  padding: 10px 24px;
+}
+.drawer__plate::before, .drawer__plate::after {
+  content: "";
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.25);
+}
+.drawer__plate::before { left: 8px; }
+.drawer__plate::after { right: 8px; }
+.drawer__label {
+  display: block;
+  margin: 0;            /* es un <h2>: sin el margen que trae por defecto */
+  font-family: 'Oswald', sans-serif;
+  font-size: 19px;      /* {typography.title-xs} */
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--teal-dark);
+}
+
+.drawer__chevron {
+  flex: none;
+  width: 18px; height: 18px;
+  color: var(--teal-darker);
+  transition: transform .3s var(--ease-out);
+}
+.drawer[open] .drawer__chevron { transform: rotate(180deg); }
+
+/* ----- Contenido del cajón -----
+   Trampa de grid-rows para animar un <details> sin JS: se pisa el
+   display:none nativo del contenido cerrado con display:grid propio y se
+   anima 0fr -> 1fr. overflow:hidden en el hijo evita que se vea el
+   contenido a medio desplegar mientras la fila crece. */
+.drawer > .drawer__inner {
+  display: grid;
+  grid-template-rows: 0fr;
+  background: var(--surface);
+  transition: grid-template-rows .45s var(--ease-out);
+}
+.drawer[open] > .drawer__inner { grid-template-rows: 1fr; }
+.drawer__inner > .drawer__content { overflow: hidden; }
+
+.drawer__content {
   display: grid;
   grid-template-columns: 1fr 320px;
   grid-template-areas:
-    "head  head"
     "text  media"
     "list  list"
     "foot  foot";
   column-gap: 34px;
-  border-top: 1px solid var(--border);
-  padding-top: var(--space-lg);
+  padding: 28px 26px 30px;
 }
-.service:first-child { border-top: none; padding-top: 0; }
-
-/* display:contents deja que placa, texto, lista y pie sean celdas de la
-   rejilla de arriba sin anidar más divs. */
-.service__body { display: contents; }
-
-/* ----- Placa del título -----
-   Ancho completo, sin solape. Montarla sobre la foto le cortaba la esquina
-   y el cruce se leía como barra mal alineada: era un gesto que llamaba la
-   atención sobre sí mismo, no sobre el contenido. */
-.service__head {
-  grid-area: head;
-  padding: 22px 26px;
-  background: var(--teal-dark);
-  border-bottom: 3px solid var(--red);
+.drawer--sinfoto .drawer__content {
+  grid-template-columns: 1fr;
+  grid-template-areas: "text" "list" "foot";
 }
-.service__title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 22px;      /* {typography.title} */
-  font-weight: 600;
-  line-height: 1.3;
-  color: #fff;
-  margin: 0;
-}
+.drawer--sinfoto .drawer__media { display: none; }
 
-/* Alinean con el borde interno de la placa. */
-.service__text {
+.drawer__text {
   grid-area: text;
-  font-size: 16px;      /* {typography.body} — es la voz del servicio, no un pie de foto */
+  font-size: 16px;      /* {typography.body} */
   color: var(--text-muted); line-height: 1.65;
-  margin: 26px 0 0; padding-left: 26px; max-width: 58ch;
+  max-width: 58ch;
 }
 
-/* La lista de capacidades pasa de viñetas a filas de tabla técnica:
-   línea fina entre datos, marca roja al inicio, sin sangría decorativa. */
-.service__list {
+/* La lista de capacidades: filas de tabla técnica, línea fina entre datos,
+   marca roja al inicio, sin sangría decorativa. */
+.drawer__list {
   grid-area: list;
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 48px;
-  margin: 30px 0 0 26px;
+  margin-top: 28px;
   border-top: 1px solid var(--border);
 }
-.service__list li {
+.drawer__list li {
   font-size: 15px;      /* {typography.body-sm} */
   color: var(--text); line-height: 1.45;
   padding: 12px 0 12px 18px;
   border-bottom: 1px solid var(--border);
   position: relative;
 }
-.service__list li::before {
+.drawer__list li::before {
   content: "";
   position: absolute; left: 0; top: 19px;
   width: 7px; height: 2px;
@@ -709,23 +796,24 @@ body {
 /* Los servicios tienen 7 capacidades: en dos columnas la última quedaba
    sola y su línea inferior cortaba a media caja. Se le deja ocupar el
    ancho completo para que la tabla cierre pareja. */
-.service__list li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.drawer__list li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+.drawer__foot { grid-area: foot; padding-top: 22px; }
 
 /* ----- Foto ----- */
-/* La foto ya no vive dentro de una caja: es un bloque propio, a ras del
-   borde derecho del contenedor. Sin borde ni radio — el corte limpio la
-   hace leer como lámina de catálogo, no como miniatura de tarjeta. */
-/* Bloque acotado junto a la descripción. Alto fijo: si estirara con la
-   ficha, hoy sería medio metro de color plano esperando una foto. */
-.service__media {
+/* Bloque acotado junto a la descripción, sin borde ni radio grande — el
+   corte limpio la hace leer como lámina de catálogo, no como miniatura de
+   tarjeta. Alto fijo: si estirara con la ficha, hoy sería medio metro de
+   color plano esperando una foto. */
+.drawer__media {
   grid-area: media;
   align-self: start;
   position: relative; overflow: hidden;
+  border-radius: 2px;   /* {rounded.xs} */
   background:
     repeating-linear-gradient(45deg, #dde5e4, #dde5e4 14px, #e9efee 14px, #e9efee 28px);
   display: flex; align-items: center; justify-content: center;
-  height: 232px;
-  margin-top: 26px;
+  height: 220px;
 }
 /* Mini-carrusel dentro de cada servicio */
 .svc-slide {
@@ -771,27 +859,18 @@ body {
   width: 8px; height: 8px; border-radius: 50%;
   box-sizing: content-box;
   padding: 8px;
+  border: none; font: inherit;
   background: rgba(255,255,255,.55);
   background-clip: content-box;
   cursor: pointer;
   transition: background .15s, width .15s;
 }
 .svc-dot.is-active { background: var(--red); width: 22px; border-radius: 4px; }
+.svc-dot:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 /* El marcador de texto ("foto · rebobinado") va por encima de las capas. */
-.service__media .ph { position: relative; z-index: 2; }
+.drawer__media .ph { position: relative; z-index: 2; }
 
-/* Red de seguridad para el futuro: si algún día no hay ni fotos ni
-   marcadores, la columna vacía no aporta y el texto ocupa todo el ancho. */
-.service--sinfoto {
-  grid-template-columns: 1fr;
-  grid-template-areas: "head" "text" "list" "foot";
-}
-.service--sinfoto .service__media { display: none; }
-
-/* ----- Pie: valores destacados -----
-   Sin banda de fondo: el aire y la alineación bastan para separarlo. */
-.service__foot { grid-area: foot; padding: 24px 0 0 26px; }
 .tags, .brands { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag {
   border: 1px solid var(--teal); border-radius: 4px; padding: 6px 12px;
@@ -826,6 +905,28 @@ body {
 .step__title {
   font-family: 'Oswald', sans-serif; font-size: 20px;
   font-weight: 600; line-height: 1.3; margin-bottom: 8px; color: var(--teal-dark);
+}
+
+/* Progresión de color a través de los 3 pasos: el avance del trabajo
+   (inspección -> reparación -> entrega) también se lee en la superficie,
+   no solo en el texto. Elegida en una sesión de impeccable live sobre las
+   otras dos direcciones evaluadas (folio + flecha de flujo; título al mando
+   del ícono). */
+.grid--progress { gap: 0; }
+.grid--progress .step { border-radius: 0; box-shadow: none; }
+.grid--progress .step:first-child { border-radius: 8px 0 0 8px; }
+.grid--progress .step:last-child { border-radius: 0 8px 8px 0; }
+.grid--progress .step:nth-child(2) { background: var(--teal); }
+.grid--progress .step:nth-child(3) { background: var(--teal-darker); }
+.grid--progress .step:nth-child(2) .step__title,
+.grid--progress .step:nth-child(3) .step__title { color: #fff; }
+.grid--progress .step:nth-child(2) .card__text,
+.grid--progress .step:nth-child(3) .card__text { color: rgba(255,255,255,.78); }
+.grid--progress .step:nth-child(2) .step__icon,
+.grid--progress .step:nth-child(3) .step__icon { background: #fff; color: var(--teal-darker); }
+@media (max-width: 900px) {
+  .grid--progress .step:first-child { border-radius: 8px 8px 0 0; }
+  .grid--progress .step:last-child { border-radius: 0 0 8px 8px; }
 }
 
 /* ---------- Clientes ---------- */
@@ -884,6 +985,50 @@ body {
 }
 .info__value { font-size: 16px; color: var(--text); line-height: 1.5; }
 .info__value a { color: var(--teal-dark); font-weight: 600; }
+
+/* Las 2 vías reales de contacto (WhatsApp, emergencias) llevan el acento
+   de tarjeta de contenido (borde superior rojo) para pesar más que el
+   resto — misma firma que las tarjetas de servicio, no un elemento nuevo. */
+.contact-primary { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.info--primary { border-top: 3px solid var(--red); }
+.info--primary .btn--wa { margin-top: 16px; }
+.info--emergency .info__value { color: var(--red); font-weight: 700; }
+
+/* Correo propio: todavía no existe, así que se marca con la misma voz
+   monoespaciada que el resto del sitio reserva para "no definitivo"
+   (DESIGN.md — placeholders de foto, contenido pendiente). */
+.info--soon {
+  border-style: dashed;
+  background: var(--surface-2);
+}
+.info--soon .info__label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.info--soon .info__value { color: var(--text-muted); font-size: 15px; }
+
+/* Referencia secundaria (dirección, oficina, correo actual, horario): una
+   sola tarjeta con filas, no 4 cajas repetidas — es información de
+   consulta, no una acción, así que pesa menos. */
+.contact-ref {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 4px 26px; margin: 0;
+}
+.contact-ref__row {
+  display: grid; grid-template-columns: 110px 1fr; gap: 16px;
+  padding: 16px 0; border-bottom: 1px solid var(--border);
+}
+.contact-ref__row:last-child { border-bottom: none; }
+.contact-ref__row dt {
+  font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); font-weight: 600;
+  padding-top: 2px; margin: 0;
+}
+.contact-ref__row dd {
+  font-size: 15px; color: var(--text); line-height: 1.5; margin: 0;
+}
+.contact-ref__row dd a { color: var(--teal-dark); font-weight: 600; }
 
 .contact-side { display: flex; flex-direction: column; gap: 16px; }
 .facade {
@@ -1027,6 +1172,14 @@ html[data-motion="full"] .prefs__callout {
   from { opacity: 0; transform: scale(.94) translateX(8px); }
   to   { opacity: 1; transform: none; }
 }
+/* Salida: mismo camino que la entrada, al revés — antes desaparecía de
+   golpe (aria-hidden inmediato) mientras que aparecer sí era cuidado. */
+.prefs__callout.is-leaving {
+  animation: none;
+  opacity: 0;
+  transform: scale(.94) translateX(8px);
+  transition: opacity .18s var(--ease-in-out), transform .18s var(--ease-in-out);
+}
 
 @media (max-width: 560px) {
   /* A este ancho no cabe al costado: se coloca encima del círculo. */
@@ -1133,18 +1286,22 @@ html[data-motion="full"] .prefs__callout {
 
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
   .grid--2, .split { grid-template-columns: 1fr; gap: 28px; }
-  /* La ficha se apila: cabecera, especificaciones, foto, pie. */
-  /* Todo en una columna: placa, descripción, foto, capacidades, valores. */
-  .service {
+  .contact-primary { grid-template-columns: 1fr; }
+  .contact-ref__row { grid-template-columns: 1fr; gap: 4px; }
+  /* El cajón se apila: descripción, foto, capacidades, valores. */
+  .drawer__front { padding: 15px 16px; gap: 14px; }
+  .drawer__plate { padding: 9px 20px; }
+  .drawer__content {
     grid-template-columns: 1fr;
-    grid-template-areas: "head" "text" "media" "list" "foot";
+    /* Foto primero: en móvil vender confianza antes de meter texto (la
+       lista de hallazgos de /impeccable critique lo marcó al revés). */
+    grid-template-areas: "media" "text" "list" "foot";
+    padding: 22px 18px 26px;
   }
-  .service__media { height: 220px; margin-top: 22px; }
-  .service__head { padding: 16px 18px; }
-  .service__title { font-size: 19px; }
-  .service__text { padding-left: 18px; margin-top: 22px; }
-  .service__list { grid-template-columns: 1fr; margin: 24px 0 0 18px; }
-  .service__foot { padding: 20px 0 0 18px; }
+  .drawer--sinfoto .drawer__content { grid-template-areas: "text" "list" "foot"; }
+  .drawer__media { height: 200px; }
+  .drawer__text { margin-top: 20px; }
+  .drawer__list { grid-template-columns: 1fr; margin-top: 22px; }
 
   .hero__title { font-size: 42px; }
   .hero__title--sm { font-size: 36px; }
@@ -1258,6 +1415,9 @@ html[data-motion="reduced"] .team:hover .team__img { transform: none; }
 html[data-motion="reduced"] { scroll-behavior: auto; }
 html[data-motion="reduced"] .page-anim { animation: none; }
 html[data-motion="reduced"] .nav__links.is-open { animation: none; }
+html[data-motion="reduced"] .burger span,
+html[data-motion="reduced"] .burger span::before,
+html[data-motion="reduced"] .burger span::after { transition: none; }
 
 /* Movimiento reducido no es cero movimiento: el panel y los revelados
    conservan el fundido, que ayuda a entender qué apareció, y pierden solo
@@ -1265,6 +1425,11 @@ html[data-motion="reduced"] .nav__links.is-open { animation: none; }
 html[data-motion="reduced"] .prefs__panel { transition: opacity .15s linear, visibility .15s; }
 html[data-motion="reduced"] .prefs__panel[hidden] { transform: none; }
 html[data-motion="reduced"] .reveal { transform: none; transition: opacity .3s linear; }
+
+/* El cajón sigue abriendo/cerrando (el contenido debe seguir siendo
+   alcanzable), solo pierde el desplazamiento animado. */
+html[data-motion="reduced"] .drawer > .drawer__inner { transition: none; }
+html[data-motion="reduced"] .drawer__chevron { transition: none; }
 
 /* Respaldo si el JS no corre: se respeta la preferencia del sistema. */
 @media (prefers-reduced-motion: reduce) {

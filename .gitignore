@@ -1,0 +1,5 @@
+# Estado efímero de impeccable live mode (sesiones/recibos por máquina).
+# La config sí se versiona (.impeccable/live/config.json).
+.impeccable/live/sessions/
+.impeccable/live/accept-receipts/
+.impeccable/live/roots.json

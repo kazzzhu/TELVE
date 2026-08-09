@@ -265,167 +265,197 @@
         <p class="hero__lead">Soluciones electromecánicas para industria, empresas, entidades públicas y hogares.</p>
       </div>
 
+      <!-- ==================================================================
+           FORM: "Gabinete de herramientas" — 4 servicios = 4 cajones de un
+           gabinete de taller. <details>/<summary> nativo: sin JS de acordeón,
+           accesible por teclado y lector de pantalla de fábrica. El primer
+           cajón abre por defecto para mostrar el contenido sin que el
+           visitante tenga que descubrir que son clicables.
+           FINISH: sin revisar/documentar todavía — pendiente pase de acabado.
+           ================================================================== -->
       <div class="service-list container">
-        <article class="service">
-          <div class="service__media svc-carousel">
-          <img class="svc-slide" src="img/servicio-rebobinado-1.jpg" alt="Rebobinado de motores"
-          onerror="this.remove()">
-          <img class="svc-slide" src="img/servicio-rebobinado-2.jpg" alt="" onerror="this.remove()">
-          <img class="svc-slide" src="img/servicio-rebobinado-3.jpg" alt="" onerror="this.remove()">
-          <!-- PROVISIONAL: marcadores de color, para ver girar el carrusel.
-          Cuando lleguen las fotos reales, borrar estos tres <span>. -->
-          <span class="svc-slide svc-ph svc-ph--1" aria-hidden="true">1</span>
-          <span class="svc-slide svc-ph svc-ph--2" aria-hidden="true">2</span>
-          <span class="svc-slide svc-ph svc-ph--3" aria-hidden="true">3</span>
-          <span class="ph">foto · rebobinado</span>
-          <div class="svc-dots" aria-hidden="true"></div>
-          </div>
-          <div class="service__body">
-            <header class="service__head">
-              <h2 class="service__title">Rebobinado y reparación en general de máquinas eléctricas rotativas</h2>
-            </header>
-            <p class="service__text">Mantenimiento y rebobinado de equipos eléctricos de mediana potencia hasta 700 HP y
-            de 600 V en corriente alterna, con alambre magneto de sección redonda en cobre esmaltado.</p>
-            <ul class="service__list">
-            <li>Motores eléctricos de todas las marcas, desde 1/3 HP hasta 700 HP</li>
-            <li>Generadores eléctricos de baja tensión, desde 3 KVA hasta 500 KVA</li>
-            <li>Motores de inducción y síncronos</li>
-            <li>Motores con rotor devanado</li>
-            <li>Motores con varias velocidades</li>
-            <li>Transformadores secos</li>
-            <li>Equipo eléctrico industrial y acondicionamiento de tableros de control</li>
-            </ul>
-            <footer class="service__foot">
-              <div class="tags">
-              <span class="tag">Monofásico</span>
-              <span class="tag">Trifásico</span>
-              <span class="tag">Hasta 700 HP</span>
+        <div class="cabinet">
+          <details class="drawer" open>
+            <summary class="drawer__front">
+              <span class="drawer__pull" aria-hidden="true"></span>
+              <span class="drawer__plate">
+                <h2 class="drawer__label">Rebobinado y reparación en general de máquinas eléctricas rotativas</h2>
+              </span>
+              <svg class="drawer__chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+            </summary>
+            <div class="drawer__inner">
+              <div class="drawer__content">
+                <div class="drawer__media svc-carousel">
+                  <img class="svc-slide" src="img/servicio-rebobinado-1.jpg" alt="Rebobinado de motores" onerror="this.remove()">
+                  <img class="svc-slide" src="img/servicio-rebobinado-2.jpg" alt="" onerror="this.remove()">
+                  <img class="svc-slide" src="img/servicio-rebobinado-3.jpg" alt="" onerror="this.remove()">
+                  <!-- PROVISIONAL: marcadores de color, para ver girar el carrusel.
+                  Cuando lleguen las fotos reales, borrar estos tres <span>. -->
+                  <span class="svc-slide svc-ph svc-ph--1" aria-hidden="true">1</span>
+                  <span class="svc-slide svc-ph svc-ph--2" aria-hidden="true">2</span>
+                  <span class="svc-slide svc-ph svc-ph--3" aria-hidden="true">3</span>
+                  <span class="ph">foto · rebobinado</span>
+                  <div class="svc-dots" aria-hidden="true"></div>
+                </div>
+                <p class="drawer__text">Mantenimiento y rebobinado de equipos eléctricos de mediana potencia hasta 700 HP y
+                de 600 V en corriente alterna, con alambre magneto de sección redonda en cobre esmaltado.</p>
+                <ul class="drawer__list">
+                  <li>Motores eléctricos de todas las marcas, desde 1/3 HP hasta 700 HP</li>
+                  <li>Generadores eléctricos de baja tensión, desde 3 KVA hasta 500 KVA</li>
+                  <li>Motores de inducción y síncronos</li>
+                  <li>Motores con rotor devanado</li>
+                  <li>Motores con varias velocidades</li>
+                  <li>Transformadores secos</li>
+                  <li>Equipo eléctrico industrial y acondicionamiento de tableros de control</li>
+                </ul>
+                <div class="drawer__foot">
+                  <div class="tags">
+                    <span class="tag">Monofásico</span>
+                    <span class="tag">Trifásico</span>
+                    <span class="tag">Hasta 700 HP</span>
+                  </div>
+                </div>
               </div>
-            </footer>
-          </div>
-        </article>
+            </div>
+          </details>
 
-        <article class="service">
-          <div class="service__media svc-carousel">
-          <img class="svc-slide" src="img/servicio-mantenimiento-1.jpg" alt="Mantenimiento y análisis eléctrico"
-          onerror="this.remove()">
-          <img class="svc-slide" src="img/servicio-mantenimiento-2.jpg" alt="" onerror="this.remove()">
-          <img class="svc-slide" src="img/servicio-mantenimiento-3.jpg" alt="" onerror="this.remove()">
-          <!-- PROVISIONAL: marcadores de color, para ver girar el carrusel.
-          Cuando lleguen las fotos reales, borrar estos tres <span>. -->
-          <span class="svc-slide svc-ph svc-ph--1" aria-hidden="true">1</span>
-          <span class="svc-slide svc-ph svc-ph--2" aria-hidden="true">2</span>
-          <span class="svc-slide svc-ph svc-ph--3" aria-hidden="true">3</span>
-          <span class="ph">foto · mantenimiento</span>
-          <div class="svc-dots" aria-hidden="true"></div>
-          </div>
-          <div class="service__body">
-            <header class="service__head">
-              <h2 class="service__title">Mantenimiento y análisis eléctrico / mecánico</h2>
-            </header>
-            <p class="service__text">Mantenimiento predictivo, preventivo y correctivo de máquinas eléctricas rotativas,
-            con inspección, evaluación y análisis tanto eléctrico como mecánico especializado antes de devolver el
-            equipo a su sitio de servicio.</p>
-            <ul class="service__list">
-            <li>Megger motorizado y electrónico</li>
-            <li>Probador de baja resistencia (Ducter)</li>
-            <li>Alto potencial (Hi-Pot) y Surge</li>
-            <li>Análisis con equipo BAKER</li>
-            <li>Balanceo dinámico y análisis de vibraciones</li>
-            <li>Estudio de termografía</li>
-            <li>Pruebas de motoreo y recálculo de bobinado según las necesidades del cliente</li>
-            </ul>
-            <footer class="service__foot">
-              <div class="tags">
-              <span class="tag">Predictivo</span>
-              <span class="tag">Preventivo</span>
-              <span class="tag">Correctivo</span>
+          <details class="drawer">
+            <summary class="drawer__front">
+              <span class="drawer__pull" aria-hidden="true"></span>
+              <span class="drawer__plate">
+                <h2 class="drawer__label">Mantenimiento y análisis eléctrico / mecánico</h2>
+              </span>
+              <svg class="drawer__chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+            </summary>
+            <div class="drawer__inner">
+              <div class="drawer__content">
+                <div class="drawer__media svc-carousel">
+                  <img class="svc-slide" src="img/servicio-mantenimiento-1.jpg" alt="Mantenimiento y análisis eléctrico" onerror="this.remove()">
+                  <img class="svc-slide" src="img/servicio-mantenimiento-2.jpg" alt="" onerror="this.remove()">
+                  <img class="svc-slide" src="img/servicio-mantenimiento-3.jpg" alt="" onerror="this.remove()">
+                  <!-- PROVISIONAL: marcadores de color, para ver girar el carrusel.
+                  Cuando lleguen las fotos reales, borrar estos tres <span>. -->
+                  <span class="svc-slide svc-ph svc-ph--1" aria-hidden="true">1</span>
+                  <span class="svc-slide svc-ph svc-ph--2" aria-hidden="true">2</span>
+                  <span class="svc-slide svc-ph svc-ph--3" aria-hidden="true">3</span>
+                  <span class="ph">foto · mantenimiento</span>
+                  <div class="svc-dots" aria-hidden="true"></div>
+                </div>
+                <p class="drawer__text">Mantenimiento predictivo, preventivo y correctivo de máquinas eléctricas rotativas,
+                con inspección, evaluación y análisis tanto eléctrico como mecánico especializado antes de devolver el
+                equipo a su sitio de servicio.</p>
+                <ul class="drawer__list">
+                  <li>Megger motorizado y electrónico</li>
+                  <li>Probador de baja resistencia (Ducter)</li>
+                  <li>Alto potencial (Hi-Pot) y Surge</li>
+                  <li>Análisis con equipo BAKER</li>
+                  <li>Balanceo dinámico y análisis de vibraciones</li>
+                  <li>Estudio de termografía</li>
+                  <li>Pruebas de motoreo y recálculo de bobinado según las necesidades del cliente</li>
+                </ul>
+                <div class="drawer__foot">
+                  <div class="tags">
+                    <span class="tag">Predictivo</span>
+                    <span class="tag">Preventivo</span>
+                    <span class="tag">Correctivo</span>
+                  </div>
+                </div>
               </div>
-            </footer>
-          </div>
-        </article>
+            </div>
+          </details>
 
-        <article class="service">
-          <div class="service__media svc-carousel">
-          <img class="svc-slide" src="img/servicio-mecanizado-1.jpg" alt="Servicios de mecanizado"
-          onerror="this.remove()">
-          <img class="svc-slide" src="img/servicio-mecanizado-2.jpg" alt="" onerror="this.remove()">
-          <img class="svc-slide" src="img/servicio-mecanizado-3.jpg" alt="" onerror="this.remove()">
-          <!-- PROVISIONAL: marcadores de color, para ver girar el carrusel.
-          Cuando lleguen las fotos reales, borrar estos tres <span>. -->
-          <span class="svc-slide svc-ph svc-ph--1" aria-hidden="true">1</span>
-          <span class="svc-slide svc-ph svc-ph--2" aria-hidden="true">2</span>
-          <span class="svc-slide svc-ph svc-ph--3" aria-hidden="true">3</span>
-          <span class="ph">foto · mecanizado</span>
-          <div class="svc-dots" aria-hidden="true"></div>
-          </div>
-          <div class="service__body">
-            <header class="service__head">
-              <h2 class="service__title">Servicios de mecanizado</h2>
-            </header>
-            <p class="service__text">Contamos con la maquinaria necesaria para resolver cualquier tipo de requerimiento
-            en el ámbito mecánico que se necesite para normalizar cualquier falla por desgaste operativo que haya
-            sufrido el equipo durante su ciclo de trabajo. Además, tenemos disponible el servicio de balanceo dinámico
-            para rotores jaula de ardilla y bobinados.</p>
-            <ul class="service__list">
-            <li>Torno de bancada larga con amplio volteo</li>
-            <li>Fresadora automática</li>
-            <li>Prensa hidráulica horizontal de 100 Ton</li>
-            <li>Análisis de vibraciones</li>
-            <li>Balanceo dinámico de rotores jaula de ardilla y/o bobinados</li>
-            <li>Balanceo dinámico de impulsores o impelentes de bombas de agua</li>
-            <li>Calentador de inducción SKF</li>
-            </ul>
-            <footer class="service__foot">
-              <div class="tags">
-              <span class="tag">Torno</span>
-              <span class="tag">Fresado</span>
-              <span class="tag">Balanceo dinámico</span>
+          <details class="drawer">
+            <summary class="drawer__front">
+              <span class="drawer__pull" aria-hidden="true"></span>
+              <span class="drawer__plate">
+                <h2 class="drawer__label">Servicios de mecanizado</h2>
+              </span>
+              <svg class="drawer__chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+            </summary>
+            <div class="drawer__inner">
+              <div class="drawer__content">
+                <div class="drawer__media svc-carousel">
+                  <img class="svc-slide" src="img/servicio-mecanizado-1.jpg" alt="Servicios de mecanizado" onerror="this.remove()">
+                  <img class="svc-slide" src="img/servicio-mecanizado-2.jpg" alt="" onerror="this.remove()">
+                  <img class="svc-slide" src="img/servicio-mecanizado-3.jpg" alt="" onerror="this.remove()">
+                  <!-- PROVISIONAL: marcadores de color, para ver girar el carrusel.
+                  Cuando lleguen las fotos reales, borrar estos tres <span>. -->
+                  <span class="svc-slide svc-ph svc-ph--1" aria-hidden="true">1</span>
+                  <span class="svc-slide svc-ph svc-ph--2" aria-hidden="true">2</span>
+                  <span class="svc-slide svc-ph svc-ph--3" aria-hidden="true">3</span>
+                  <span class="ph">foto · mecanizado</span>
+                  <div class="svc-dots" aria-hidden="true"></div>
+                </div>
+                <p class="drawer__text">Contamos con la maquinaria necesaria para resolver cualquier tipo de requerimiento
+                en el ámbito mecánico que se necesite para normalizar cualquier falla por desgaste operativo que haya
+                sufrido el equipo durante su ciclo de trabajo. Además, tenemos disponible el servicio de balanceo dinámico
+                para rotores jaula de ardilla y bobinados.</p>
+                <ul class="drawer__list">
+                  <li>Torno de bancada larga con amplio volteo</li>
+                  <li>Fresadora automática</li>
+                  <li>Prensa hidráulica horizontal de 100 Ton</li>
+                  <li>Análisis de vibraciones</li>
+                  <li>Balanceo dinámico de rotores jaula de ardilla y/o bobinados</li>
+                  <li>Balanceo dinámico de impulsores o impelentes de bombas de agua</li>
+                  <li>Calentador de inducción SKF</li>
+                </ul>
+                <div class="drawer__foot">
+                  <div class="tags">
+                    <span class="tag">Torno</span>
+                    <span class="tag">Fresado</span>
+                    <span class="tag">Balanceo dinámico</span>
+                  </div>
+                </div>
               </div>
-            </footer>
-          </div>
-        </article>
+            </div>
+          </details>
 
-        <article class="service">
-          <div class="service__media svc-carousel">
-          <img class="svc-slide" src="img/servicio-suministro-1.jpg" alt="Suministro y distribución"
-          onerror="this.remove()">
-          <img class="svc-slide" src="img/servicio-suministro-2.jpg" alt="" onerror="this.remove()">
-          <img class="svc-slide" src="img/servicio-suministro-3.jpg" alt="" onerror="this.remove()">
-          <!-- PROVISIONAL: marcadores de color, para ver girar el carrusel.
-          Cuando lleguen las fotos reales, borrar estos tres <span>. -->
-          <span class="svc-slide svc-ph svc-ph--1" aria-hidden="true">1</span>
-          <span class="svc-slide svc-ph svc-ph--2" aria-hidden="true">2</span>
-          <span class="svc-slide svc-ph svc-ph--3" aria-hidden="true">3</span>
-          <span class="ph">foto · suministro</span>
-          <div class="svc-dots" aria-hidden="true"></div>
-          </div>
-          <div class="service__body">
-            <header class="service__head">
-              <h2 class="service__title">Suministro de refacciones y distribución</h2>
-            </header>
-            <p class="service__text">Distribuidor autorizado y centro de servicio de las principales marcas de motores,
-            bombas de agua y accesorios mecánicos y eléctricos, con repuestos garantizados.</p>
-            <ul class="service__list">
-            <li>Motores WEG y VOGES (hasta 600 HP)</li>
-            <li>Electro-bombas centrífugas PEARL y CALPEDA (hasta 30 HP)</li>
-            <li>Grupos electrógenos de acuerdo a los requerimientos del cliente</li>
-            <li>Rodamientos SKF, FAG y NACHI</li>
-            <li>Sellos mecánicos para bombas de agua</li>
-            <li>Barnices aislantes POLAN y ELECTRIC DIAMOND</li>
-            <li>Accesorios varios para motores eléctricos (aspas y protectores de ventilación, borneras, cáncamos,
-            resistencias calefactoras, termistores, etc.)</li>
-            </ul>
-            <footer class="service__foot">
-              <div class="brands">
-              <span class="brand">WEG</span>
-              <span class="brand">VOGES</span>
-              <span class="brand">PEARL</span>
-              <span class="brand">CALPEDA</span>
+          <details class="drawer">
+            <summary class="drawer__front">
+              <span class="drawer__pull" aria-hidden="true"></span>
+              <span class="drawer__plate">
+                <h2 class="drawer__label">Suministro de refacciones y distribución</h2>
+              </span>
+              <svg class="drawer__chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+            </summary>
+            <div class="drawer__inner">
+              <div class="drawer__content">
+                <div class="drawer__media svc-carousel">
+                  <img class="svc-slide" src="img/servicio-suministro-1.jpg" alt="Suministro y distribución" onerror="this.remove()">
+                  <img class="svc-slide" src="img/servicio-suministro-2.jpg" alt="" onerror="this.remove()">
+                  <img class="svc-slide" src="img/servicio-suministro-3.jpg" alt="" onerror="this.remove()">
+                  <!-- PROVISIONAL: marcadores de color, para ver girar el carrusel.
+                  Cuando lleguen las fotos reales, borrar estos tres <span>. -->
+                  <span class="svc-slide svc-ph svc-ph--1" aria-hidden="true">1</span>
+                  <span class="svc-slide svc-ph svc-ph--2" aria-hidden="true">2</span>
+                  <span class="svc-slide svc-ph svc-ph--3" aria-hidden="true">3</span>
+                  <span class="ph">foto · suministro</span>
+                  <div class="svc-dots" aria-hidden="true"></div>
+                </div>
+                <p class="drawer__text">Distribuidor autorizado y centro de servicio de las principales marcas de motores,
+                bombas de agua y accesorios mecánicos y eléctricos, con repuestos garantizados.</p>
+                <ul class="drawer__list">
+                  <li>Motores WEG y VOGES (hasta 600 HP)</li>
+                  <li>Electro-bombas centrífugas PEARL y CALPEDA (hasta 30 HP)</li>
+                  <li>Grupos electrógenos de acuerdo a los requerimientos del cliente</li>
+                  <li>Rodamientos SKF, FAG y NACHI</li>
+                  <li>Sellos mecánicos para bombas de agua</li>
+                  <li>Barnices aislantes POLAN y ELECTRIC DIAMOND</li>
+                  <li>Accesorios varios para motores eléctricos (aspas y protectores de ventilación, borneras, cáncamos,
+                  resistencias calefactoras, termistores, etc.)</li>
+                </ul>
+                <div class="drawer__foot">
+                  <div class="brands">
+                    <span class="brand">WEG</span>
+                    <span class="brand">VOGES</span>
+                    <span class="brand">PEARL</span>
+                    <span class="brand">CALPEDA</span>
+                  </div>
+                </div>
               </div>
-            </footer>
-          </div>
-        </article>
+            </div>
+          </details>
+        </div>
       </div>
 
       <!-- Proceso -->
@@ -435,7 +465,7 @@
             <span class="section-head__label">Cómo trabajamos</span>
             <h2 class="h2 h2--sm">El proceso</h2>
           </div>
-          <div class="grid grid--3">
+          <div class="grid grid--3 grid--progress">
             <div class="step">
               <div class="step__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
@@ -483,7 +513,6 @@
         <a href="#" data-wa class="btn btn--primary">Cotiza por WhatsApp</a>
       </div>
     </section>
-
     <!-- ===================== NOSOTROS ===================== -->
     <section class="page" data-page="nosotros" hidden>
       <div class="hero hero--sub">
@@ -567,32 +596,46 @@
 
       <div class="section container grid grid--2 grid--gap-lg">
         <div class="contact-info">
-          <div class="info">
-            <div class="info__label">Dirección</div>
-            <div class="info__value">Calle Columbo Silva Nro. 33, frente a la Escuela de Medicina de la UDO, Barrio
-              Ajuro, Galpón Industrial TELVE.<br>Ciudad Bolívar — Estado Bolívar.</div>
+          <!-- Las 2 vías que la gente realmente usa van primero y grandes;
+               el resto es referencia y se agrupa compacto más abajo. -->
+          <div class="contact-primary">
+            <div class="info info--primary">
+              <div class="info__label">Recepción / WhatsApp</div>
+              <a class="info__value" href="tel:+584145632964" data-phone-display>+58 414 563.2964</a>
+              <a href="#" data-wa class="btn btn--wa">Abrir chat de WhatsApp</a>
+            </div>
+            <div class="info info--primary info--emergency">
+              <div class="info__label">Emergencias 24h</div>
+              <a class="info__value" href="tel:+584148531112">+58 414 853.1112</a>
+            </div>
           </div>
-          <div class="info">
-            <div class="info__label">Recepción / WhatsApp</div>
-            <div class="info__value" data-phone-display>+58 414 563.2964</div>
+
+          <!-- PENDIENTE: cuando TELVE compre el dominio/correo propio, cambiar
+               este mailto por el definitivo y sacarle la clase info--soon. -->
+          <div class="info info--soon">
+            <div class="info__label">Correo propio — próximamente</div>
+            <div class="info__value">Muy pronto vas a poder escribirnos directo a un correo de TELVE.</div>
           </div>
-          <div class="info">
-            <div class="info__label">Emergencias 24h</div>
-            <div class="info__value">+58 414 853.1112</div>
-          </div>
-          <div class="info">
-            <div class="info__label">Oficina</div>
-            <div class="info__value">0285 632.0986</div>
-          </div>
-          <div class="info">
-            <div class="info__label">Correo</div>
-            <div class="info__value"><a href="mailto:telveca@gmail.com">telveca@gmail.com</a></div>
-          </div>
-          <div class="info">
-            <div class="info__label">Horario</div>
-            <div class="info__value">Lun – Vie · 7:00 a.m. – 12:00 m. y 1:00 p.m. – 3:00 p.m.</div>
-          </div>
-          <a href="#" data-wa class="btn btn--wa">Abrir chat de WhatsApp</a>
+
+          <dl class="contact-ref">
+            <div class="contact-ref__row">
+              <dt>Dirección</dt>
+              <dd>Calle Columbo Silva Nro. 33, frente a la Escuela de Medicina de la UDO, Barrio Ajuro, Galpón
+                Industrial TELVE. Ciudad Bolívar — Estado Bolívar.</dd>
+            </div>
+            <div class="contact-ref__row">
+              <dt>Oficina</dt>
+              <dd><a href="tel:+582856320986">0285 632.0986</a></dd>
+            </div>
+            <div class="contact-ref__row">
+              <dt>Correo</dt>
+              <dd><a href="mailto:telveca@gmail.com">telveca@gmail.com</a></dd>
+            </div>
+            <div class="contact-ref__row">
+              <dt>Horario</dt>
+              <dd>Lun – Vie · 7:00 a.m. – 12:00 m. y 1:00 p.m. – 3:00 p.m.</dd>
+            </div>
+          </dl>
         </div>
 
         <div class="contact-side">
@@ -640,6 +683,8 @@
       <button class="prefs__callout-ok" id="prefsCalloutOk" type="button">Entendido</button>
     </div>
 
+
+
     <button id="prefsToggle" class="prefs__toggle" type="button" aria-expanded="false"
       aria-controls="prefsPanel" aria-label="Ajustes de la página">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
@@ -649,11 +694,10 @@
         <line x1="4" y1="16" x2="20" y2="16" />
         <circle cx="15" cy="16" r="2.4" />
       </svg>
-      <!-- El código de idioma activo, siempre visible: es lo que hace que el
-           botón se explique solo, con o sin el aviso de arriba. Lo escribe
-           el JS. aria-hidden porque el botón ya se nombra por su aria-label. -->
       <span class="prefs__code" id="prefsCode" aria-hidden="true"></span>
     </button>
+
+
 
     <div class="prefs__panel" id="prefsPanel" role="group" aria-label="Ajustes de la página" hidden>
       <div class="prefs__group">

@@ -232,8 +232,15 @@ function initPrefs() {
 
   function cerrarAviso() {
     if (!aviso || aviso.hidden) return;
-    aviso.hidden = true;
     guardar("telve-aviso-visto", "1");
+    // Espeja la entrada (calloutIn) en vez de desaparecer de golpe. Sin
+    // movimiento reducido no hay transición que esperar: se oculta directo.
+    if (prefiereMenosMovimiento()) { aviso.hidden = true; return; }
+    aviso.classList.add("is-leaving");
+    setTimeout(function () {
+      aviso.hidden = true;
+      aviso.classList.remove("is-leaving");
+    }, 180);
   }
 
   if (aviso) {
@@ -422,7 +429,7 @@ function initNavIndicator() {
 
 function initAnimations() {
   /* --- 8a. Revelado al hacer scroll --- */
-  var seleccion = ".specs__item, .card, .step, .service, .client, .team, .split__body, .info, .map, .facade";
+  var seleccion = ".specs__item, .card, .step, .drawer, .client, .team, .split__body, .info, .map, .facade";
   var elementos = Array.prototype.slice.call(document.querySelectorAll(seleccion));
   elementos.forEach(function (el) { el.classList.add("reveal"); });
 
@@ -500,8 +507,8 @@ function initServiceCarousels() {
       // Ni fotos ni marcadores: la columna vacía no aporta, el texto ocupa
       // todo el ancho.
       if (slides.length === 0) {
-        var ficha = box.closest(".service");
-        if (ficha) ficha.classList.add("service--sinfoto");
+        var ficha = box.closest(".drawer");
+        if (ficha) ficha.classList.add("drawer--sinfoto");
         return;
       }
 
@@ -518,8 +525,10 @@ function initServiceCarousels() {
       if (dotsWrap) {
         dotsWrap.innerHTML = "";
         slides.forEach(function (_, n) {
-          var d = document.createElement("span");
+          var d = document.createElement("button");
+          d.type = "button";
           d.className = "svc-dot" + (n === 0 ? " is-active" : "");
+          d.setAttribute("aria-label", "Foto " + (n + 1));
           dotsWrap.appendChild(d);
           puntos.push(d);
         });
@@ -576,14 +585,19 @@ function initHeroSlider() {
       return;
     }
 
-    let idx = 0, timer = null;
+    let idx = 0, timer = null, pausado = false;
 
-    // construir puntitos
+    // construir puntitos — <button>, no <span>: sin esto no hay foco de
+    // teclado ni anuncio de lector de pantalla en el primer control
+    // interactivo del sitio.
     if (dotsWrap) {
+      dotsWrap.removeAttribute("aria-hidden");
       dotsWrap.innerHTML = "";
       slides.forEach(function (_, i) {
-        const d = document.createElement("span");
+        const d = document.createElement("button");
+        d.type = "button";
         d.className = "hero__dot" + (i === 0 ? " is-active" : "");
+        d.setAttribute("aria-label", "Ir a la diapositiva " + (i + 1));
         d.addEventListener("click", function () { show(i); restart(); });
         dotsWrap.appendChild(d);
       });
@@ -595,6 +609,7 @@ function initHeroSlider() {
       if (dotsWrap) {
         dotsWrap.querySelectorAll(".hero__dot").forEach(function (d, n) {
           d.classList.toggle("is-active", n === idx);
+          d.setAttribute("aria-current", n === idx ? "true" : "false");
         });
       }
     }
@@ -604,12 +619,21 @@ function initHeroSlider() {
     // el control queda del lado del visitante.
     function restart() {
       clearInterval(timer);
+      if (pausado) return;
       timer = setInterval(function () {
         if (prefiereMenosMovimiento()) return;
         next();
       }, INTERVALO);
     }
-
+    // Pausa mientras el visitante lee el texto encima (mouse o teclado):
+    // sin esto un slide puede cambiar a mitad de lectura, sin forma de
+    // detenerlo salvo la preferencia de movimiento reducido del sistema.
+    function pausar()   { pausado = true;  clearInterval(timer); }
+    function reanudar()  { pausado = false; restart(); }
+    hero.addEventListener("mouseenter", pausar);
+    hero.addEventListener("mouseleave", reanudar);
+    hero.addEventListener("focusin", pausar);
+    hero.addEventListener("focusout", reanudar);
 
     show(0);
     restart();
