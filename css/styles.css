@@ -125,7 +125,6 @@ body {
 .center { text-align: center; }
 .mb-18 { margin-bottom: 18px; }
 .mb-40 { margin-bottom: 40px; }
-.pending { color: #9aa7a7; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
 
 /* ---------- Encabezado de sección (etiqueta + título) ---------- */
 /* La etiqueta va junto al título (no apilada encima) para que se lea como
@@ -253,7 +252,6 @@ body {
 .btn--primary { background: var(--red); color: #fff; }
 .btn--ghost { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.5); font-weight: 500; }
 .btn--wa { background: #25D366; color: #04210f; }
-.btn--block { width: 100%; }
 
 /* Botón WhatsApp de la barra */
 .nav__links .btn--wa {
@@ -324,29 +322,7 @@ body {
   background: #fff; padding: 5px 10px; border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0,0,0,.18);
 }
-.nav__mark {
-  width: 40px; height: 40px; flex: none;
-}
-.nav__brandtext { display: flex; flex-direction: column; line-height: 1; }
 .nav__logo { font-family: 'Anton', sans-serif; font-size: 24px; letter-spacing: 0.05em; color: #fff; }
-.nav__tag {
-  font-family: 'Oswald', sans-serif;
-  font-size: 9.5px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #cfe0df;
-  font-weight: 500;
-  margin-top: 3px;
-}
-.nav__rif {
-  font-family: 'Oswald', sans-serif;
-  font-size: 9.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #a9c4c3;
-  font-weight: 500;
-  margin-top: 1px;
-}
 .nav__links {
   position: relative;
   display: flex;
@@ -507,10 +483,6 @@ body {
     box-shadow: 0 12px 24px rgba(27,59,59,.12);
   }
 }
-/* card__num ahora solo se usa como folio grande dentro de cada servicio
-   (ver .service__body); a este tamaño la usa la ficha de servicio, no la
-   tarjeta pequeña. */
-.card__num { font-family: 'Anton', sans-serif; font-size: 34px; color: var(--red); margin-bottom: 10px; line-height: 1; }
 /* Caja normal, no mayúscula. La regla de mayúsculas de DESIGN.md es para
    texto FUNCIONAL (nav, botón, tag, etiqueta de campo); estos son
    encabezados de contenido y estaban en mayúscula por arrastre. Entre
@@ -594,14 +566,9 @@ body {
   display: block; font-family: 'Oswald', sans-serif; font-weight: 600;
   font-size: 14.5px; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.2;
 }
-.team__role {
-  display: block; font-family: 'Oswald', sans-serif; font-size: 11.5px;
-  letter-spacing: 0.08em; text-transform: uppercase; color: #ffb3ab; margin-top: 3px;
-}
 @media (max-width: 560px) {
   .split__team { min-height: 300px; }
   .team__name { font-size: 12.5px; }
-  .team__role { font-size: 10.5px; }
 }
 .split__body .h2 { color: #fff; }
 .split__body .lead-muted { color: #d5e3e2; }
@@ -931,18 +898,6 @@ body {
   width: 100%; height: 100%;
   object-fit: cover; object-position: center 34%;
 }
-.form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 28px; }
-.form-card__title {
-  font-family: 'Oswald', sans-serif; font-size: 18px; text-transform: uppercase;
-  font-weight: 600; margin-bottom: 18px; color: var(--teal-dark);
-}
-.form { display: flex; flex-direction: column; gap: 12px; }
-.form input, .form textarea {
-  background: #fff; border: 1px solid var(--border); border-radius: 6px;
-  padding: 13px 14px; color: var(--text); font-family: 'Barlow', sans-serif;
-  font-size: 15px; outline: none; resize: vertical;
-}
-.form input:focus, .form textarea:focus { border-color: var(--teal); }
 
 /* ---------- Footer ---------- */
 .footer {

@@ -127,35 +127,19 @@ document.addEventListener("DOMContentLoaded", function () {
     phoneEl.textContent = CONFIG.telefono;
   }
 
-  /* ---------- 5. Formulario de contacto -> WhatsApp ---------- */
-  const form = document.getElementById("contactForm");
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const nombre = form.nombre.value.trim();
-      const telefono = form.telefono.value.trim();
-      const mensaje = form.mensaje.value.trim();
-      const texto =
-        "Hola TELVE C.A., soy " + nombre + "." +
-        "\nTeléfono: " + telefono +
-        "\nMensaje: " + mensaje;
-      window.open(urlWhatsapp(texto), "_blank", "noopener");
-    });
-  }
-
-  /* ---------- 6. Carrusel del hero (imágenes rotativas) ---------- */
+  /* ---------- 5. Carrusel del hero (imágenes rotativas) ---------- */
   initHeroSlider();
 
-  /* ---------- 7. Mini-carruseles de cada servicio ---------- */
+  /* ---------- 6. Mini-carruseles de cada servicio ---------- */
   initServiceCarousels();
 
-  /* ---------- 8. Animaciones (revelado + contadores) ---------- */
+  /* ---------- 7. Animaciones (revelado + contadores) ---------- */
   initAnimations();
 
-  /* ---------- 9. Barra roja deslizante del menú ---------- */
+  /* ---------- 8. Barra roja deslizante del menú ---------- */
   initNavIndicator();
 
-  /* ---------- 10. Panel de ajustes (movimiento + idioma) ---------- */
+  /* ---------- 9. Panel de ajustes (movimiento + idioma) ---------- */
   initPrefs();
 
 });
@@ -578,8 +562,6 @@ function initHeroSlider() {
   if (!hero) return;
 
   const dotsWrap = hero.querySelector(".hero__dots");
-  const btnPrev  = hero.querySelector(".hero__arrow--prev");
-  const btnNext  = hero.querySelector(".hero__arrow--next");
   const INTERVALO = 5000; // milisegundos entre imágenes
 
   function start() {
@@ -590,8 +572,6 @@ function initHeroSlider() {
     // Si hay menos de 2 fotos, no hay carrusel: ocultamos los controles.
     if (slides.length < 2) {
       if (dotsWrap) dotsWrap.hidden = true;
-      if (btnPrev)  btnPrev.hidden = true;
-      if (btnNext)  btnNext.hidden = true;
       if (slides.length === 1) slides[0].classList.add("is-active");
       return;
     }
@@ -619,7 +599,6 @@ function initHeroSlider() {
       }
     }
     function next()    { show(idx + 1); }
-    function prev()    { show(idx - 1); }
     // El intervalo vive siempre; con movimiento reducido simplemente no
     // avanza. Los puntitos y las flechas siguen funcionando en ambos casos:
     // el control queda del lado del visitante.
@@ -631,8 +610,6 @@ function initHeroSlider() {
       }, INTERVALO);
     }
 
-    if (btnNext) btnNext.addEventListener("click", function () { next(); restart(); });
-    if (btnPrev) btnPrev.addEventListener("click", function () { prev(); restart(); });
 
     show(0);
     restart();
