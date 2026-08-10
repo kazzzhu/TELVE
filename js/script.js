@@ -393,10 +393,10 @@ function aplicarIdioma(lang) {
 
   // Los enlaces de WhatsApp llevan el mensaje en el idioma activo.
   if (window.TELVE_refrescarWhatsapp) window.TELVE_refrescarWhatsapp();
-  // El botón de acceso, el modal de login y las tarjetas de bombas escriben
+  // El botón de acceso, el modal de login y las tarjetas de equipos escriben
   // su propio texto por JS, así que no los alcanza el recorrido de arriba.
   if (window.TELVE_refrescarAuthUI) window.TELVE_refrescarAuthUI();
-  if (window.TELVE_refrescarBombas) window.TELVE_refrescarBombas();
+  if (window.TELVE_refrescarEquipos) window.TELVE_refrescarEquipos();
   // Los enlaces del menú cambian de ancho: hay que recolocar la barra roja.
   window.dispatchEvent(new Event("resize"));
   // La insignia del círculo debe reflejar el idioma recién elegido.

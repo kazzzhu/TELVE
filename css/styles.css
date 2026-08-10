@@ -1124,23 +1124,26 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 .authModal__error { color: var(--red); font-size: 13.5px; margin-top: 10px; }
 .authModal__note { color: var(--teal-dark); font-size: 13.5px; margin-top: 10px; }
 
-/* ---------- Bombas (catálogo + acceso admin) ---------- */
-.bombas-admin { border-top: 1px solid var(--border); padding-top: var(--space-xl); }
-.bombas-form { display: flex; flex-direction: column; gap: 12px; max-width: 420px; }
-.bombas-form input {
+/* ---------- Equipos en venta (catálogo + acceso admin) ---------- */
+.equipos-admin { border-top: 1px solid var(--border); padding-top: var(--space-xl); }
+.equipos-form { display: flex; flex-direction: column; gap: 12px; max-width: 420px; }
+.equipos-form input,
+.equipos-form select {
   width: 100%;
   font-family: 'Barlow', sans-serif; font-size: 15px;
   color: var(--text); background: var(--surface);
   border: 1px solid var(--border); border-radius: 6px;
   padding: 10px 12px;
 }
-.bombas-form input:focus { border-color: var(--teal); outline: none; }
-.bombas-form__label {
+.equipos-form input:focus,
+.equipos-form select:focus { border-color: var(--teal); outline: none; }
+.equipos-form__label {
   font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
   letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted);
   margin-top: 4px;
 }
-.bombas-form__error { color: var(--red); font-size: 14px; }
+.equipos-form__error { color: var(--red); font-size: 14px; }
+.card__tag { margin-bottom: 10px; }
 
 /* ---------- Footer ---------- */
 .footer {

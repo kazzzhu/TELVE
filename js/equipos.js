@@ -1,7 +1,8 @@
 /* ===================================================================
-   TELVE C.A. — Acceso (login/registro) y catálogo de bombas (Supabase)
+   TELVE C.A. — Acceso (login/registro) y catálogo de equipos en venta
+   (motores, bombas, generadores) vía Supabase.
    Cualquiera puede registrarse; solo el correo del administrador puede
-   agregar bombas. Esa restricción la impone la base de datos (política
+   agregar equipos. Esa restricción la impone la base de datos (política
    RLS), este archivo solo refleja el mismo criterio en la interfaz para
    no mostrar un botón que la base de datos igual rechazaría.
    =================================================================== */
@@ -25,14 +26,14 @@
     var dic = diccionario();
     return (dic && dic.auth && dic.auth[clave]) || porDefecto;
   }
-  function tBombas(clave, porDefecto) {
+  function tEquipos(clave, porDefecto) {
     var dic = diccionario();
-    return (dic && dic.bombas && dic.bombas[clave]) || porDefecto;
+    return (dic && dic.equipos && dic.equipos[clave]) || porDefecto;
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     initAuthModal();
-    initBombas();
+    initEquipos();
   });
 
   /* ---------- Modal de acceso: disponible en cualquier página ---------- */
@@ -136,15 +137,15 @@
     };
   }
 
-  /* ---------- Catálogo de bombas: solo corre en la página Bombas ---------- */
-  function initBombas() {
-    var grid = document.getElementById("bombasGrid");
+  /* ---------- Catálogo de equipos: solo corre en la página Equipos ---------- */
+  function initEquipos() {
+    var grid = document.getElementById("equiposGrid");
     if (!grid) return;
 
-    var vacio      = document.getElementById("bombasVacio");
-    var adminPanel = document.getElementById("bombasAdminPanel");
-    var formBomba  = document.getElementById("formBomba");
-    var bombaMsg   = document.getElementById("bombaMsg");
+    var vacio      = document.getElementById("equiposVacio");
+    var adminPanel = document.getElementById("equiposAdminPanel");
+    var formEquipo = document.getElementById("formEquipo");
+    var equipoMsg  = document.getElementById("equipoMsg");
     var esAdminActual = false;
 
     function escapar(txt) {
@@ -153,44 +154,45 @@
       return d.innerHTML;
     }
 
-    function tarjeta(b) {
+    function tarjeta(e) {
       var especs = [];
-      if (b.marca)       especs.push(tBombas("marca", "Marca: ") + escapar(b.marca));
-      if (b.modelo)      especs.push(tBombas("modelo", "Modelo: ") + escapar(b.modelo));
-      if (b.potencia_hp) especs.push(tBombas("potencia", "Potencia: ") + escapar(b.potencia_hp) + " HP");
-      if (b.caudal)      especs.push(tBombas("caudal", "Caudal: ") + escapar(b.caudal));
-      if (b.presion)     especs.push(tBombas("presion", "Presión: ") + escapar(b.presion));
+      if (e.marca)       especs.push(tEquipos("marca", "Marca: ") + escapar(e.marca));
+      if (e.modelo)      especs.push(tEquipos("modelo", "Modelo: ") + escapar(e.modelo));
+      if (e.potencia_hp) especs.push(tEquipos("potencia", "Potencia: ") + escapar(e.potencia_hp) + " HP");
+      if (e.caudal)      especs.push(tEquipos("caudal", "Caudal: ") + escapar(e.caudal));
+      if (e.presion)     especs.push(tEquipos("presion", "Presión: ") + escapar(e.presion));
 
       var div = document.createElement("div");
       div.className = "card card--plain";
       div.innerHTML =
-        (b.foto_url ? '<img class="card__img" loading="lazy" decoding="async" src="' + escapar(b.foto_url) + '" alt="" onerror="this.remove()">' : "") +
-        '<h3 class="card__title">' + escapar(b.nombre) + "</h3>" +
+        (e.foto_url ? '<img class="card__img" loading="lazy" decoding="async" src="' + escapar(e.foto_url) + '" alt="" onerror="this.remove()">' : "") +
+        (e.tipo ? '<div class="card__tag"><span class="tag">' + escapar(e.tipo) + "</span></div>" : "") +
+        '<h3 class="card__title">' + escapar(e.nombre) + "</h3>" +
         (especs.length ? '<ul class="drawer__list"><li>' + especs.join("</li><li>") + "</li></ul>" : "") +
-        (b.precio ? '<p class="card__text"><strong>$' + Number(b.precio).toFixed(2) + "</strong></p>" : "") +
-        (esAdminActual ? '<button class="card__del" type="button" data-id="' + b.id + '">' + tBombas("borrar", "Borrar bomba") + "</button>" : "");
+        (e.precio ? '<p class="card__text"><strong>$' + Number(e.precio).toFixed(2) + "</strong></p>" : "") +
+        (esAdminActual ? '<button class="card__del" type="button" data-id="' + e.id + '">' + tEquipos("borrar", "Borrar equipo") + "</button>" : "");
       return div;
     }
 
-    function cargarBombas() {
-      sb.from("bombas").select("*").order("created_at", { ascending: false })
+    function cargarEquipos() {
+      sb.from("equipos").select("*").order("created_at", { ascending: false })
         .then(function (r) {
-          if (r.error) { console.error("[TELVE] error cargando bombas:", r.error); return; }
+          if (r.error) { console.error("[TELVE] error cargando equipos:", r.error); return; }
           grid.innerHTML = "";
           if (!r.data.length) { if (vacio) vacio.hidden = false; return; }
           if (vacio) vacio.hidden = true;
-          r.data.forEach(function (b) { grid.appendChild(tarjeta(b)); });
+          r.data.forEach(function (e) { grid.appendChild(tarjeta(e)); });
         });
     }
-    cargarBombas();
+    cargarEquipos();
 
-    grid.addEventListener("click", function (e) {
-      var btn = e.target.closest(".card__del");
+    grid.addEventListener("click", function (ev) {
+      var btn = ev.target.closest(".card__del");
       if (!btn) return;
-      if (!confirm("¿Borrar esta bomba del catálogo?")) return;
-      sb.from("bombas").delete().eq("id", btn.getAttribute("data-id")).then(function (r) {
+      if (!confirm("¿Borrar este equipo del catálogo?")) return;
+      sb.from("equipos").delete().eq("id", btn.getAttribute("data-id")).then(function (r) {
         if (r.error) { alert("Error al borrar: " + r.error.message); return; }
-        cargarBombas();
+        cargarEquipos();
       });
     });
 
@@ -198,55 +200,56 @@
       var esAdmin = !!sesion && sesion.user.email === ADMIN_EMAIL;
       if (esAdmin !== esAdminActual) {
         esAdminActual = esAdmin;
-        cargarBombas(); // re-dibuja las tarjetas para mostrar/ocultar "Borrar"
+        cargarEquipos(); // re-dibuja las tarjetas para mostrar/ocultar "Borrar"
       }
       if (adminPanel) adminPanel.hidden = !esAdmin;
     }
     sb.auth.getSession().then(function (r) { pintarAdmin(r.data.session); });
     sb.auth.onAuthStateChange(function (_evento, sesion) { pintarAdmin(sesion); });
 
-    function mostrarErrorBomba(texto) {
-      if (bombaMsg) { bombaMsg.textContent = texto; bombaMsg.hidden = false; }
+    function mostrarErrorEquipo(texto) {
+      if (equipoMsg) { equipoMsg.textContent = texto; equipoMsg.hidden = false; }
     }
 
-    function guardarBomba(fotoUrl) {
-      var potencia = document.getElementById("bPotencia").value;
-      var precio   = document.getElementById("bPrecio").value;
+    function guardarEquipo(fotoUrl) {
+      var potencia = document.getElementById("ePotencia").value;
+      var precio   = document.getElementById("ePrecio").value;
       var registro = {
-        nombre:      document.getElementById("bNombre").value.trim(),
-        marca:       document.getElementById("bMarca").value.trim()  || null,
-        modelo:      document.getElementById("bModelo").value.trim() || null,
+        tipo:        document.getElementById("eTipo").value || null,
+        nombre:      document.getElementById("eNombre").value.trim(),
+        marca:       document.getElementById("eMarca").value.trim()  || null,
+        modelo:      document.getElementById("eModelo").value.trim() || null,
         potencia_hp: potencia ? Number(potencia) : null,
-        caudal:      document.getElementById("bCaudal").value.trim()  || null,
-        presion:     document.getElementById("bPresion").value.trim() || null,
+        caudal:      document.getElementById("eCaudal").value.trim()  || null,
+        presion:     document.getElementById("ePresion").value.trim() || null,
         precio:      precio ? Number(precio) : null,
         foto_url:    fotoUrl
       };
-      sb.from("bombas").insert(registro).then(function (r) {
-        if (r.error) { mostrarErrorBomba(tAuth("saveError", "Error al guardar: ") + r.error.message); return; }
-        formBomba.reset();
-        cargarBombas();
+      sb.from("equipos").insert(registro).then(function (r) {
+        if (r.error) { mostrarErrorEquipo(tAuth("saveError", "Error al guardar: ") + r.error.message); return; }
+        formEquipo.reset();
+        cargarEquipos();
       });
     }
 
-    if (formBomba) formBomba.addEventListener("submit", function (e) {
+    if (formEquipo) formEquipo.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (bombaMsg) bombaMsg.hidden = true;
-      var archivo = document.getElementById("bFoto").files[0];
+      if (equipoMsg) equipoMsg.hidden = true;
+      var archivo = document.getElementById("eFoto").files[0];
 
-      if (!archivo) { guardarBomba(null); return; }
+      if (!archivo) { guardarEquipo(null); return; }
 
       // Nombre de archivo único: fecha + nombre original limpio de caracteres raros.
       var ruta = Date.now() + "-" + archivo.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
-      sb.storage.from("bombas").upload(ruta, archivo).then(function (r) {
-        if (r.error) { mostrarErrorBomba(tAuth("uploadError", "Error al subir la foto: ") + r.error.message); return; }
-        var url = sb.storage.from("bombas").getPublicUrl(ruta).data.publicUrl;
-        guardarBomba(url);
+      sb.storage.from("equipos").upload(ruta, archivo).then(function (r) {
+        if (r.error) { mostrarErrorEquipo(tAuth("uploadError", "Error al subir la foto: ") + r.error.message); return; }
+        var url = sb.storage.from("equipos").getPublicUrl(ruta).data.publicUrl;
+        guardarEquipo(url);
       });
     });
 
     // El sitio llama a esto al cambiar de idioma, para redibujar las
     // tarjetas con las etiquetas (Marca/Modelo/…) en el idioma nuevo.
-    window.TELVE_refrescarBombas = cargarBombas;
+    window.TELVE_refrescarEquipos = cargarEquipos;
   }
 })();

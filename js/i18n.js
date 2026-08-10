@@ -88,7 +88,7 @@ en: {
   /* Mensaje que se abre al pulsar los botones de WhatsApp. */
   whatsapp: "Hello TELVE C.A., I would like information about repair and/or rewinding of my electric motor or generator.",
 
-  /* Textos que js/bombas.js escribe directo en el DOM (no pasan por el
+  /* Textos que js/equipos.js escribe directo en el DOM (no pasan por el
      recorrido de cacharTextos porque no existen todavía cuando ese
      recorrido corre). Se consultan en vivo, ver TELVE_refrescarAuthUI. */
   auth: {
@@ -100,13 +100,13 @@ en: {
     saveError: "Error saving: ",
     uploadError: "Error uploading photo: "
   },
-  bombas: {
+  equipos: {
     marca: "Brand: ",
     modelo: "Model: ",
     potencia: "Power: ",
     caudal: "Flow: ",
     presion: "Pressure: ",
-    borrar: "Delete pump"
+    borrar: "Delete item"
   },
 
   /* ---- Atributos (alt, aria-label, title) ---- */
@@ -137,7 +137,9 @@ en: {
     "Potencia (HP)": "Power (HP)",
     "Caudal": "Flow",
     "Presión": "Pressure",
-    "Precio ($)": "Price ($)"
+    "Precio ($)": "Price ($)",
+    "Caudal (si aplica)": "Flow (if applicable)",
+    "Presión (si aplica)": "Pressure (if applicable)"
   },
 
   /* ---- Texto visible ----
@@ -348,17 +350,17 @@ en: {
       "Change the language or reduce animations here.",
     "Entendido": "Got it",
 
-    /* Bombas */
-    "Bombas": "Pumps",
-    "Repuestos": "Spare parts",
-    "Bombas de agua disponibles": "Water pumps available",
-    "Bombas centrífugas PEARL y CALPEDA en stock, listas para instalación.":
-      "PEARL and CALPEDA centrifugal pumps in stock, ready to install.",
-    "Por ahora no hay bombas cargadas.": "No pumps loaded yet.",
+    /* Equipos en venta */
+    "Equipos": "Equipment",
+    "Equipos en venta": "Equipment for sale",
+    "Motores, bombas y generadores en stock": "Motors, pumps and generators in stock",
+    "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
+      "Single-phase and three-phase electric motors, PEARL and CALPEDA water pumps, and generators, ready to install.",
+    "Por ahora no hay equipos cargados.": "No equipment loaded yet.",
     "Administrador": "Administrator",
-    "Agregar bomba": "Add pump",
+    "Agregar equipo": "Add item",
     "Foto (opcional)": "Photo (optional)",
-    "Guardar bomba": "Save pump",
+    "Guardar equipo": "Save item",
 
     /* Modal de acceso */
     "Iniciar sesión": "Log in",
@@ -394,13 +396,13 @@ pt: {
     saveError: "Erro ao salvar: ",
     uploadError: "Erro ao enviar a foto: "
   },
-  bombas: {
+  equipos: {
     marca: "Marca: ",
     modelo: "Modelo: ",
     potencia: "Potência: ",
     caudal: "Vazão: ",
     presion: "Pressão: ",
-    borrar: "Excluir bomba"
+    borrar: "Excluir item"
   },
 
   attrs: {
@@ -430,7 +432,9 @@ pt: {
     "Potencia (HP)": "Potência (HP)",
     "Caudal": "Vazão",
     "Presión": "Pressão",
-    "Precio ($)": "Preço ($)"
+    "Precio ($)": "Preço ($)",
+    "Caudal (si aplica)": "Vazão (se aplicável)",
+    "Presión (si aplica)": "Pressão (se aplicável)"
   },
 
   text: {
@@ -624,17 +628,17 @@ pt: {
       "Mude o idioma ou reduza as animações aqui.",
     "Entendido": "Entendi",
 
-    /* Bombas */
-    "Bombas": "Bombas",
-    "Repuestos": "Peças",
-    "Bombas de agua disponibles": "Bombas d'água disponíveis",
-    "Bombas centrífugas PEARL y CALPEDA en stock, listas para instalación.":
-      "Bombas centrífugas PEARL e CALPEDA em estoque, prontas para instalar.",
-    "Por ahora no hay bombas cargadas.": "Ainda não há bombas cadastradas.",
+    /* Equipos en venta */
+    "Equipos": "Equipamentos",
+    "Equipos en venta": "Equipamentos à venda",
+    "Motores, bombas y generadores en stock": "Motores, bombas e geradores em estoque",
+    "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
+      "Motores elétricos monofásicos e trifásicos, bombas d'água PEARL e CALPEDA, e geradores, prontos para instalar.",
+    "Por ahora no hay equipos cargados.": "Ainda não há equipamentos cadastrados.",
     "Administrador": "Administrador",
-    "Agregar bomba": "Adicionar bomba",
+    "Agregar equipo": "Adicionar item",
     "Foto (opcional)": "Foto (opcional)",
-    "Guardar bomba": "Salvar bomba",
+    "Guardar equipo": "Salvar item",
 
     /* Modal de acceso */
     "Iniciar sesión": "Entrar",
@@ -670,13 +674,13 @@ it: {
     saveError: "Errore durante il salvataggio: ",
     uploadError: "Errore durante il caricamento della foto: "
   },
-  bombas: {
+  equipos: {
     marca: "Marca: ",
     modelo: "Modello: ",
     potencia: "Potenza: ",
     caudal: "Portata: ",
     presion: "Pressione: ",
-    borrar: "Elimina pompa"
+    borrar: "Elimina articolo"
   },
 
   attrs: {
@@ -706,7 +710,9 @@ it: {
     "Potencia (HP)": "Potenza (HP)",
     "Caudal": "Portata",
     "Presión": "Pressione",
-    "Precio ($)": "Prezzo ($)"
+    "Precio ($)": "Prezzo ($)",
+    "Caudal (si aplica)": "Portata (se applicabile)",
+    "Presión (si aplica)": "Pressione (se applicabile)"
   },
 
   text: {
@@ -900,17 +906,17 @@ it: {
       "Cambia lingua o riduci le animazioni qui.",
     "Entendido": "Ho capito",
 
-    /* Bombas */
-    "Bombas": "Pompe",
-    "Repuestos": "Ricambi",
-    "Bombas de agua disponibles": "Pompe dell'acqua disponibili",
-    "Bombas centrífugas PEARL y CALPEDA en stock, listas para instalación.":
-      "Pompe centrifughe PEARL e CALPEDA disponibili, pronte per l'installazione.",
-    "Por ahora no hay bombas cargadas.": "Al momento non ci sono pompe caricate.",
+    /* Equipos en venta */
+    "Equipos": "Attrezzature",
+    "Equipos en venta": "Attrezzature in vendita",
+    "Motores, bombas y generadores en stock": "Motori, pompe e generatori disponibili",
+    "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
+      "Motori elettrici monofase e trifase, pompe dell'acqua PEARL e CALPEDA, e generatori, pronti per l'installazione.",
+    "Por ahora no hay equipos cargados.": "Al momento non ci sono attrezzature caricate.",
     "Administrador": "Amministratore",
-    "Agregar bomba": "Aggiungi pompa",
+    "Agregar equipo": "Aggiungi articolo",
     "Foto (opcional)": "Foto (facoltativa)",
-    "Guardar bomba": "Salva pompa",
+    "Guardar equipo": "Salva articolo",
 
     /* Modal de acceso */
     "Iniciar sesión": "Accedi",
