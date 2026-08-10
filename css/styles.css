@@ -253,6 +253,8 @@ body {
 .btn--primary { background: var(--red); color: #fff; }
 .btn--ghost { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.5); font-weight: 500; }
 .btn--wa { background: #25D366; color: #04210f; }
+.btn--wa-compact { padding: 10px 18px; font-size: 15px; gap: 7px; }
+.wa-icon { width: 15px; height: 15px; flex: none; }
 
 /* Botón WhatsApp de la barra */
 .nav__links .btn--wa {
@@ -344,6 +346,21 @@ body {
 .nav__link { cursor: pointer; color: #d3e2e1; transition: color .15s; }
 .nav__link:hover { color: #fff; }
 .nav__link.is-active { color: #fff; }
+/* Aviso de "hay stock" en el link de Equipos: chip rojo en línea, mismo
+   idioma de acento puntual que el resto del sitio (Signal Red Rule). */
+.nav__link--tag { display: inline-flex; align-items: center; gap: 8px; }
+.nav__tag {
+  font-family: 'Oswald', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--red-bright);
+  color: var(--red-bright);
+  line-height: 1;
+}
 
 /* Barra roja deslizante bajo el enlace apuntado / activo */
 .nav__indicator {
