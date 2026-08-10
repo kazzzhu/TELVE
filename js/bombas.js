@@ -13,6 +13,23 @@
   if (!window.supabase) return; // CDN no cargó (sin internet, bloqueado, etc.)
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+  /* Textos que este archivo escribe directo en el DOM se traducen en vivo
+     consultando el idioma activo, en vez de depender del recorrido de
+     cacharTextos (que no ve texto insertado después de que corrió). */
+  function diccionario() {
+    var i18n = window.TELVE_I18N;
+    var lang = document.documentElement.getAttribute("data-lang") || (i18n && i18n.base) || "es";
+    return (i18n && i18n[lang]) || null;
+  }
+  function tAuth(clave, porDefecto) {
+    var dic = diccionario();
+    return (dic && dic.auth && dic.auth[clave]) || porDefecto;
+  }
+  function tBombas(clave, porDefecto) {
+    var dic = diccionario();
+    return (dic && dic.bombas && dic.bombas[clave]) || porDefecto;
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initAuthModal();
     initBombas();
@@ -45,7 +62,9 @@
       tabReg.setAttribute("aria-selected", !esLogin ? "true" : "false");
       formLogin.hidden = !esLogin;
       formReg.hidden = esLogin;
-      titulo.textContent = esLogin ? "Bienvenido de nuevo" : "Crear cuenta";
+      titulo.textContent = esLogin
+        ? tAuth("loginTitle", "Bienvenido de nuevo")
+        : tAuth("registerTitle", "Crear cuenta");
     }
 
     function alEscape(e) { if (e.key === "Escape") cerrarModal(); }
@@ -75,7 +94,7 @@
       var clave = document.getElementById("authLoginPass").value;
       sb.auth.signInWithPassword({ email: email, password: clave }).then(function (r) {
         if (r.error) {
-          loginError.textContent = "Correo o contraseña incorrectos.";
+          loginError.textContent = tAuth("loginError", "Correo o contraseña incorrectos.");
           loginError.hidden = false;
           return;
         }
@@ -104,10 +123,17 @@
 
     function pintarBoton(sesion) {
       sesionActual = sesion;
-      navBtn.textContent = sesion ? "Cerrar sesión" : "Iniciar sesión";
+      navBtn.textContent = sesion ? tAuth("logout", "Cerrar sesión") : tAuth("login", "Iniciar sesión");
     }
     sb.auth.getSession().then(function (r) { pintarBoton(r.data.session); });
     sb.auth.onAuthStateChange(function (_evento, sesion) { pintarBoton(sesion); });
+
+    // El sitio llama a esto al cambiar de idioma (ver aplicarIdioma en script.js),
+    // para refrescar el botón y, si el modal está abierto, su título.
+    window.TELVE_refrescarAuthUI = function () {
+      pintarBoton(sesionActual);
+      if (!modal.hidden) mostrarTab(formLogin.hidden ? "register" : "login");
+    };
   }
 
   /* ---------- Catálogo de bombas: solo corre en la página Bombas ---------- */
@@ -129,11 +155,11 @@
 
     function tarjeta(b) {
       var especs = [];
-      if (b.marca)       especs.push("Marca: " + escapar(b.marca));
-      if (b.modelo)      especs.push("Modelo: " + escapar(b.modelo));
-      if (b.potencia_hp) especs.push("Potencia: " + escapar(b.potencia_hp) + " HP");
-      if (b.caudal)      especs.push("Caudal: " + escapar(b.caudal));
-      if (b.presion)     especs.push("Presión: " + escapar(b.presion));
+      if (b.marca)       especs.push(tBombas("marca", "Marca: ") + escapar(b.marca));
+      if (b.modelo)      especs.push(tBombas("modelo", "Modelo: ") + escapar(b.modelo));
+      if (b.potencia_hp) especs.push(tBombas("potencia", "Potencia: ") + escapar(b.potencia_hp) + " HP");
+      if (b.caudal)      especs.push(tBombas("caudal", "Caudal: ") + escapar(b.caudal));
+      if (b.presion)     especs.push(tBombas("presion", "Presión: ") + escapar(b.presion));
 
       var div = document.createElement("div");
       div.className = "card card--plain";
@@ -142,7 +168,7 @@
         '<h3 class="card__title">' + escapar(b.nombre) + "</h3>" +
         (especs.length ? '<ul class="drawer__list"><li>' + especs.join("</li><li>") + "</li></ul>" : "") +
         (b.precio ? '<p class="card__text"><strong>$' + Number(b.precio).toFixed(2) + "</strong></p>" : "") +
-        (esAdminActual ? '<button class="card__del" type="button" data-id="' + b.id + '">Borrar bomba</button>' : "");
+        (esAdminActual ? '<button class="card__del" type="button" data-id="' + b.id + '">' + tBombas("borrar", "Borrar bomba") + "</button>" : "");
       return div;
     }
 
@@ -197,7 +223,7 @@
         foto_url:    fotoUrl
       };
       sb.from("bombas").insert(registro).then(function (r) {
-        if (r.error) { mostrarErrorBomba("Error al guardar: " + r.error.message); return; }
+        if (r.error) { mostrarErrorBomba(tAuth("saveError", "Error al guardar: ") + r.error.message); return; }
         formBomba.reset();
         cargarBombas();
       });
@@ -213,10 +239,14 @@
       // Nombre de archivo único: fecha + nombre original limpio de caracteres raros.
       var ruta = Date.now() + "-" + archivo.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
       sb.storage.from("bombas").upload(ruta, archivo).then(function (r) {
-        if (r.error) { mostrarErrorBomba("Error al subir la foto: " + r.error.message); return; }
+        if (r.error) { mostrarErrorBomba(tAuth("uploadError", "Error al subir la foto: ") + r.error.message); return; }
         var url = sb.storage.from("bombas").getPublicUrl(ruta).data.publicUrl;
         guardarBomba(url);
       });
     });
+
+    // El sitio llama a esto al cambiar de idioma, para redibujar las
+    // tarjetas con las etiquetas (Marca/Modelo/…) en el idioma nuevo.
+    window.TELVE_refrescarBombas = cargarBombas;
   }
 })();

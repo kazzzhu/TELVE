@@ -125,6 +125,7 @@ body {
 .center { text-align: center; }
 .mb-18 { margin-bottom: 18px; }
 .mb-40 { margin-bottom: 40px; }
+.mt-18 { margin-top: 18px; }
 
 /* ---------- Encabezado de sección (etiqueta + título) ---------- */
 /* La etiqueta va junto al título (no apilada encima) para que se lea como
@@ -1011,20 +1012,6 @@ body {
 .info--primary { border-top: 3px solid var(--red); }
 .info--primary .btn--wa { margin-top: 16px; }
 .info--emergency .info__value { color: var(--red); font-weight: 700; }
-
-/* Correo propio: todavía no existe, así que se marca con la misma voz
-   monoespaciada que el resto del sitio reserva para "no definitivo"
-   (DESIGN.md — placeholders de foto, contenido pendiente). */
-.info--soon {
-  border-style: dashed;
-  background: var(--surface-2);
-}
-.info--soon .info__label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 400;
-  color: var(--text-muted);
-}
-.info--soon .info__value { color: var(--text-muted); font-size: 15px; }
 
 /* Referencia secundaria (dirección, oficina, correo actual, horario): una
    sola tarjeta con filas, no 4 cajas repetidas — es información de

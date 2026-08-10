@@ -88,6 +88,27 @@ en: {
   /* Mensaje que se abre al pulsar los botones de WhatsApp. */
   whatsapp: "Hello TELVE C.A., I would like information about repair and/or rewinding of my electric motor or generator.",
 
+  /* Textos que js/bombas.js escribe directo en el DOM (no pasan por el
+     recorrido de cacharTextos porque no existen todavía cuando ese
+     recorrido corre). Se consultan en vivo, ver TELVE_refrescarAuthUI. */
+  auth: {
+    login: "Log in",
+    logout: "Log out",
+    loginTitle: "Welcome back",
+    registerTitle: "Create account",
+    loginError: "Incorrect email or password.",
+    saveError: "Error saving: ",
+    uploadError: "Error uploading photo: "
+  },
+  bombas: {
+    marca: "Brand: ",
+    modelo: "Model: ",
+    potencia: "Power: ",
+    caudal: "Flow: ",
+    presion: "Pressure: ",
+    borrar: "Delete pump"
+  },
+
   /* ---- Atributos (alt, aria-label, title) ---- */
   attrs: {
     "TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2":
@@ -108,7 +129,15 @@ en: {
     "Rebobinado de motores": "Motor rewinding",
     "Mantenimiento y análisis eléctrico": "Maintenance and electrical analysis",
     "Servicios de mecanizado": "Machining services",
-    "Suministro y distribución": "Supply and distribution"
+    "Suministro y distribución": "Supply and distribution",
+    "Cerrar": "Close",
+    "Nombre": "Name",
+    "Marca": "Brand",
+    "Modelo": "Model",
+    "Potencia (HP)": "Power (HP)",
+    "Caudal": "Flow",
+    "Presión": "Pressure",
+    "Precio ($)": "Price ($)"
   },
 
   /* ---- Texto visible ----
@@ -296,6 +325,7 @@ en: {
     "Emergencias 24h": "24h emergencies",
     "Oficina": "Office",
     "Correo": "Email",
+    "Correo:": "Email:",
     "Horario": "Hours",
     "Lun – Vie · 7:00 a.m. – 12:00 m. y 1:00 p.m. – 3:00 p.m.":
       "Mon – Fri · 7:00 a.m. – 12:00 p.m. and 1:00 p.m. – 3:00 p.m.",
@@ -316,7 +346,28 @@ en: {
     "Idioma": "Language",
     "Cambia el idioma o reduce las animaciones aquí.":
       "Change the language or reduce animations here.",
-    "Entendido": "Got it"
+    "Entendido": "Got it",
+
+    /* Bombas */
+    "Bombas": "Pumps",
+    "Repuestos": "Spare parts",
+    "Bombas de agua disponibles": "Water pumps available",
+    "Bombas centrífugas PEARL y CALPEDA en stock, listas para instalación.":
+      "PEARL and CALPEDA centrifugal pumps in stock, ready to install.",
+    "Por ahora no hay bombas cargadas.": "No pumps loaded yet.",
+    "Administrador": "Administrator",
+    "Agregar bomba": "Add pump",
+    "Foto (opcional)": "Photo (optional)",
+    "Guardar bomba": "Save pump",
+
+    /* Modal de acceso */
+    "Iniciar sesión": "Log in",
+    "Registrarme": "Sign up",
+    "Bienvenido de nuevo": "Welcome back",
+    "Crear cuenta": "Create account",
+    "Contraseña": "Password",
+    "Entrar": "Log in",
+    "Revisa tu correo para confirmar la cuenta.": "Check your email to confirm your account."
   }
 
 },  /* ---- fin del inglés ---- */
@@ -333,6 +384,24 @@ pt: {
   },
 
   whatsapp: "Olá TELVE C.A., gostaria de informações sobre reparo e/ou rebobinamento do meu motor ou gerador elétrico.",
+
+  auth: {
+    login: "Entrar",
+    logout: "Sair",
+    loginTitle: "Bem-vindo de volta",
+    registerTitle: "Criar conta",
+    loginError: "E-mail ou senha incorretos.",
+    saveError: "Erro ao salvar: ",
+    uploadError: "Erro ao enviar a foto: "
+  },
+  bombas: {
+    marca: "Marca: ",
+    modelo: "Modelo: ",
+    potencia: "Potência: ",
+    caudal: "Vazão: ",
+    presion: "Pressão: ",
+    borrar: "Excluir bomba"
+  },
 
   attrs: {
     "TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2":
@@ -353,7 +422,15 @@ pt: {
     "Rebobinado de motores": "Rebobinamento de motores",
     "Mantenimiento y análisis eléctrico": "Manutenção e análise elétrica",
     "Servicios de mecanizado": "Serviços de usinagem",
-    "Suministro y distribución": "Fornecimento e distribuição"
+    "Suministro y distribución": "Fornecimento e distribuição",
+    "Cerrar": "Fechar",
+    "Nombre": "Nome",
+    "Marca": "Marca",
+    "Modelo": "Modelo",
+    "Potencia (HP)": "Potência (HP)",
+    "Caudal": "Vazão",
+    "Presión": "Pressão",
+    "Precio ($)": "Preço ($)"
   },
 
   text: {
@@ -526,6 +603,7 @@ pt: {
     "Emergencias 24h": "Emergências 24h",
     "Oficina": "Escritório",
     "Correo": "E-mail",
+    "Correo:": "E-mail:",
     "Horario": "Horário",
     "Lun – Vie · 7:00 a.m. – 12:00 m. y 1:00 p.m. – 3:00 p.m.":
       "Seg – Sex · 7h00 – 12h00 e 13h00 – 15h00",
@@ -544,7 +622,28 @@ pt: {
     "Idioma": "Idioma",
     "Cambia el idioma o reduce las animaciones aquí.":
       "Mude o idioma ou reduza as animações aqui.",
-    "Entendido": "Entendi"
+    "Entendido": "Entendi",
+
+    /* Bombas */
+    "Bombas": "Bombas",
+    "Repuestos": "Peças",
+    "Bombas de agua disponibles": "Bombas d'água disponíveis",
+    "Bombas centrífugas PEARL y CALPEDA en stock, listas para instalación.":
+      "Bombas centrífugas PEARL e CALPEDA em estoque, prontas para instalar.",
+    "Por ahora no hay bombas cargadas.": "Ainda não há bombas cadastradas.",
+    "Administrador": "Administrador",
+    "Agregar bomba": "Adicionar bomba",
+    "Foto (opcional)": "Foto (opcional)",
+    "Guardar bomba": "Salvar bomba",
+
+    /* Modal de acceso */
+    "Iniciar sesión": "Entrar",
+    "Registrarme": "Cadastrar-se",
+    "Bienvenido de nuevo": "Bem-vindo de volta",
+    "Crear cuenta": "Criar conta",
+    "Contraseña": "Senha",
+    "Entrar": "Entrar",
+    "Revisa tu correo para confirmar la cuenta.": "Confira seu e-mail para confirmar a conta."
   }
 
 },  /* ---- fin del portugués ---- */
@@ -561,6 +660,24 @@ it: {
   },
 
   whatsapp: "Salve TELVE C.A., vorrei informazioni sulla riparazione e/o sul riavvolgimento del mio motore o generatore elettrico.",
+
+  auth: {
+    login: "Accedi",
+    logout: "Esci",
+    loginTitle: "Bentornato",
+    registerTitle: "Crea account",
+    loginError: "Email o password errati.",
+    saveError: "Errore durante il salvataggio: ",
+    uploadError: "Errore durante il caricamento della foto: "
+  },
+  bombas: {
+    marca: "Marca: ",
+    modelo: "Modello: ",
+    potencia: "Potenza: ",
+    caudal: "Portata: ",
+    presion: "Pressione: ",
+    borrar: "Elimina pompa"
+  },
 
   attrs: {
     "TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2":
@@ -581,7 +698,15 @@ it: {
     "Rebobinado de motores": "Riavvolgimento di motori",
     "Mantenimiento y análisis eléctrico": "Manutenzione e analisi elettrica",
     "Servicios de mecanizado": "Servizi di lavorazione meccanica",
-    "Suministro y distribución": "Fornitura e distribuzione"
+    "Suministro y distribución": "Fornitura e distribuzione",
+    "Cerrar": "Chiudi",
+    "Nombre": "Nome",
+    "Marca": "Marca",
+    "Modelo": "Modello",
+    "Potencia (HP)": "Potenza (HP)",
+    "Caudal": "Portata",
+    "Presión": "Pressione",
+    "Precio ($)": "Prezzo ($)"
   },
 
   text: {
@@ -754,6 +879,7 @@ it: {
     "Emergencias 24h": "Emergenze 24h",
     "Oficina": "Ufficio",
     "Correo": "E-mail",
+    "Correo:": "E-mail:",
     "Horario": "Orari",
     "Lun – Vie · 7:00 a.m. – 12:00 m. y 1:00 p.m. – 3:00 p.m.":
       "Lun – Ven · 7:00 – 12:00 e 13:00 – 15:00",
@@ -772,7 +898,28 @@ it: {
     "Idioma": "Lingua",
     "Cambia el idioma o reduce las animaciones aquí.":
       "Cambia lingua o riduci le animazioni qui.",
-    "Entendido": "Ho capito"
+    "Entendido": "Ho capito",
+
+    /* Bombas */
+    "Bombas": "Pompe",
+    "Repuestos": "Ricambi",
+    "Bombas de agua disponibles": "Pompe dell'acqua disponibili",
+    "Bombas centrífugas PEARL y CALPEDA en stock, listas para instalación.":
+      "Pompe centrifughe PEARL e CALPEDA disponibili, pronte per l'installazione.",
+    "Por ahora no hay bombas cargadas.": "Al momento non ci sono pompe caricate.",
+    "Administrador": "Amministratore",
+    "Agregar bomba": "Aggiungi pompa",
+    "Foto (opcional)": "Foto (facoltativa)",
+    "Guardar bomba": "Salva pompa",
+
+    /* Modal de acceso */
+    "Iniciar sesión": "Accedi",
+    "Registrarme": "Registrati",
+    "Bienvenido de nuevo": "Bentornato",
+    "Crear cuenta": "Crea account",
+    "Contraseña": "Password",
+    "Entrar": "Accedi",
+    "Revisa tu correo para confirmar la cuenta.": "Controlla la tua email per confermare l'account."
   }
 
 }   /* ---- fin del italiano. El siguiente idioma va aquí, al mismo nivel ---- */
