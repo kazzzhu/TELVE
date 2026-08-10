@@ -1114,6 +1114,7 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
   margin: 12px 0 6px;
 }
 .authModal__input {
+  width: 100%;
   font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--text);
   background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
   padding: 11px 13px;
@@ -1127,6 +1128,7 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 .bombas-admin { border-top: 1px solid var(--border); padding-top: var(--space-xl); }
 .bombas-form { display: flex; flex-direction: column; gap: 12px; max-width: 420px; }
 .bombas-form input {
+  width: 100%;
   font-family: 'Barlow', sans-serif; font-size: 15px;
   color: var(--text); background: var(--surface);
   border: 1px solid var(--border); border-radius: 6px;
@@ -1441,7 +1443,8 @@ html[data-motion="full"] .prefs__callout {
   }
   .nav__link.is-active { border-bottom: none; }
   .nav__indicator { display: none; }
-  .nav__links .btn--wa { width: 100%; margin-top: 6px; }
+  .nav__links .btn--wa,
+  .nav__links .btn--ghost { width: 100%; margin-top: 6px; }
 }
 
 /* ===================================================================
