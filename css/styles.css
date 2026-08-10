@@ -262,6 +262,12 @@ body {
   padding: 10px 18px;
   font-size: 15px;
 }
+/* Botón de acceso (login/registro) de la barra — mismo tamaño compacto */
+.nav__links .btn--ghost {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-width: 1.5px;
+}
 
 /* ---------- Franja de emergencias ----------
    Va sobre el nav y no es pegajosa: se ve al llegar sin robarle altura
@@ -508,6 +514,18 @@ body {
 }
 .card__title--lg { font-size: 22px; }
 .card__text { font-size: 15px; color: var(--text-muted); line-height: 1.55; }
+.card__img {
+  width: 100%; height: 160px; object-fit: cover;
+  border-radius: 6px; margin-bottom: 14px;
+}
+.card__del {
+  display: inline-block; margin-top: 14px;
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-muted); transition: color .15s;
+}
+.card__del:hover { color: var(--red); }
 
 /* Variante plana: mismo contenido (título + texto), sin caja/sombra —
    se usa en listados de 3 elementos donde el número/borde de color eran
@@ -1043,6 +1061,97 @@ body {
   width: 100%; height: 100%;
   object-fit: cover; object-position: center 34%;
 }
+
+/* ---------- Modal de acceso (login / registro) ---------- */
+.authModal {
+  position: fixed; inset: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.authModal[hidden] { display: none; }
+.authModal__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(15, 26, 25, .55);
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+}
+.authModal__box {
+  position: relative;
+  width: 100%; max-width: 380px;
+  background: var(--surface);
+  border-radius: 8px;
+  border-top: 4px solid var(--red);
+  box-shadow: 0 24px 60px rgba(15,26,25,.35);
+  padding: 40px 32px 32px;
+  animation: authIn .28s var(--ease-out);
+}
+@keyframes authIn {
+  from { opacity: 0; transform: translateY(10px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+html[data-motion="reduced"] .authModal__box { animation: none; }
+
+.authModal__close {
+  position: absolute; top: 14px; right: 14px;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; color: var(--text-muted); cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.authModal__close:hover { background: var(--surface-2); color: var(--text); }
+.authModal__close svg { width: 18px; height: 18px; }
+
+.authModal__tabs {
+  display: flex; gap: 4px; background: var(--surface-2);
+  border-radius: 8px; padding: 4px; margin-bottom: 24px;
+}
+.authModal__tab {
+  flex: 1; padding: 9px 0; border: none; background: transparent;
+  border-radius: 6px; cursor: pointer;
+  font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-muted);
+  transition: background .15s, color .15s;
+}
+.authModal__tab.is-active { background: var(--surface); color: var(--teal-dark); box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+
+.authModal__title {
+  font-family: 'Anton', sans-serif; font-size: 22px; font-weight: 400;
+  color: var(--teal-dark); text-transform: uppercase; letter-spacing: .01em;
+  margin-bottom: 20px;
+}
+
+.authModal__form { display: flex; flex-direction: column; }
+.authModal__form[hidden] { display: none; }
+.authModal__label {
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted);
+  margin: 12px 0 6px;
+}
+.authModal__input {
+  font-family: 'Barlow', sans-serif; font-size: 15px; color: var(--text);
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 11px 13px;
+}
+.authModal__input:focus { border-color: var(--teal); outline: none; }
+.authModal__submit { margin-top: 20px; width: 100%; }
+.authModal__error { color: var(--red); font-size: 13.5px; margin-top: 10px; }
+.authModal__note { color: var(--teal-dark); font-size: 13.5px; margin-top: 10px; }
+
+/* ---------- Bombas (catálogo + acceso admin) ---------- */
+.bombas-admin { border-top: 1px solid var(--border); padding-top: var(--space-xl); }
+.bombas-form { display: flex; flex-direction: column; gap: 12px; max-width: 420px; }
+.bombas-form input {
+  font-family: 'Barlow', sans-serif; font-size: 15px;
+  color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 12px;
+}
+.bombas-form input:focus { border-color: var(--teal); outline: none; }
+.bombas-form__label {
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted);
+  margin-top: 4px;
+}
+.bombas-form__error { color: var(--red); font-size: 14px; }
 
 /* ---------- Footer ---------- */
 .footer {
