@@ -363,12 +363,12 @@ body {
   line-height: 1;
 }
 
-/* Selector de idioma: bandera redonda junto al logo, despliega la lista
-   de idiomas al pulsarla. Mismo patrón visual que traía la insignia del
-   panel de ajustes (banderas en img/, respaldo de código de 2 letras). */
+/* Selector de idioma: bandera rectangular junto al logo, despliega la
+   lista de idiomas al pulsarla. Mismo patrón visual que traía la insignia
+   del panel de ajustes (banderas en img/, respaldo de código de 2 letras). */
 .langsel { position: relative; }
 .langsel__btn {
-  width: 38px; height: 38px; border-radius: 50%;
+  width: 40px; height: 28px; border-radius: 4px;
   background: var(--surface); padding: 2px;
   border: 2px solid rgba(255,255,255,.5);
   box-shadow: 0 1px 4px rgba(0,0,0,.25);
@@ -385,7 +385,7 @@ body {
   letter-spacing: 0.05em; color: var(--teal-dark);
 }
 .langsel__code--bandera { line-height: 0; }
-.langsel__flag { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.langsel__flag { display: block; width: 100%; height: 100%; object-fit: contain; }
 
 .langsel__list {
   position: absolute; left: 0; top: calc(100% + 10px);
@@ -1433,7 +1433,7 @@ html[data-motion="full"] .prefs__callout {
   .nav { flex-wrap: wrap; padding: 12px 20px; }
   .nav__logoimg { height: 54px; padding: 6px 10px; }
   .nav__easa { display: none; }
-  .langsel__btn { width: 32px; height: 32px; }
+  .langsel__btn { width: 34px; height: 24px; }
   .burger { display: inline-flex; }
   .nav__links {
     display: none; width: 100%; flex-direction: column;
