@@ -36,6 +36,21 @@
     initEquipos();
   });
 
+  /* ---------- Lightbox: agrandar la foto de un equipo con un clic ---------- */
+  function abrirLightbox(src) {
+    var overlay = document.createElement("div");
+    overlay.className = "lightbox";
+    overlay.innerHTML = '<img src="' + src + '" alt="">';
+    function cerrar() {
+      overlay.remove();
+      document.removeEventListener("keydown", alEscape);
+    }
+    function alEscape(e) { if (e.key === "Escape") cerrar(); }
+    overlay.addEventListener("click", cerrar);
+    document.addEventListener("keydown", alEscape);
+    document.body.appendChild(overlay);
+  }
+
   /* ---------- Modal de acceso: disponible en cualquier página ---------- */
   function initAuthModal() {
     var modal   = document.getElementById("authModal");
@@ -156,18 +171,23 @@
 
     function tarjeta(e) {
       var especs = [];
-      if (e.marca)       especs.push(tEquipos("marca", "Marca: ") + escapar(e.marca));
-      if (e.modelo)      especs.push(tEquipos("modelo", "Modelo: ") + escapar(e.modelo));
-      if (e.potencia_hp) especs.push(tEquipos("potencia", "Potencia: ") + escapar(e.potencia_hp) + " HP");
-      if (e.caudal)      especs.push(tEquipos("caudal", "Caudal: ") + escapar(e.caudal));
-      if (e.presion)     especs.push(tEquipos("presion", "Presión: ") + escapar(e.presion));
+      if (e.marca)    especs.push(tEquipos("marca", "Marca: ") + escapar(e.marca));
+      if (e.modelo)   especs.push(tEquipos("modelo", "Modelo: ") + escapar(e.modelo));
+      if (e.potencia) {
+        var unidad = e.tipo === "Generador" ? "KVA" : "HP";
+        especs.push(tEquipos("potencia", "Potencia: ") + escapar(e.potencia) + " " + unidad);
+      }
+      if (e.voltaje)          especs.push(tEquipos("voltaje", "Voltaje: ") + escapar(e.voltaje));
+      if (e.diametro_succion) especs.push(tEquipos("succion", "Diám. succión: ") + escapar(e.diametro_succion));
+      if (e.diametro_salida)  especs.push(tEquipos("salida", "Diám. salida: ") + escapar(e.diametro_salida));
+      if (e.diametro_eje)     especs.push(tEquipos("eje", "Diám. eje: ") + escapar(e.diametro_eje));
 
       var div = document.createElement("div");
       div.className = "card card--plain";
       div.innerHTML =
         (e.foto_url ? '<img class="card__img" loading="lazy" decoding="async" src="' + escapar(e.foto_url) + '" alt="" onerror="this.remove()">' : "") +
         (e.tipo ? '<div class="card__tag"><span class="tag">' + escapar(e.tipo) + "</span></div>" : "") +
-        '<h3 class="card__title">' + escapar(e.nombre) + "</h3>" +
+        '<h3 class="card__title">' + escapar(e.codigo) + "</h3>" +
         (especs.length ? '<ul class="drawer__list"><li>' + especs.join("</li><li>") + "</li></ul>" : "") +
         (e.precio ? '<p class="card__text"><strong>$' + Number(e.precio).toFixed(2) + "</strong></p>" : "") +
         (esAdminActual ? '<button class="card__del" type="button" data-id="' + e.id + '">' + tEquipos("borrar", "Borrar equipo") + "</button>" : "");
@@ -187,6 +207,8 @@
     cargarEquipos();
 
     grid.addEventListener("click", function (ev) {
+      var img = ev.target.closest(".card__img");
+      if (img) { abrirLightbox(img.src); return; }
       var btn = ev.target.closest(".card__del");
       if (!btn) return;
       if (!confirm("¿Borrar este equipo del catálogo?")) return;
@@ -211,23 +233,50 @@
       if (equipoMsg) { equipoMsg.textContent = texto; equipoMsg.hidden = false; }
     }
 
+    /* ---------- Campos según tipo: bombas piden diámetros de succión/salida,
+       motores y generadores piden diámetro de eje; la potencia del generador
+       se mide en KVA en vez de HP. ---------- */
+    var eTipo        = document.getElementById("eTipo");
+    var camposBomba  = document.getElementById("camposBomba");
+    var camposMotor  = document.getElementById("camposMotor");
+    var ePotencia    = document.getElementById("ePotencia");
+
+    function esBombaTipo(tipo) { return tipo.slice(0, 5) === "Bomba"; }
+    function esMotorOGenerador(tipo) { return tipo.slice(0, 5) === "Motor" || tipo === "Generador"; }
+
+    function actualizarCampos() {
+      var tipo = eTipo.value;
+      if (camposBomba) camposBomba.hidden = !esBombaTipo(tipo);
+      if (camposMotor) camposMotor.hidden = !esMotorOGenerador(tipo);
+      if (ePotencia) ePotencia.placeholder = tipo === "Generador" ? "Potencia (KVA)" : "Potencia (HP)";
+    }
+    if (eTipo) {
+      eTipo.addEventListener("change", actualizarCampos);
+      actualizarCampos();
+    }
+
     function guardarEquipo(fotoUrl) {
-      var potencia = document.getElementById("ePotencia").value;
-      var precio   = document.getElementById("ePrecio").value;
+      var tipo      = eTipo.value;
+      var esBomba   = esBombaTipo(tipo);
+      var potencia  = ePotencia.value;
+      var precio    = document.getElementById("ePrecio").value;
       var registro = {
-        tipo:        document.getElementById("eTipo").value || null,
-        nombre:      document.getElementById("eNombre").value.trim(),
-        marca:       document.getElementById("eMarca").value.trim()  || null,
-        modelo:      document.getElementById("eModelo").value.trim() || null,
-        potencia_hp: potencia ? Number(potencia) : null,
-        caudal:      document.getElementById("eCaudal").value.trim()  || null,
-        presion:     document.getElementById("ePresion").value.trim() || null,
-        precio:      precio ? Number(precio) : null,
-        foto_url:    fotoUrl
+        tipo:             tipo || null,
+        codigo:           document.getElementById("eCodigo").value.trim(),
+        marca:            document.getElementById("eMarca").value.trim()  || null,
+        modelo:           document.getElementById("eModelo").value.trim() || null,
+        voltaje:          document.getElementById("eVoltaje").value || null,
+        potencia:         potencia ? Number(potencia) : null,
+        diametro_succion: esBomba ? (document.getElementById("eDiamSuccion").value.trim() || null) : null,
+        diametro_salida:  esBomba ? (document.getElementById("eDiamSalida").value.trim()  || null) : null,
+        diametro_eje:     !esBomba ? (document.getElementById("eDiamEje").value.trim()     || null) : null,
+        precio:           precio ? Number(precio) : null,
+        foto_url:         fotoUrl
       };
       sb.from("equipos").insert(registro).then(function (r) {
         if (r.error) { mostrarErrorEquipo(tAuth("saveError", "Error al guardar: ") + r.error.message); return; }
         formEquipo.reset();
+        actualizarCampos();
         cargarEquipos();
       });
     }

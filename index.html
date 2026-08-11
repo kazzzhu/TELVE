@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.12">
+  <link rel="stylesheet" href="css/styles.css?v=2.13">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -550,12 +550,25 @@
             <option value="Bomba trifásica">Bomba trifásica</option>
             <option value="Generador">Generador</option>
           </select>
-          <input type="text" id="eNombre" placeholder="Nombre" required>
+          <input type="text" id="eCodigo" placeholder="Código" required>
           <input type="text" id="eMarca" placeholder="Marca">
           <input type="text" id="eModelo" placeholder="Modelo">
+          <select id="eVoltaje">
+            <option value="">Voltaje de alimentación</option>
+            <option value="110V">110V</option>
+            <option value="220V">220V</option>
+            <option value="110V / 220V">110V / 220V</option>
+          </select>
           <input type="number" id="ePotencia" placeholder="Potencia (HP)" step="0.1">
-          <input type="text" id="eCaudal" placeholder="Caudal (si aplica)">
-          <input type="text" id="ePresion" placeholder="Presión (si aplica)">
+          <!-- Bombas: diámetros de succión y salida. Motores/Generadores: diámetro de eje.
+               js/equipos.js muestra el grupo que corresponde según "Tipo de equipo". -->
+          <div id="camposBomba" class="equipos-form__group" hidden>
+            <input type="text" id="eDiamSuccion" placeholder="Diám. succión">
+            <input type="text" id="eDiamSalida" placeholder="Diám. salida">
+          </div>
+          <div id="camposMotor" class="equipos-form__group" hidden>
+            <input type="text" id="eDiamEje" placeholder="Diám. eje">
+          </div>
           <input type="number" id="ePrecio" placeholder="Precio ($)" step="0.01">
           <label class="equipos-form__label" for="eFoto">Foto (opcional)</label>
           <input type="file" id="eFoto" accept="image/*">
@@ -808,11 +821,11 @@
 
   <!-- Cliente Supabase (CDN, sin build): expone window.supabase.createClient -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src="js/equipos.js?v=2.12"></script>
+  <script src="js/equipos.js?v=2.13"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.12"></script>
-  <script src="js/script.js?v=2.12"></script>
+  <script src="js/i18n.js?v=2.13"></script>
+  <script src="js/script.js?v=2.13"></script>
 </body>
 
 </html>

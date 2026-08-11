@@ -104,8 +104,10 @@ en: {
     marca: "Brand: ",
     modelo: "Model: ",
     potencia: "Power: ",
-    caudal: "Flow: ",
-    presion: "Pressure: ",
+    voltaje: "Voltage: ",
+    succion: "Suction dia.: ",
+    salida: "Discharge dia.: ",
+    eje: "Shaft dia.: ",
     borrar: "Delete item"
   },
 
@@ -131,15 +133,14 @@ en: {
     "Servicios de mecanizado": "Machining services",
     "Suministro y distribución": "Supply and distribution",
     "Cerrar": "Close",
-    "Nombre": "Name",
+    "Código": "Code",
     "Marca": "Brand",
     "Modelo": "Model",
     "Potencia (HP)": "Power (HP)",
-    "Caudal": "Flow",
-    "Presión": "Pressure",
     "Precio ($)": "Price ($)",
-    "Caudal (si aplica)": "Flow (if applicable)",
-    "Presión (si aplica)": "Pressure (if applicable)"
+    "Diám. succión": "Suction dia.",
+    "Diám. salida": "Discharge dia.",
+    "Diám. eje": "Shaft dia."
   },
 
   /* ---- Texto visible ----
@@ -400,8 +401,10 @@ pt: {
     marca: "Marca: ",
     modelo: "Modelo: ",
     potencia: "Potência: ",
-    caudal: "Vazão: ",
-    presion: "Pressão: ",
+    voltaje: "Voltagem: ",
+    succion: "Diâm. sucção: ",
+    salida: "Diâm. saída: ",
+    eje: "Diâm. eixo: ",
     borrar: "Excluir item"
   },
 
@@ -426,15 +429,14 @@ pt: {
     "Servicios de mecanizado": "Serviços de usinagem",
     "Suministro y distribución": "Fornecimento e distribuição",
     "Cerrar": "Fechar",
-    "Nombre": "Nome",
+    "Código": "Código",
     "Marca": "Marca",
     "Modelo": "Modelo",
     "Potencia (HP)": "Potência (HP)",
-    "Caudal": "Vazão",
-    "Presión": "Pressão",
     "Precio ($)": "Preço ($)",
-    "Caudal (si aplica)": "Vazão (se aplicável)",
-    "Presión (si aplica)": "Pressão (se aplicável)"
+    "Diám. succión": "Diâm. sucção",
+    "Diám. salida": "Diâm. saída",
+    "Diám. eje": "Diâm. eixo"
   },
 
   text: {
@@ -678,8 +680,10 @@ it: {
     marca: "Marca: ",
     modelo: "Modello: ",
     potencia: "Potenza: ",
-    caudal: "Portata: ",
-    presion: "Pressione: ",
+    voltaje: "Voltaggio: ",
+    succion: "Diam. aspirazione: ",
+    salida: "Diam. mandata: ",
+    eje: "Diam. albero: ",
     borrar: "Elimina articolo"
   },
 
@@ -704,15 +708,14 @@ it: {
     "Servicios de mecanizado": "Servizi di lavorazione meccanica",
     "Suministro y distribución": "Fornitura e distribuzione",
     "Cerrar": "Chiudi",
-    "Nombre": "Nome",
+    "Código": "Codice",
     "Marca": "Marca",
     "Modelo": "Modello",
     "Potencia (HP)": "Potenza (HP)",
-    "Caudal": "Portata",
-    "Presión": "Pressione",
     "Precio ($)": "Prezzo ($)",
-    "Caudal (si aplica)": "Portata (se applicabile)",
-    "Presión (si aplica)": "Pressione (se applicabile)"
+    "Diám. succión": "Diam. aspirazione",
+    "Diám. salida": "Diam. mandata",
+    "Diám. eje": "Diam. albero"
   },
 
   text: {

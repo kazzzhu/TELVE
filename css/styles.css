@@ -535,7 +535,14 @@ body {
 .card__img {
   width: 100%; height: 160px; object-fit: cover;
   border-radius: 6px; margin-bottom: 14px;
+  cursor: zoom-in;
 }
+.lightbox {
+  position: fixed; inset: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(15,26,25,.85); cursor: zoom-out; padding: 20px;
+}
+.lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; }
 .card__del {
   display: inline-block; margin-top: 14px;
   background: none; border: none; padding: 0; cursor: pointer;
@@ -1154,6 +1161,8 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 }
 .equipos-form input:focus,
 .equipos-form select:focus { border-color: var(--teal); outline: none; }
+.equipos-form__group { display: flex; flex-direction: column; gap: 12px; }
+.equipos-form__group[hidden] { display: none; }
 .equipos-form__label {
   font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
   letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted);
