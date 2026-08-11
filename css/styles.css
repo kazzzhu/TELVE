@@ -320,7 +320,6 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 3px solid var(--red);
 }
-.nav__brandgroup { display: flex; align-items: center; gap: 14px; }
 .nav__brand { display: flex; align-items: center; gap: 12px; cursor: pointer; }
 .nav__logoimg {
   height: 68px; width: auto; display: block;
@@ -362,47 +361,6 @@ body {
   color: var(--red-bright);
   line-height: 1;
 }
-
-/* Selector de idioma: bandera rectangular junto al logo, despliega la
-   lista de idiomas al pulsarla. Mismo patrón visual que traía la insignia
-   del panel de ajustes (banderas en img/, respaldo de código de 2 letras). */
-.langsel { position: relative; }
-.langsel__btn {
-  width: 40px; height: 28px; border-radius: 4px;
-  background: var(--surface); padding: 2px;
-  border: 2px solid rgba(255,255,255,.5);
-  box-shadow: 0 1px 4px rgba(0,0,0,.25);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; overflow: hidden;
-  transition: border-color .15s ease, transform .15s ease;
-}
-@media (hover: hover) and (pointer: fine) {
-  .langsel__btn:hover { border-color: #fff; transform: translateY(-2px); }
-}
-.langsel__btn[aria-expanded="true"] { border-color: var(--red); }
-.langsel__code {
-  font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700;
-  letter-spacing: 0.05em; color: var(--teal-dark);
-}
-.langsel__code--bandera { line-height: 0; }
-.langsel__flag { display: block; width: 100%; height: 100%; object-fit: contain; }
-
-.langsel__list {
-  position: absolute; left: 0; top: calc(100% + 10px);
-  width: 168px; list-style: none; margin: 0; padding: 6px;
-  background: var(--surface); border: 1px solid var(--border);
-  border-top: 3px solid var(--red); border-radius: 8px;
-  box-shadow: 0 12px 28px rgba(27,59,59,.22);
-  z-index: 70;
-}
-.langsel__list[hidden] { display: none; }
-.langsel__opt {
-  padding: 9px 10px; border-radius: 6px; cursor: pointer;
-  font-family: 'Oswald', sans-serif; font-size: 13.5px; font-weight: 500;
-  color: var(--teal-dark); transition: background .15s ease, color .15s ease;
-}
-.langsel__opt:hover { background: var(--bg); }
-.langsel__opt[aria-selected="true"] { background: var(--teal-dark); color: #fff; }
 
 /* Barra roja deslizante bajo el enlace apuntado / activo */
 .nav__indicator {
@@ -1248,6 +1206,45 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 .prefs__toggle svg { width: 24px; height: 24px; }
 .prefs__toggle[aria-expanded="true"] { background: var(--red); }
 
+/* Idioma activo, pegado al círculo. Sin esto el ícono de deslizadores no le
+   dice a nadie que ahí se cambia el idioma; el aviso de bienvenida solo lo
+   ve quien entra por primera vez. */
+.prefs__code {
+  position: absolute;
+  top: -4px; left: -6px;
+  min-width: 26px;
+  padding: 2px 5px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 4px;      /* {rounded.sm} */
+  font-family: 'Oswald', sans-serif;
+  font-size: 11.5px;       /* {typography.label-xs} */
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-align: center;
+}
+/* Con bandera el recuadro pierde el fondo rojo —la bandera trae sus propios
+   colores y el rojo los ensuciaba— y gana un marco blanco que la despega
+   del verde del círculo. Solo aplica si el archivo existe en img/. */
+.prefs__code--bandera {
+  background: var(--surface);
+  padding: 2px;
+  min-width: 0;
+  line-height: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,.28);
+}
+/* contain, no cover: las cuatro banderas vienen con proporciones distintas
+   (1.43 a 1.89) y recortar una bandera nacional le corta el emblema. Justo
+   el escudo de México es lo único que la distingue de la italiana. El
+   sobrante se disimula porque el recuadro ya es blanco. */
+.prefs__flag {
+  display: block;
+  width: 22px; height: 15px;
+  object-fit: contain;
+  border-radius: 2px;      /* {rounded.xs} */
+}
+
 /* ----- Aviso de primera visita -----
    Sale del círculo hacia la izquierda, con una punta que lo señala. A la
    izquierda y no arriba para no chocar con el panel cuando se abre. */
@@ -1374,6 +1371,30 @@ html[data-motion="full"] .prefs__callout {
 }
 .prefs__hint { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; margin-top: 8px; }
 
+/* Desplegable de idioma. Se le quita la apariencia nativa y se le dibuja
+   una flecha propia para que combine con los botones de arriba; el elemento
+   sigue siendo un <select> real, así que teclado y lectores de pantalla
+   funcionan sin código extra. */
+.prefs__select {
+  width: 100%;
+  font-family: 'Oswald', sans-serif; font-size: 13.5px; font-weight: 500;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--teal-dark); background-color: var(--surface);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 34px 10px 12px;
+  cursor: pointer;
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23244d4d' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 15px 15px;
+  transition: border-color .15s ease;
+}
+.prefs__select:hover { border-color: var(--teal); }
+/* El menú desplegado lo pinta el sistema, no el CSS de la página: se fija
+   un color legible por si el visitante usa tema oscuro. */
+.prefs__select option { color: var(--text); background: var(--surface); }
+
 @media (max-width: 560px) {
   .prefs { right: 14px; bottom: 14px; }
   .prefs__panel { width: 210px; }
@@ -1433,7 +1454,6 @@ html[data-motion="full"] .prefs__callout {
   .nav { flex-wrap: wrap; padding: 12px 20px; }
   .nav__logoimg { height: 54px; padding: 6px 10px; }
   .nav__easa { display: none; }
-  .langsel__btn { width: 34px; height: 24px; border-radius: 2px; }
   .burger { display: inline-flex; }
   .nav__links {
     display: none; width: 100%; flex-direction: column;

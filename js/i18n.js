@@ -121,8 +121,7 @@ en: {
     "Abrir menú": "Open menu",
     "Cerrar menú": "Close menu",
     "Navegación principal": "Main navigation",
-    "Ajustes de animación": "Animation settings",
-    "Cambiar idioma": "Change language",
+    "Ajustes de la página": "Page settings",
     "Pier Pianca, fundador de TELVE": "Pier Pianca, founder of TELVE",
     "Christian Pianca, gerente general de TELVE": "Christian Pianca, general manager of TELVE",
     "Gian Pier Pianca": "Gian Pier Pianca",
@@ -347,8 +346,9 @@ en: {
     "Reducidas": "Reduced",
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Reduced stops the stripe and the automatic carousels.",
-    "Reduce las animaciones aquí si prefieres menos movimiento.":
-      "Reduce animations here if you prefer less motion.",
+    "Idioma": "Language",
+    "Cambia el idioma o reduce las animaciones aquí.":
+      "Change the language or reduce animations here.",
     "Entendido": "Got it",
 
     /* Equipos en venta */
@@ -417,8 +417,7 @@ pt: {
     "Abrir menú": "Abrir menu",
     "Cerrar menú": "Fechar menu",
     "Navegación principal": "Navegação principal",
-    "Ajustes de animación": "Configurações de animação",
-    "Cambiar idioma": "Mudar idioma",
+    "Ajustes de la página": "Configurações da página",
     "Pier Pianca, fundador de TELVE": "Pier Pianca, fundador da TELVE",
     "Christian Pianca, gerente general de TELVE": "Christian Pianca, gerente geral da TELVE",
     "Gian Pier Pianca": "Gian Pier Pianca",
@@ -626,8 +625,9 @@ pt: {
     "Reducidas": "Reduzidas",
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Reduzidas para a faixa e os carrosséis automáticos.",
-    "Reduce las animaciones aquí si prefieres menos movimiento.":
-      "Reduza as animações aqui se preferir menos movimento.",
+    "Idioma": "Idioma",
+    "Cambia el idioma o reduce las animaciones aquí.":
+      "Mude o idioma ou reduza as animações aqui.",
     "Entendido": "Entendi",
 
     /* Equipos en venta */
@@ -696,8 +696,7 @@ it: {
     "Abrir menú": "Apri menu",
     "Cerrar menú": "Chiudi menu",
     "Navegación principal": "Navigazione principale",
-    "Ajustes de animación": "Impostazioni animazione",
-    "Cambiar idioma": "Cambia lingua",
+    "Ajustes de la página": "Impostazioni della pagina",
     "Pier Pianca, fundador de TELVE": "Pier Pianca, fondatore di TELVE",
     "Christian Pianca, gerente general de TELVE": "Christian Pianca, direttore generale di TELVE",
     "Gian Pier Pianca": "Gian Pier Pianca",
@@ -905,8 +904,9 @@ it: {
     "Reducidas": "Ridotte",
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Ridotte ferma la fascia e i caroselli automatici.",
-    "Reduce las animaciones aquí si prefieres menos movimiento.":
-      "Riduci le animazioni qui se preferisci meno movimento.",
+    "Idioma": "Lingua",
+    "Cambia el idioma o reduce las animaciones aquí.":
+      "Cambia lingua o riduci le animazioni qui.",
     "Entendido": "Ho capito",
 
     /* Equipos en venta */

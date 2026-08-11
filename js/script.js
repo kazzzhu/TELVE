@@ -139,11 +139,8 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ---------- 8. Barra roja deslizante del menú ---------- */
   initNavIndicator();
 
-  /* ---------- 9. Panel de ajustes (movimiento) ---------- */
+  /* ---------- 9. Panel de ajustes (movimiento + idioma) ---------- */
   initPrefs();
-
-  /* ---------- 10. Selector de idioma (bandera junto al logo) ---------- */
-  initLangSel();
 
 });
 
@@ -200,12 +197,34 @@ function initPrefs() {
   });
   pintarMov();
 
+  /* --- idioma --- */
+  var i18n   = window.TELVE_I18N;
+  var select = document.getElementById("prefsLang");
+  var base   = (i18n && i18n.base) || "es";
+
+  if (select && i18n && i18n.idiomas) {
+    // El desplegable se arma desde la lista del diccionario: agregar un
+    // idioma nuevo no obliga a tocar el HTML.
+    i18n.idiomas.forEach(function (idioma) {
+      var op = document.createElement("option");
+      op.value = idioma.code;
+      op.textContent = idioma.nombre;
+      op.lang = idioma.code;      // cada nombre se lee en su propio idioma
+      select.appendChild(op);
+    });
+    select.value = raiz.getAttribute("data-lang") || base;
+
+    select.addEventListener("change", function () {
+      guardar("telve-lang", select.value);
+      aplicarIdioma(select.value);
+    });
+  }
+
   // El <head> ya dejó escrito data-lang; si no es el idioma base, se traduce.
   cacharTextos();
-  var i18n = window.TELVE_I18N;
-  var base = (i18n && i18n.base) || "es";
   var actual = raiz.getAttribute("data-lang") || base;
   if (actual !== base) aplicarIdioma(actual);
+  pintarCodigoIdioma();
 
   /* --- aviso de primera visita --- */
   var aviso  = document.getElementById("prefsCallout");
@@ -249,97 +268,28 @@ function initPrefs() {
   }
 }
 
-/* Marca el idioma activo en la insignia redonda junto al logo.
+/* Marca el idioma activo en la insignia del círculo.
    Si existe img/bandera-<code>.png la usa; si no, muestra el código de dos
    letras. Mismo patrón que el resto del sitio: la imagen se borra sola con
    onerror y queda el respaldo. No se usan banderas emoji porque Windows no
    las trae y salen como un recuadro vacío. */
 function pintarCodigoIdioma() {
-  var el = document.getElementById("langselCode");
+  var el = document.getElementById("prefsCode");
   if (!el) return;
   var lang = document.documentElement.getAttribute("data-lang") || "es";
 
   el.textContent = lang.toUpperCase();
-  el.classList.remove("langsel__code--bandera");
+  el.classList.remove("prefs__code--bandera");
 
   var img = new Image();
   img.onload = function () {
     el.textContent = "";
     el.appendChild(img);
-    el.classList.add("langsel__code--bandera");
+    el.classList.add("prefs__code--bandera");
   };
   img.src = "img/bandera-" + lang + ".png";
   img.alt = "";
-  img.className = "langsel__flag";
-}
-
-/* ===================================================================
-   SELECTOR DE IDIOMA (bandera junto al logo)
-   Botón redondo con la bandera activa; al pulsarlo despliega la lista de
-   idiomas (TELVE_I18N.idiomas). Mismo patrón de abrir/cerrar que el panel
-   de ajustes: clic fuera y Escape cierran, un solo desplegable a la vez.
-   =================================================================== */
-function initLangSel() {
-  var raiz = document.documentElement;
-  var wrap = document.getElementById("langsel");
-  var btn  = document.getElementById("langselBtn");
-  var list = document.getElementById("langselList");
-  if (!wrap || !btn || !list) return;
-
-  var i18n = window.TELVE_I18N;
-  var base = (i18n && i18n.base) || "es";
-
-  function guardar(clave, valor) {
-    try { localStorage.setItem(clave, valor); } catch (e) {}
-  }
-
-  function abrir(si) {
-    list.hidden = !si;
-    btn.setAttribute("aria-expanded", si ? "true" : "false");
-  }
-
-  var opciones = [];
-  if (i18n && i18n.idiomas) {
-    i18n.idiomas.forEach(function (idioma) {
-      var li = document.createElement("li");
-      li.setAttribute("role", "option");
-      li.className = "langsel__opt";
-      li.lang = idioma.code;
-      li.textContent = idioma.nombre;
-      li.dataset.code = idioma.code;
-      li.addEventListener("click", function () {
-        guardar("telve-lang", idioma.code);
-        aplicarIdioma(idioma.code);
-        pintarActivo();
-        pintarCodigoIdioma();
-        abrir(false);
-        btn.focus();
-      });
-      list.appendChild(li);
-      opciones.push(li);
-    });
-  }
-
-  function pintarActivo() {
-    var actual = raiz.getAttribute("data-lang") || base;
-    opciones.forEach(function (li) {
-      li.setAttribute("aria-selected", li.dataset.code === actual ? "true" : "false");
-    });
-  }
-
-  btn.addEventListener("click", function (e) {
-    e.stopPropagation();
-    abrir(list.hidden);
-  });
-  document.addEventListener("click", function (e) {
-    if (!list.hidden && !wrap.contains(e.target)) abrir(false);
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !list.hidden) { abrir(false); btn.focus(); }
-  });
-
-  pintarActivo();
-  pintarCodigoIdioma();
+  img.className = "prefs__flag";
 }
 
 /* ===================================================================
