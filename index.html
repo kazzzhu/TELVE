@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.14">
+  <link rel="stylesheet" href="css/styles.css?v=2.15">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -74,12 +74,24 @@
 
   <!-- ===================== NAV ===================== -->
   <header class="nav">
-    <button class="nav__brand" data-nav="inicio" type="button" aria-label="TELVE, C.A. — ir al inicio">
-      <img class="nav__logoimg" src="img/logo-telve.png" width="260" height="68"
-        alt="TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2">
-      <img class="nav__easa" src="img/easa-member.png" width="120" height="52"
-        alt="Miembro EASA — The Electro-Mechanical Authority">
-    </button>
+    <div class="nav__brandgroup">
+      <button class="nav__brand" data-nav="inicio" type="button" aria-label="TELVE, C.A. — ir al inicio">
+        <img class="nav__logoimg" src="img/logo-telve.png" width="260" height="68"
+          alt="TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2">
+        <img class="nav__easa" src="img/easa-member.png" width="120" height="52"
+          alt="Miembro EASA — The Electro-Mechanical Authority">
+      </button>
+
+      <!-- Selector de idioma: bandera junto al logo. Las opciones se generan
+           por JS desde TELVE_I18N.idiomas (js/i18n.js), igual que antes. -->
+      <div class="langsel" id="langsel">
+        <button class="langsel__btn" id="langselBtn" type="button" aria-haspopup="listbox"
+          aria-expanded="false" aria-label="Cambiar idioma">
+          <span class="langsel__code" id="langselCode"></span>
+        </button>
+        <ul class="langsel__list" id="langselList" role="listbox" hidden></ul>
+      </div>
+    </div>
     <button id="burger" class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links"
       type="button"><span></span></button>
     <nav class="nav__links" id="nav-links" data-links aria-label="Navegación principal">
@@ -740,14 +752,14 @@
     <!-- Aviso de primera visita. Sale del círculo apuntándolo, se muestra una
          sola vez y se guarda que ya se vio. -->
     <div class="prefs__callout" id="prefsCallout" role="status" hidden>
-      <p class="prefs__callout-txt">Cambia el idioma o reduce las animaciones aquí.</p>
+      <p class="prefs__callout-txt">Reduce las animaciones aquí si prefieres menos movimiento.</p>
       <button class="prefs__callout-ok" id="prefsCalloutOk" type="button">Entendido</button>
     </div>
 
 
 
     <button id="prefsToggle" class="prefs__toggle" type="button" aria-expanded="false"
-      aria-controls="prefsPanel" aria-label="Ajustes de la página">
+      aria-controls="prefsPanel" aria-label="Ajustes de animación">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
         stroke-linejoin="round" aria-hidden="true">
         <line x1="4" y1="8" x2="20" y2="8" />
@@ -755,12 +767,11 @@
         <line x1="4" y1="16" x2="20" y2="16" />
         <circle cx="15" cy="16" r="2.4" />
       </svg>
-      <span class="prefs__code" id="prefsCode" aria-hidden="true"></span>
     </button>
 
 
 
-    <div class="prefs__panel" id="prefsPanel" role="group" aria-label="Ajustes de la página" hidden>
+    <div class="prefs__panel" id="prefsPanel" role="group" aria-label="Ajustes de animación" hidden>
       <div class="prefs__group">
         <span class="prefs__label" id="lblMotion" data-i18n="prefs.animaciones">Animaciones</span>
         <div class="prefs__opts" role="group" aria-labelledby="lblMotion">
@@ -770,13 +781,6 @@
             data-i18n="prefs.reducidas">Reducidas</button>
         </div>
         <p class="prefs__hint" data-i18n="prefs.pista">Reducidas detiene la franja y los carruseles automáticos.</p>
-      </div>
-
-      <div class="prefs__group">
-        <label class="prefs__label" for="prefsLang">Idioma</label>
-        <!-- Las opciones las genera el JS desde TELVE_I18N.idiomas, para que
-             agregar un idioma no obligue a tocar este archivo. -->
-        <select class="prefs__select" id="prefsLang"></select>
       </div>
     </div>
   </div>
@@ -821,11 +825,11 @@
 
   <!-- Cliente Supabase (CDN, sin build): expone window.supabase.createClient -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src="js/equipos.js?v=2.14"></script>
+  <script src="js/equipos.js?v=2.15"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.14"></script>
-  <script src="js/script.js?v=2.14"></script>
+  <script src="js/i18n.js?v=2.15"></script>
+  <script src="js/script.js?v=2.15"></script>
 </body>
 
 </html>
