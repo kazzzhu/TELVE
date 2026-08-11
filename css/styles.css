@@ -1433,7 +1433,7 @@ html[data-motion="full"] .prefs__callout {
   .nav { flex-wrap: wrap; padding: 12px 20px; }
   .nav__logoimg { height: 54px; padding: 6px 10px; }
   .nav__easa { display: none; }
-  .langsel__btn { width: 34px; height: 24px; }
+  .langsel__btn { width: 34px; height: 24px; border-radius: 2px; }
   .burger { display: inline-flex; }
   .nav__links {
     display: none; width: 100%; flex-direction: column;
