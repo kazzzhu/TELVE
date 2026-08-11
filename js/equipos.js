@@ -240,15 +240,31 @@
     var camposBomba  = document.getElementById("camposBomba");
     var camposMotor  = document.getElementById("camposMotor");
     var ePotencia    = document.getElementById("ePotencia");
+    var eVoltaje     = document.getElementById("eVoltaje");
 
     function esBombaTipo(tipo) { return tipo.slice(0, 5) === "Bomba"; }
     function esMotorOGenerador(tipo) { return tipo.slice(0, 5) === "Motor" || tipo === "Generador"; }
+    function esTrifasico(tipo) { return tipo.indexOf("trifás") > -1; }
+
+    var VOLTAJES_NORMAL    = [["", "Voltaje de alimentación"], ["110V", "110V"], ["220V", "220V"], ["110V / 220V", "110V / 220V"]];
+    var VOLTAJES_TRIFASICO = [["", "Voltaje de alimentación"], ["220V", "220V"], ["440V", "440V"], ["220V / 440V", "220V / 440V"]];
+
+    function actualizarVoltajes(tipo) {
+      if (!eVoltaje) return;
+      var valorPrevio = eVoltaje.value;
+      var opciones = esTrifasico(tipo) ? VOLTAJES_TRIFASICO : VOLTAJES_NORMAL;
+      eVoltaje.innerHTML = opciones.map(function (o) {
+        return '<option value="' + o[0] + '">' + o[1] + "</option>";
+      }).join("");
+      eVoltaje.value = opciones.some(function (o) { return o[0] === valorPrevio; }) ? valorPrevio : "";
+    }
 
     function actualizarCampos() {
       var tipo = eTipo.value;
       if (camposBomba) camposBomba.hidden = !esBombaTipo(tipo);
       if (camposMotor) camposMotor.hidden = !esMotorOGenerador(tipo);
       if (ePotencia) ePotencia.placeholder = tipo === "Generador" ? "Potencia (KVA)" : "Potencia (HP)";
+      actualizarVoltajes(tipo);
     }
     if (eTipo) {
       eTipo.addEventListener("change", actualizarCampos);
