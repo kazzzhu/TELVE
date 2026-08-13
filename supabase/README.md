@@ -27,6 +27,13 @@ lista blanca y vuelve a caer en la Site URL. Los dos lados tienen que estar bien
 
 ## 2. Correo saliente (SMTP) — Resend
 
+> **Ya configurado y funcionando** desde el 13 de agosto de 2026. Los pasos de
+> abajo quedan como referencia, por si hay que rehacerlo o mover el proyecto.
+> Estado actual: dominio `telveca.com` verificado en Resend, SMTP propio
+> activo en Supabase, remitente `no-responder@telveca.com`, límite de envío
+> subido a 30/hora. Registros DNS en Cloudflare: DKIM en `resend._domainkey`,
+> SPF (MX + TXT) en `send`, y DMARC `p=none` en `_dmarc`.
+
 **El SMTP de fábrica de Supabase no sirve para uso general.** Está limitado a
 unos 2 correos por hora y, en proyectos nuevos, solo entrega a las direcciones
 del equipo del proyecto. Un cliente cualquiera que se registre no recibe nada.
