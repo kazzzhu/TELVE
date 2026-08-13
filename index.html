@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.18">
+  <link rel="stylesheet" href="css/styles.css?v=2.20">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -529,6 +529,10 @@
       <div class="section container">
         <div id="equiposGrid" class="grid grid--3 grid--divided"></div>
         <p id="equiposVacio" class="lead-muted" hidden>Por ahora no hay equipos cargados.</p>
+        <!-- Se muestra solo si la librería de la base de datos no llegó a cargar
+             (sin internet, CDN bloqueado). Vive en el HTML, y no en el JS, para
+             que la capa de idioma la traduzca como a cualquier otro texto. -->
+        <p id="equiposOffline" class="lead-muted" hidden>No se pudo cargar el catálogo de equipos. Revisa tu conexión a internet y recarga la página.</p>
       </div>
 
       <!-- ==================================================================
@@ -821,11 +825,11 @@
 
   <!-- Cliente Supabase (CDN, sin build): expone window.supabase.createClient -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src="js/equipos.js?v=2.18"></script>
+  <script src="js/equipos.js?v=2.20"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.18"></script>
-  <script src="js/script.js?v=2.18"></script>
+  <script src="js/i18n.js?v=2.20"></script>
+  <script src="js/script.js?v=2.20"></script>
 </body>
 
 </html>

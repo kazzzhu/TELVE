@@ -11,7 +11,16 @@
   var SUPABASE_KEY = "sb_publishable_eKbEmIEBrVtoiWXVYRYI9A_jTesbBCw";
   var ADMIN_EMAIL  = "telveca@gmail.com";
 
-  if (!window.supabase) return; // CDN no cargó (sin internet, bloqueado, etc.)
+  // La librería viene de un CDN: si no cargó (sin internet, red que lo
+  // bloquea), la página de Equipos quedaría vacía y sin explicación. Se
+  // avisa y se corta aquí; el resto del sitio funciona igual.
+  if (!window.supabase) {
+    document.addEventListener("DOMContentLoaded", function () {
+      var aviso = document.getElementById("equiposOffline");
+      if (aviso) aviso.hidden = false;
+    });
+    return;
+  }
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   /* Textos que este archivo escribe directo en el DOM se traducen en vivo

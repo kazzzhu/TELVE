@@ -358,6 +358,7 @@ en: {
     "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
       "Single-phase and three-phase electric motors, PEARL and CALPEDA water pumps, and generators, ready to install.",
     "Por ahora no hay equipos cargados.": "No equipment loaded yet.",
+    "No se pudo cargar el catálogo de equipos. Revisa tu conexión a internet y recarga la página.": "The equipment catalogue could not be loaded. Check your internet connection and reload the page.",
     "Administrador": "Administrator",
     "Agregar equipo": "Add item",
     "Foto (opcional)": "Photo (optional)",
@@ -637,6 +638,7 @@ pt: {
     "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
       "Motores elétricos monofásicos e trifásicos, bombas d'água PEARL e CALPEDA, e geradores, prontos para instalar.",
     "Por ahora no hay equipos cargados.": "Ainda não há equipamentos cadastrados.",
+    "No se pudo cargar el catálogo de equipos. Revisa tu conexión a internet y recarga la página.": "Não foi possível carregar o catálogo de equipamentos. Verifique sua conexão com a internet e recarregue a página.",
     "Administrador": "Administrador",
     "Agregar equipo": "Adicionar item",
     "Foto (opcional)": "Foto (opcional)",
@@ -916,6 +918,7 @@ it: {
     "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
       "Motori elettrici monofase e trifase, pompe dell'acqua PEARL e CALPEDA, e generatori, pronti per l'installazione.",
     "Por ahora no hay equipos cargados.": "Al momento non ci sono attrezzature caricate.",
+    "No se pudo cargar el catálogo de equipos. Revisa tu conexión a internet y recarga la página.": "Non è stato possibile caricare il catalogo delle attrezzature. Controlla la connessione a internet e ricarica la pagina.",
     "Administrador": "Amministratore",
     "Agregar equipo": "Aggiungi articolo",
     "Foto (opcional)": "Foto (facoltativa)",
