@@ -103,8 +103,10 @@ en: {
     muchosCorreos: "Too many emails sent. Wait a few minutes and try again.",
     registroCerrado: "New account registration is closed for now.",
     registroError: "The account could not be created. Please try again in a moment.",
-    saveError: "Error saving: ",
-    uploadError: "Error uploading photo: "
+    saveError: "The item could not be saved. Check the details and try again.",
+    uploadError: "The photo could not be uploaded. Please try again.",
+    fotoTipo: "The file must be an image.",
+    fotoPeso: "The photo cannot be larger than 5 MB."
   },
   equipos: {
     marca: "Brand: ",
@@ -114,7 +116,8 @@ en: {
     succion: "Suction dia.: ",
     salida: "Discharge dia.: ",
     eje: "Shaft dia.: ",
-    borrar: "Delete item"
+    borrar: "Delete item",
+    borrarError: "The item could not be deleted. Please try again."
   },
 
   /* ---- Atributos (alt, aria-label, title) ---- */
@@ -407,8 +410,10 @@ pt: {
     muchosCorreos: "Foram enviados e-mails demais. Aguarde alguns minutos e tente novamente.",
     registroCerrado: "O cadastro de novas contas está fechado por enquanto.",
     registroError: "Não foi possível criar a conta. Tente novamente em instantes.",
-    saveError: "Erro ao salvar: ",
-    uploadError: "Erro ao enviar a foto: "
+    saveError: "Não foi possível salvar o equipamento. Confira os dados e tente novamente.",
+    uploadError: "Não foi possível enviar a foto. Tente novamente.",
+    fotoTipo: "O arquivo deve ser uma imagem.",
+    fotoPeso: "A foto não pode ter mais de 5 MB."
   },
   equipos: {
     marca: "Marca: ",
@@ -418,7 +423,8 @@ pt: {
     succion: "Diâm. sucção: ",
     salida: "Diâm. saída: ",
     eje: "Diâm. eixo: ",
-    borrar: "Excluir item"
+    borrar: "Excluir item",
+    borrarError: "Não foi possível excluir o equipamento. Tente novamente."
   },
 
   attrs: {
@@ -693,8 +699,10 @@ it: {
     muchosCorreos: "Sono state inviate troppe email. Attendi qualche minuto e riprova.",
     registroCerrado: "La registrazione di nuovi account è chiusa per ora.",
     registroError: "Non è stato possibile creare l'account. Riprova tra poco.",
-    saveError: "Errore durante il salvataggio: ",
-    uploadError: "Errore durante il caricamento della foto: "
+    saveError: "Non è stato possibile salvare l'attrezzatura. Controlla i dati e riprova.",
+    uploadError: "Non è stato possibile caricare la foto. Riprova.",
+    fotoTipo: "Il file deve essere un'immagine.",
+    fotoPeso: "La foto non può superare i 5 MB."
   },
   equipos: {
     marca: "Marca: ",
@@ -704,7 +712,8 @@ it: {
     succion: "Diam. aspirazione: ",
     salida: "Diam. mandata: ",
     eje: "Diam. albero: ",
-    borrar: "Elimina articolo"
+    borrar: "Elimina articolo",
+    borrarError: "Non è stato possibile eliminare l'attrezzatura. Riprova."
   },
 
   attrs: {

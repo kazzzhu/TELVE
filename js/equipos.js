@@ -206,6 +206,8 @@
     var grid = document.getElementById("equiposGrid");
     if (!grid) return;
 
+    var MAX_FOTO_MB = 5;   // fotos de catálogo; de sobra para una foto de móvil
+
     var vacio      = document.getElementById("equiposVacio");
     var adminPanel = document.getElementById("equiposAdminPanel");
     var formEquipo = document.getElementById("formEquipo");
@@ -268,7 +270,11 @@
       if (!btn) return;
       if (!confirm("¿Borrar este equipo del catálogo?")) return;
       sb.from("equipos").delete().eq("id", btn.getAttribute("data-id")).then(function (r) {
-        if (r.error) { alert("Error al borrar: " + r.error.message); return; }
+        if (r.error) {
+          console.error("[TELVE] error borrando equipo:", r.error);
+          alert(tEquipos("borrarError", "No se pudo borrar el equipo. Intenta de nuevo."));
+          return;
+        }
         cargarEquipos();
       });
     });
@@ -286,6 +292,18 @@
 
     function mostrarErrorEquipo(texto) {
       if (equipoMsg) { equipoMsg.textContent = texto; equipoMsg.hidden = false; }
+    }
+
+    /* Los errores de Postgres y de Storage vienen con nombres de tabla, de
+       columna y de restricciones ("new row violates row-level security
+       policy for table equipos"). Eso no se le enseña a nadie: a quien está
+       usando el formulario no le dice nada, y a quien esté tanteando el
+       sistema le regala el mapa. Se muestra un mensaje traducido y el
+       detalle se manda a la consola, que es donde lo necesita quien
+       administra si algo falla de verdad. */
+    function fallo(clave, porDefecto, error) {
+      console.error("[TELVE]", porDefecto, error);
+      mostrarErrorEquipo(tAuth(clave, porDefecto));
     }
 
     /* ---------- Campos según tipo: bombas piden diámetros de succión/salida,
@@ -345,7 +363,7 @@
         foto_url:         fotoUrl
       };
       sb.from("equipos").insert(registro).then(function (r) {
-        if (r.error) { mostrarErrorEquipo(tAuth("saveError", "Error al guardar: ") + r.error.message); return; }
+        if (r.error) { fallo("saveError", "No se pudo guardar el equipo. Revisa los datos e intenta de nuevo.", r.error); return; }
         formEquipo.reset();
         actualizarCampos();
         cargarEquipos();
@@ -359,10 +377,26 @@
 
       if (!archivo) { guardarEquipo(null); return; }
 
+      /* El accept="image/*" del input solo filtra lo que ofrece el diálogo de
+         archivos: se salta con arrastrar y soltar o cambiando el filtro. Se
+         comprueba aquí de verdad, porque el bucket es público y lo que entre
+         queda servido desde el dominio de Supabase.
+         Esto es comodidad, no la barrera final: un cliente se puede editar.
+         El límite que manda es el del bucket en el panel de Supabase (tipos
+         MIME permitidos y tamaño máximo). Ver supabase/README.md. */
+      if (archivo.type.indexOf("image/") !== 0) {
+        fallo("fotoTipo", "El archivo debe ser una imagen.", { archivo: archivo.type });
+        return;
+      }
+      if (archivo.size > MAX_FOTO_MB * 1024 * 1024) {
+        fallo("fotoPeso", "La foto no puede pesar más de " + MAX_FOTO_MB + " MB.", { bytes: archivo.size });
+        return;
+      }
+
       // Nombre de archivo único: fecha + nombre original limpio de caracteres raros.
       var ruta = Date.now() + "-" + archivo.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
       sb.storage.from("equipos").upload(ruta, archivo).then(function (r) {
-        if (r.error) { mostrarErrorEquipo(tAuth("uploadError", "Error al subir la foto: ") + r.error.message); return; }
+        if (r.error) { fallo("uploadError", "No se pudo subir la foto. Intenta de nuevo.", r.error); return; }
         var url = sb.storage.from("equipos").getPublicUrl(ruta).data.publicUrl;
         guardarEquipo(url);
       });

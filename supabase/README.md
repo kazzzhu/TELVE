@@ -97,6 +97,32 @@ Nunca confiar en el chequeo del cliente para permisos: cualquiera puede editar
 el JavaScript en su navegador. Si hay que cambiar quién administra, se cambia
 la política RLS, y de paso la constante del archivo.
 
+Comprobado el 2026-08-13 contra el proyecto en producción: un visitante
+anónimo recibe 401 al intentar escribir, y un usuario registrado que no sea el
+administrador recibe 403 en INSERT y afecta cero filas en DELETE. Conviene
+repetir esa prueba si alguna vez se tocan las políticas.
+
+Ojo con el DELETE: RLS **filtra filas en vez de dar error**, así que PostgREST
+devuelve 204 igual que si hubiera borrado algo. La prueba válida es mirar si la
+fila sigue existiendo, no el código de respuesta.
+
+---
+
+## 5. Límites del bucket de fotos (Storage)
+
+`js/equipos.js` rechaza archivos que no sean imagen y los de más de 5 MB antes
+de subirlos, pero eso es **comodidad, no seguridad**: es código de cliente y se
+puede saltar. El límite que de verdad manda se pone en el panel.
+
+*Storage* → bucket `equipos` → *Settings*:
+
+- **Allowed MIME types**: `image/jpeg`, `image/png`, `image/webp`
+- **File size limit**: 5 MB, para que coincida con `MAX_FOTO_MB` del JavaScript
+
+Importa porque el bucket es público: lo que entre queda servido desde el
+dominio de Supabase. Sin este límite, un archivo HTML subido ahí se sirve como
+página.
+
 ---
 
 ## Pendientes conocidos
