@@ -38,6 +38,42 @@
         ],
         "createdAt": "2026-08-07T18:29:45.990Z",
         "reason": "Barra deslizante del nav (documentada en DESIGN.md Navigation: 'transicion de posicion y ancho') y puntito del hero. Son elementos de 3px y 10px; el ancho es la animacion, no un efecto secundario. Confirmado por Ricardo."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "arial",
+        "files": [
+          "supabase/plantillas-correo/confirmar-cuenta.html"
+        ],
+        "createdAt": "2026-08-13T12:18:16.443Z",
+        "reason": "Plantilla de correo HTML, no interfaz web: Anton/Oswald/Barlow son Google Fonts y ningun cliente de correo (Outlook, Gmail) las carga. Arial es la pila segura estandar en email."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "arial",
+        "files": [
+          "supabase/plantillas-correo/recuperar-clave.html"
+        ],
+        "createdAt": "2026-08-13T12:18:46.024Z",
+        "reason": "Plantilla de correo HTML, no interfaz web: los clientes de correo no cargan Google Fonts. Arial es la pila segura estandar en email."
+      },
+      {
+        "rule": "overused-font",
+        "value": "arial",
+        "files": [
+          "supabase/plantillas-correo/confirmar-cuenta.html"
+        ],
+        "createdAt": "2026-08-13T12:20:24.330Z",
+        "reason": "Plantilla de correo HTML, no interfaz web: los clientes de correo no cargan fuentes web, y Arial es la pila segura estandar en email. La personalidad de marca en estas plantillas la cargan el logo y el color, no la tipografia."
+      },
+      {
+        "rule": "overused-font",
+        "value": "arial",
+        "files": [
+          "supabase/plantillas-correo/recuperar-clave.html"
+        ],
+        "createdAt": "2026-08-13T12:20:24.369Z",
+        "reason": "Plantilla de correo HTML, no interfaz web: los clientes de correo no cargan fuentes web, y Arial es la pila segura estandar en email. La personalidad de marca en estas plantillas la cargan el logo y el color, no la tipografia."
       }
     ]
   }

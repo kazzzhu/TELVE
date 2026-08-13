@@ -54,6 +54,9 @@ Four languages: **es (base) / en / pt / it**. The mechanism is unusual and easy 
 - **Authorization is enforced by database RLS policies**, not by this file. The UI check against `ADMIN_EMAIL` only mirrors the same rule so it doesn't show a button the database would reject. Never rely on client-side checks here for access control.
 - The Supabase library loads from a jsDelivr CDN. If it fails to load, the script unhides `#equiposOffline` in `index.html` and returns; the rest of the site is unaffected.
 
+- Signup errors are translated by **error code** (`ERRORES_REGISTRO` in `equipos.js`), never by matching Supabase's English message text, which is not stable across library versions. Anything unmapped falls back to a generic translated line — the raw English error is never shown to a visitor.
+- **Half of this flow is dashboard config, not code**: Site URL, the redirect allow-list, SMTP, and the email templates. All of it is written down in `supabase/README.md`, along with the known gaps (no "forgot password" screen, no way to resend a confirmation email). Read that file before debugging anything about registration or confirmation emails.
+
 ## Images: convention over configuration
 
 `img/LEEME - nombres de las fotos.txt` documents the expected filenames (in Spanish, written for a non-technical client). The pattern used throughout `index.html` is:

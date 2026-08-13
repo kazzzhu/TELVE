@@ -128,14 +128,49 @@
       });
     });
 
+    /* Supabase devuelve sus errores en inglés y con jerga ("User already
+       registered"). Un visitante navegando en portugués no debería verlos.
+       Se traducen por CÓDIGO, no por texto: el código es estable entre
+       versiones de la librería, el mensaje no. Lo que no esté en la lista
+       cae en un mensaje genérico — nunca se muestra el crudo. */
+    var ERRORES_REGISTRO = {
+      user_already_exists:        ["yaRegistrado",   "Ese correo ya tiene una cuenta. Inicia sesión."],
+      email_exists:               ["yaRegistrado",   "Ese correo ya tiene una cuenta. Inicia sesión."],
+      weak_password:              ["claveDebil",     "La contraseña debe tener al menos 6 caracteres."],
+      email_address_invalid:      ["correoInvalido", "Ese correo no parece válido."],
+      over_email_send_rate_limit: ["muchosCorreos",  "Se enviaron demasiados correos. Espera unos minutos y vuelve a intentar."],
+      signup_disabled:            ["registroCerrado","El registro de cuentas nuevas está cerrado por ahora."]
+    };
+    function mensajeErrorRegistro(err) {
+      var par = ERRORES_REGISTRO[err && err.code];
+      if (par) return tAuth(par[0], par[1]);
+      return tAuth("registroError", "No se pudo crear la cuenta. Intenta de nuevo en un momento.");
+    }
+
     formReg.addEventListener("submit", function (e) {
       e.preventDefault();
       regError.hidden = true;
       regNote.hidden = true;
       var email = document.getElementById("authRegEmail").value;
       var clave = document.getElementById("authRegPass").value;
-      sb.auth.signUp({ email: email, password: clave }).then(function (r) {
-        if (r.error) { regError.textContent = r.error.message; regError.hidden = false; return; }
+      /* emailRedirectTo: a dónde vuelve el visitante al pulsar el enlace del
+         correo de confirmación. Sin esto, Supabase usa la "Site URL" del
+         panel, que de fábrica es http://localhost:3000 y deja el enlace
+         muerto. Se calcula de la página actual para que sirva igual en
+         GitHub Pages que abriendo el archivo en local.
+         OJO: la dirección también tiene que estar en la lista de
+         "Redirect URLs" del panel de Supabase, o la ignora y vuelve a caer
+         en la Site URL. La configuración exacta está en CLAUDE.md. */
+      sb.auth.signUp({
+        email: email,
+        password: clave,
+        options: { emailRedirectTo: location.origin + location.pathname }
+      }).then(function (r) {
+        if (r.error) {
+          regError.textContent = mensajeErrorRegistro(r.error);
+          regError.hidden = false;
+          return;
+        }
         formReg.reset();
         if (!r.data.session) {
           // Proyecto con confirmación de correo activa: no hay sesión aún.

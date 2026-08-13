@@ -1,0 +1,86 @@
+<!-- =====================================================================
+     TELVE C.A. — Plantilla del correo "Confirm signup"
+
+     DÓNDE VA: panel de Supabase → Authentication → Emails → Templates →
+     "Confirm signup". Pegar TODO este archivo en el campo "Message body"
+     (el bloque de comentario incluido no molesta, pero puedes borrarlo).
+
+     Asunto sugerido: Confirma tu cuenta — TELVE, C.A.
+
+     {{ .ConfirmationURL }} lo reemplaza Supabase por el enlace real. No
+     cambiarlo ni envolverlo en otra cosa.
+
+     POR QUÉ ESTÁ ESCRITO CON <table> Y ESTILOS EN LÍNEA: Outlook y Gmail
+     descartan <style>, flexbox y grid. En correo se maquetó así desde 1998
+     y sigue siendo lo único que se ve igual en todos lados.
+
+     ESTÁ EN ESPAÑOL A PROPÓSITO: Supabase tiene una sola plantilla por
+     proyecto, no puede elegir idioma según el visitante. El español es el
+     idioma base del sitio y el de la clientela de TELVE.
+     ===================================================================== -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f6f6;margin:0;padding:24px 0;font-family:Arial,Helvetica,sans-serif;">
+  <tr>
+    <td align="center">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:520px;background:#ffffff;border:1px solid #dbe3e2;">
+
+        <tr>
+          <td style="background:#336666;padding:20px 28px;">
+            <img src="https://kazzzhu.github.io/TELVE/img/logo-telve.png" width="180" alt="TELVE, C.A." style="display:block;border:0;max-width:180px;height:auto;">
+          </td>
+        </tr>
+        <tr>
+          <td style="height:4px;background:#c62828;font-size:0;line-height:0;">&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td style="padding:32px 28px 8px 28px;">
+            <h1 style="margin:0 0 16px 0;font-size:22px;line-height:1.3;color:#1f2b2b;">Confirma tu cuenta</h1>
+            <p style="margin:0 0 24px 0;font-size:15px;line-height:1.6;color:#1f2b2b;">
+              Recibimos una solicitud para crear una cuenta en el sitio de
+              <strong>TELVE, C.A.</strong> con este correo. Pulsa el botón para confirmarla.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="center" style="padding:0 28px 24px 28px;">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="background:#c62828;">
+                  <a href="{{ .ConfirmationURL }}" style="display:block;padding:14px 32px;font-size:15px;font-weight:bold;color:#ffffff;text-decoration:none;">Confirmar mi cuenta</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:0 28px 28px 28px;">
+            <p style="margin:0 0 8px 0;font-size:13px;line-height:1.6;color:#5c6b6b;">
+              Si el botón no funciona, copia y pega esta dirección en tu navegador:
+            </p>
+            <p style="margin:0 0 24px 0;font-size:12px;line-height:1.5;word-break:break-all;">
+              <a href="{{ .ConfirmationURL }}" style="color:#336666;">{{ .ConfirmationURL }}</a>
+            </p>
+            <p style="margin:0;font-size:13px;line-height:1.6;color:#5c6b6b;">
+              Si no fuiste tú, ignora este mensaje: la cuenta no se activa sin esta confirmación.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="background:#f4f6f6;border-top:1px solid #dbe3e2;padding:20px 28px;">
+            <p style="margin:0 0 4px 0;font-size:12px;line-height:1.6;color:#5c6b6b;">
+              <strong style="color:#1f2b2b;">TELVE, C.A.</strong> — Talleres Eléctricos Venezolanos · RIF J-08002579-2
+            </p>
+            <p style="margin:0;font-size:12px;line-height:1.6;color:#5c6b6b;">
+              Calle Columbo Silva Nro. 33, Barrio Ajuro, Ciudad Bolívar, Estado Bolívar<br>
+              Emergencias 24h: +58 414 853.1112 · telveca@gmail.com
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
