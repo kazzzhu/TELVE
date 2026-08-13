@@ -49,7 +49,12 @@
   function abrirLightbox(src) {
     var overlay = document.createElement("div");
     overlay.className = "lightbox";
-    overlay.innerHTML = '<img src="' + src + '" alt="">';
+    // Se arma el <img> como elemento en vez de con innerHTML: así la URL
+    // nunca se interpreta como HTML, sin depender de escapar nada.
+    var img = document.createElement("img");
+    img.src = src;
+    img.alt = "";
+    overlay.appendChild(img);
     function cerrar() {
       overlay.remove();
       document.removeEventListener("keydown", alEscape);
@@ -207,10 +212,16 @@
     var equipoMsg  = document.getElementById("equipoMsg");
     var esAdminActual = false;
 
+    /* Escapa para meter texto dentro de HTML, incluidos los ATRIBUTOS.
+       Antes esto se hacía con textContent → innerHTML, que escapa < > &
+       pero NO las comillas: un valor con una comilla doble cerraba el
+       atributo de al lado y permitía inyectar código (por ejemplo un
+       onerror= dentro de la etiqueta img de la foto). Se escapan también
+       las dos comillas, que es lo que hace segura la interpolación en
+       src="..." y data-id="..." de tarjeta(). */
+    var ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
     function escapar(txt) {
-      var d = document.createElement("div");
-      d.textContent = String(txt);
-      return d.innerHTML;
+      return String(txt).replace(/[&<>"']/g, function (c) { return ESCAPES[c]; });
     }
 
     function tarjeta(e) {
@@ -234,7 +245,7 @@
         '<h3 class="card__title">' + escapar(e.codigo) + "</h3>" +
         (especs.length ? '<ul class="drawer__list"><li>' + especs.join("</li><li>") + "</li></ul>" : "") +
         (e.precio ? '<p class="card__text"><strong>$' + Number(e.precio).toFixed(2) + "</strong></p>" : "") +
-        (esAdminActual ? '<button class="card__del" type="button" data-id="' + e.id + '">' + tEquipos("borrar", "Borrar equipo") + "</button>" : "");
+        (esAdminActual ? '<button class="card__del" type="button" data-id="' + escapar(e.id) + '">' + tEquipos("borrar", "Borrar equipo") + "</button>" : "");
       return div;
     }
 

@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.21">
+  <link rel="stylesheet" href="css/styles.css?v=2.23">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -823,13 +823,29 @@
     </div>
   </div>
 
-  <!-- Cliente Supabase (CDN, sin build): expone window.supabase.createClient -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-  <script src="js/equipos.js?v=2.21"></script>
+  <!-- Cliente Supabase (CDN, sin build): expone window.supabase.createClient.
+
+       VERSIÓN FIJA Y CON HUELLA (integrity), a propósito. Antes decía "@2",
+       que sirve la última versión 2.x que exista ese día: si alguien publica
+       una versión maliciosa, o el CDN se compromete, ese código correría en
+       esta página con acceso al token de sesión del visitante. Con la huella,
+       el navegador descarta el archivo si no coincide byte a byte y el script
+       sencillamente no carga (equipos.js ya avisa cuando eso pasa).
+
+       PARA ACTUALIZAR LA LIBRERÍA hay que cambiar las dos cosas a la vez;
+       si solo cambias el número, el navegador rechaza el archivo. La huella
+       nueva se saca así:
+         curl -sL <url-nueva> | openssl dgst -sha384 -binary | openssl base64 -A
+       crossorigin="anonymous" es obligatorio: sin él el navegador no puede
+       verificar un archivo de otro dominio. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
+    integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
+    crossorigin="anonymous"></script>
+  <script src="js/equipos.js?v=2.23"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.21"></script>
-  <script src="js/script.js?v=2.21"></script>
+  <script src="js/i18n.js?v=2.23"></script>
+  <script src="js/script.js?v=2.23"></script>
 </body>
 
 </html>
