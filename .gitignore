@@ -3,3 +3,7 @@
 .impeccable/live/sessions/
 .impeccable/live/accept-receipts/
 .impeccable/live/roots.json
+
+# Impeccable vive como plugin global (claude plugin install impeccable@impeccable),
+# no vendorizado aqui: pesaba 3,3 MB y GitHub Pages lo publicaba en el sitio.
+.claude/skills/impeccable/
