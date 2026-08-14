@@ -199,6 +199,22 @@ después, que es peor que rechazarla de entrada.
 
 ## Pendientes conocidos
 
+- **Sin verificación en dos pasos** en `telveca@gmail.com`, Supabase ni
+  Cloudflare. Todo el control del catálogo cuelga de una contraseña de Gmail:
+  quien entre ahí recupera Supabase y Resend, y ninguna política RLS lo frena.
+  Es el punto débil más grande que le queda al proyecto y el más barato de
+  cerrar. Propuesto el 2026-08-14, aplazado por el dueño del sitio.
+- **Sin CAPTCHA en el registro.** Alguien registrando en bucle agota el tope de
+  30 correos/hora y los 3.000/mes de Resend, y los clientes de verdad se quedan
+  sin su correo de confirmación. Se cierra con Turnstile de Cloudflare: crear
+  un widget, pegar la *secret key* en *Authentication → Attack Protection* y
+  pasar `options.captchaToken` en las tres llamadas de `js/equipos.js`
+  (`signUp`, `signInWithPassword`, `resetPasswordForEmail`). Ojo con el orden:
+  activarlo en el panel lo vuelve obligatorio en las tres al instante, así que
+  el código va primero. Si algo falla, se desactiva la casilla y todo vuelve a
+  funcionar sin redesplegar. Propuesto el 2026-08-14, aplazado.
+- **Nadie mira los logs.** Supabase guarda registros de autenticación y de API
+  en su panel, pero no hay alertas ni nadie que entre a revisarlos.
 - **No hay forma de reenviar el correo de confirmación.** Quien lo borre o no lo
   reciba se queda con una cuenta sin confirmar y sin salida por la interfaz;
   hay que borrar el usuario en *Authentication* → *Users* para que pueda
