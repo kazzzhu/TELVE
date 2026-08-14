@@ -89,9 +89,10 @@ modal directo en el formulario de contraseña nueva.
 Los dos correos vuelven con un `?p=<pestaña>` en la dirección, para aterrizar
 en la pestaña desde la que se pidió el correo y no en Inicio. Va en la query y
 no en el hash porque **Supabase reemplaza el fragmento entero** por su token.
-`https://telveca.com/**` de la lista blanca ya cubre esas direcciones; si
-alguna vez dejaran de cubrirlas, Supabase las ignora y cae en la Site URL —
-se aterriza en Inicio, sin romper nada.
+`https://telveca.com/**` de la lista blanca cubre esas direcciones —
+comprobado en producción el 2026-08-14, se vuelve a la pestaña correcta. Si
+alguna vez dejara de cubrirlas, Supabase las ignora y cae en la Site URL: se
+aterriza en Inicio, sin romper nada.
 
 Son **bilingües, español arriba e inglés debajo**, porque Supabase tiene una
 sola plantilla por proyecto: no sabe en qué idioma navegaba el visitante,
