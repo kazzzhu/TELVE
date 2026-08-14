@@ -87,9 +87,19 @@ modal de acceso. El visitante vuelve a `https://telveca.com/` con
 modal directo en el formulario de contraseña nueva. No hace falta ninguna
 URL extra en la lista blanca: `https://telveca.com/**` ya la cubre.
 
-Están en español porque Supabase tiene **una sola plantilla por proyecto**: no
-puede elegir idioma según el visitante, aunque el sitio hable cuatro. El español
-es el idioma base y el de la clientela.
+Son **bilingües, español arriba e inglés debajo**, porque Supabase tiene una
+sola plantilla por proyecto: no sabe en qué idioma navegaba el visitante,
+aunque el sitio hable cuatro. El español manda por ser el idioma del sitio y
+el de la clientela; el inglés cubre a quien no lo hable.
+
+Se puede hacer de verdad multi-idioma guardando el idioma en los metadatos del
+usuario al registrarse y ramificando con condicionales de Go
+(`{{ if eq .Data.lang "en" }}`). Se descartó: solo funcionaría para quien se
+registre a partir de ese cambio, y multiplica por cuatro el tamaño de dos
+plantillas que hay que editar a mano en el panel.
+
+El inglés está escrito a propósito sin vocabulario del ramo, así que no depende
+de la revisión de traducción que TELVE todavía tiene pendiente sobre el sitio.
 
 Van maquetadas con `<table>` y estilos en línea a propósito — Outlook y Gmail
 descartan `<style>`, flexbox y grid.
