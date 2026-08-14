@@ -16,6 +16,7 @@ The entire site is a **single-page app faked with `hidden` attributes**, all liv
 
 - Each top-level section (`inicio`, `servicios`, `equipos`, `nosotros`, `contacto`) is a `<section class="page" data-page="...">`. Only one is visible at a time; the rest carry the `hidden` attribute.
 - Navigation is done via `data-nav="<page-name>"` on any element (nav links, buttons, "ver más" links). `js/script.js`'s `goTo()` toggles `hidden` on the matching `[data-page]` section, updates the active nav link, and writes the current page name to the URL hash (`#servicios`) via `history.replaceState` so a reload stays on the same tab.
+- A `?p=<page>` query param overrides that hash on load. It exists for one reason: Supabase's confirmation and password-reset links come back with the hash **replaced** by an auth token, so the originating tab has to survive the round trip in the query instead. `js/equipos.js` writes it into `emailRedirectTo`/`redirectTo`; `script.js` reads it. Don't strip it on load — the hash still holds the token supabase-js is parsing.
 - There is no router library and no page reload between sections — treat this as client-side state, not real navigation.
 
 Three scripts load in order at the bottom of `index.html`, plus an inline script in `<head>`:

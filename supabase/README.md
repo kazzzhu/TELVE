@@ -84,8 +84,14 @@ En *Authentication* → *Emails* → *Templates*, pegar en "Message body":
 La de *Reset password* la dispara el enlace "¿Olvidaste tu contraseña?" del
 modal de acceso. El visitante vuelve a `https://telveca.com/` con
 `#type=recovery` en la URL; `js/equipos.js` lo detecta al arrancar y abre el
-modal directo en el formulario de contraseña nueva. No hace falta ninguna
-URL extra en la lista blanca: `https://telveca.com/**` ya la cubre.
+modal directo en el formulario de contraseña nueva.
+
+Los dos correos vuelven con un `?p=<pestaña>` en la dirección, para aterrizar
+en la pestaña desde la que se pidió el correo y no en Inicio. Va en la query y
+no en el hash porque **Supabase reemplaza el fragmento entero** por su token.
+`https://telveca.com/**` de la lista blanca ya cubre esas direcciones; si
+alguna vez dejaran de cubrirlas, Supabase las ignora y cae en la Site URL —
+se aterriza en Inicio, sin romper nada.
 
 Son **bilingües, español arriba e inglés debajo**, porque Supabase tiene una
 sola plantilla por proyecto: no sabe en qué idioma navegaba el visitante,

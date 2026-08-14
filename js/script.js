@@ -75,7 +75,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Al cargar, restaurar la pestaña guardada en la URL.
-  var pestanaInicial = (location.hash || "").replace("#", "");
+  // El ?p= lo pone js/equipos.js en los enlaces de los correos de Supabase,
+  // que devuelven al visitante a la raíz del sitio y además pisan el hash con
+  // su token (#access_token=…). Así se vuelve a la pestaña donde estaba y no
+  // a Inicio. Manda sobre el hash porque el hash, en ese caso, ya no es la
+  // pestaña sino el token.
+  // El ?p= se deja en la barra de direcciones a propósito. Quitarlo obligaría
+  // a reescribir la URL entera, y en ese momento el hash todavía lleva el
+  // token que supabase-js está leyendo: borrarlo antes de tiempo dejaría al
+  // visitante sin sesión. supabase-js limpia su propio hash al terminar.
+  var pestanaInicial = new URLSearchParams(location.search).get("p") ||
+    (location.hash || "").replace("#", "");
   if (validPages.indexOf(pestanaInicial) >= 0 && pestanaInicial !== "inicio") {
     goTo(pestanaInicial, false);
   }

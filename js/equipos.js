@@ -97,6 +97,33 @@
     var sesionActual = null;
     var tabActual = "login";
 
+    /* A dónde vuelve el visitante desde el correo. Se manda la pestaña en la
+       QUERY y no en el hash porque Supabase reemplaza el fragmento entero por
+       su token (#access_token=…), así que un "#equipos" no sobreviviría el
+       viaje. script.js lee ese ?p= al arrancar. Si la dirección no estuviera
+       en la lista blanca del panel, Supabase la ignora y cae en la Site URL:
+       se aterriza en Inicio, que es como funcionaba antes. */
+    function urlVuelta() {
+      var pagina = (location.hash || "").replace("#", "");
+      return location.origin + location.pathname + (pagina ? "?p=" + encodeURIComponent(pagina) : "");
+    }
+
+    /* Validación propia en vez de la del navegador. Con required/minlength,
+       Chrome vuelve a sacar su globo amarillo con cada tecla una vez que el
+       campo quedó inválido en un envío. Los formularios llevan novalidate y
+       se comprueba aquí, al enviar: un solo mensaje, en su sitio y traducido. */
+    var RE_CORREO = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    function faltaCorreo(email) {
+      if (!email) return tAuth("camposVacios", "Escribe tu correo y tu contraseña.");
+      if (!RE_CORREO.test(email)) return tAuth("correoInvalido", "Ese correo no parece válido.");
+      return null;
+    }
+    function faltaClave(clave) {
+      if (!clave) return tAuth("camposVacios", "Escribe tu correo y tu contraseña.");
+      if (clave.length < 6) return tAuth("claveDebil", "La contraseña debe tener al menos 6 caracteres.");
+      return null;
+    }
+
     function mostrarTab(tab) {
       tabActual = tab;
       var esLogin = tab === "login";
@@ -141,8 +168,15 @@
     formLogin.addEventListener("submit", function (e) {
       e.preventDefault();
       loginError.hidden = true;
-      var email = document.getElementById("authLoginEmail").value;
+      loginNote.hidden = true;
+      var email = document.getElementById("authLoginEmail").value.trim();
       var clave = document.getElementById("authLoginPass").value;
+      var falta = faltaCorreo(email) || faltaClave(clave);
+      if (falta) {
+        loginError.textContent = falta;
+        loginError.hidden = false;
+        return;
+      }
       sb.auth.signInWithPassword({ email: email, password: clave }).then(function (r) {
         if (r.error) {
           loginError.textContent = tAuth("loginError", "Correo o contraseña incorrectos.");
@@ -179,8 +213,14 @@
       e.preventDefault();
       regError.hidden = true;
       regNote.hidden = true;
-      var email = document.getElementById("authRegEmail").value;
+      var email = document.getElementById("authRegEmail").value.trim();
       var clave = document.getElementById("authRegPass").value;
+      var falta = faltaCorreo(email) || faltaClave(clave);
+      if (falta) {
+        regError.textContent = falta;
+        regError.hidden = false;
+        return;
+      }
       /* emailRedirectTo: a dónde vuelve el visitante al pulsar el enlace del
          correo de confirmación. Sin esto, Supabase usa la "Site URL" del
          panel, que de fábrica es http://localhost:3000 y deja el enlace
@@ -192,7 +232,7 @@
       sb.auth.signUp({
         email: email,
         password: clave,
-        options: { emailRedirectTo: location.origin + location.pathname }
+        options: { emailRedirectTo: urlVuelta() }
       }).then(function (r) {
         if (r.error) {
           regError.textContent = mensajeError(r.error, "registroError", "No se pudo crear la cuenta. Intenta de nuevo en un momento.");
@@ -219,14 +259,12 @@
       loginError.hidden = true;
       loginNote.hidden = true;
       var email = document.getElementById("authLoginEmail").value.trim();
-      if (!email) {
+      if (!email || !RE_CORREO.test(email)) {
         loginError.textContent = tAuth("escribeCorreo", "Escribe tu correo arriba y vuelve a pulsar.");
         loginError.hidden = false;
         return;
       }
-      sb.auth.resetPasswordForEmail(email, {
-        redirectTo: location.origin + location.pathname
-      }).then(function (r) {
+      sb.auth.resetPasswordForEmail(email, { redirectTo: urlVuelta() }).then(function (r) {
         if (r.error) {
           loginError.textContent = mensajeError(r.error, "resetError", "No se pudo enviar el enlace. Intenta de nuevo en un momento.");
           loginError.hidden = false;
@@ -243,7 +281,14 @@
       e.preventDefault();
       nuevaError.hidden = true;
       nuevaNote.hidden = true;
-      sb.auth.updateUser({ password: document.getElementById("authNuevaPass").value }).then(function (r) {
+      var clave = document.getElementById("authNuevaPass").value;
+      var falta = faltaClave(clave);
+      if (falta) {
+        nuevaError.textContent = falta;
+        nuevaError.hidden = false;
+        return;
+      }
+      sb.auth.updateUser({ password: clave }).then(function (r) {
         if (r.error) {
           // Sin sesión = el enlace caducó o ya se usó. Es el fallo más común
           // de este flujo y merece decirlo con nombre propio.
@@ -256,6 +301,16 @@
         }
         formNueva.reset();
         nuevaNote.hidden = false;
+        /* La ventana ya no pinta nada: la contraseña está cambiada y el
+           visitante quedó con la sesión abierta. Se deja el aviso un momento
+           para que se lea y se cierra sola, en vez de obligar a cerrarla a
+           mano. Vuelve a la pestaña de inicio de sesión para que la próxima
+           vez que se abra no aparezca el formulario de recuperación. */
+        setTimeout(function () {
+          cerrarModal();
+          nuevaNote.hidden = true;
+          mostrarTab("login");
+        }, 2500);
       });
     });
 

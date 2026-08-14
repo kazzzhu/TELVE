@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.27">
+  <link rel="stylesheet" href="css/styles.css?v=2.29">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -802,7 +802,13 @@
 
       <h2 class="authModal__title" id="authModalTitle">Bienvenido de nuevo</h2>
 
-      <form id="formAuthLogin" class="authModal__form">
+      <!-- novalidate en los tres formularios: la validación la hace
+           js/equipos.js al enviar. Con la del navegador, Chrome saca su globo
+           amarillo otra vez con CADA TECLA una vez que el campo quedó
+           inválido en un envío, y encima siempre en el idioma del navegador,
+           no en el del sitio. Los type/minlength se dejan porque siguen
+           dando el teclado correcto en móvil. -->
+      <form id="formAuthLogin" class="authModal__form" novalidate>
         <label class="authModal__label" for="authLoginEmail">Correo</label>
         <input class="authModal__input" type="email" id="authLoginEmail" autocomplete="username" required>
         <label class="authModal__label" for="authLoginPass">Contraseña</label>
@@ -813,7 +819,7 @@
         <p class="authModal__note" id="authLoginNote" hidden>Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.</p>
       </form>
 
-      <form id="formAuthRegister" class="authModal__form" hidden>
+      <form id="formAuthRegister" class="authModal__form" novalidate hidden>
         <label class="authModal__label" for="authRegEmail">Correo</label>
         <input class="authModal__input" type="email" id="authRegEmail" autocomplete="username" required>
         <label class="authModal__label" for="authRegPass">Contraseña</label>
@@ -826,7 +832,7 @@
       <!-- Segundo tramo del "olvidé mi contraseña": aparece solo cuando el
            visitante vuelve desde el enlace del correo. No tiene pestaña
            porque no es un sitio al que se pueda llegar navegando. -->
-      <form id="formAuthNueva" class="authModal__form" hidden>
+      <form id="formAuthNueva" class="authModal__form" novalidate hidden>
         <label class="authModal__label" for="authNuevaPass">Contraseña nueva</label>
         <input class="authModal__input" type="password" id="authNuevaPass" autocomplete="new-password" minlength="6" required>
         <button class="btn btn--primary authModal__submit" type="submit">Guardar contraseña</button>
@@ -854,11 +860,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=2.27"></script>
+  <script src="js/equipos.js?v=2.29"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.27"></script>
-  <script src="js/script.js?v=2.27"></script>
+  <script src="js/i18n.js?v=2.29"></script>
+  <script src="js/script.js?v=2.29"></script>
 </body>
 
 </html>
