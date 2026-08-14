@@ -32,7 +32,8 @@ lista blanca y vuelve a caer en la Site URL. Los dos lados tienen que estar bien
 > Estado actual: dominio `telveca.com` verificado en Resend, SMTP propio
 > activo en Supabase, remitente `no-responder@telveca.com`, límite de envío
 > subido a 30/hora. Registros DNS en Cloudflare: DKIM en `resend._domainkey`,
-> SPF (MX + TXT) en `send`, y DMARC `p=none` en `_dmarc`.
+> SPF (MX + TXT) en `send`, y DMARC `p=none` en `_dmarc`. La clave de Resend
+> se cambió el 2026-08-14 por una de **Sending access** solamente.
 
 **El SMTP de fábrica de Supabase no sirve para uso general.** Está limitado a
 unos 2 correos por hora y, en proyectos nuevos, solo entrega a las direcciones
@@ -48,7 +49,9 @@ Con `telveca.com` ya registrado, el proveedor es **Resend**
 3. Crear esos registros en Cloudflare (*DNS → Records*), tal cual los da
    Resend, **con el proxy desactivado** (nube gris). Esperar a que Resend
    marque el dominio como *Verified*.
-4. *API Keys* → crear una clave y tomar las credenciales SMTP.
+4. *API Keys* → crear una clave con permiso **Sending access** (no *Full
+   access*: para enviar correo no hace falta poder borrar dominios ni crear
+   más claves) y tomar las credenciales SMTP.
 5. Supabase → *Project Settings* → *Authentication* → *SMTP Settings* →
    *Enable Custom SMTP*:
    - Host, puerto, usuario y clave: los de Resend
@@ -106,6 +109,49 @@ Ojo con el DELETE: RLS **filtra filas en vez de dar error**, así que PostgREST
 devuelve 204 igual que si hubiera borrado algo. La prueba válida es mirar si la
 fila sigue existiendo, no el código de respuesta.
 
+### Permisos del bucket de fotos (`storage.objects`)
+
+Storage lleva sus **propias** políticas, aparte de las de la tabla. Comprobadas
+el 2026-08-14 contra producción:
+
+| Operación | Quién |
+|---|---|
+| SELECT | **nadie** por API (ver abajo) |
+| INSERT | solo el correo del administrador |
+| DELETE | **nadie**: no hay política, y sin política RLS deniega |
+| UPDATE | **nadie**, por lo mismo |
+
+Un visitante anónimo recibe 403 al subir y al borrar; un usuario registrado que
+no sea el administrador recibe `new row violates row-level security policy` al
+subir. Ninguno de los dos puede tocar las fotos.
+
+**La política SELECT se quitó el 2026-08-14** siguiendo un aviso del propio
+panel: era `bucket_id = 'equipos'` para `public`, y permitía pedir el
+**listado completo** de archivos del bucket. Las fotos se siguen viendo igual
+porque un bucket público las sirve por `/storage/v1/object/public/...`, ruta
+que no pasa por RLS. `js/equipos.js` no llama nunca a `.list()`, y
+`getPublicUrl()` arma la URL como texto sin tocar la red. Si alguna vez hace
+falta listar el bucket desde el sitio, habrá que volver a crear la política —
+y entonces conviene acotarla a un prefijo, no al bucket entero.
+
+El mismo truco del DELETE aplica aquí y de forma más engañosa: `storage.remove()`
+sobre un archivo que RLS no deja borrar devuelve `{ data: [], error: null }`,
+exactamente igual que si el archivo no existiera. **No sirve para medir
+permisos.** Lo que sí sirve es leer las políticas:
+
+```sql
+select policyname, cmd, roles, qual, with_check
+from pg_policies
+where schemaname = 'storage' and tablename = 'objects';
+```
+
+Consecuencia práctica, no de seguridad: `js/equipos.js` borra la fila de la
+tabla pero nunca el archivo del bucket, y encima el archivo es imborrable por
+API. Cada equipo eliminado deja su foto huérfana en Storage para siempre. Son
+unos pocos megabytes; si algún día molesta, hay que limpiarlas a mano desde el
+panel, o agregar una política DELETE para el administrador y llamar a
+`sb.storage.from("equipos").remove([...])` al borrar.
+
 ---
 
 ## 5. Límites del bucket de fotos (Storage)
@@ -114,7 +160,7 @@ fila sigue existiendo, no el código de respuesta.
 de subirlos, pero eso es **comodidad, no seguridad**: es código de cliente y se
 puede saltar. El límite que de verdad manda se pone en el panel.
 
-*Storage* → bucket `equipos` → *Settings*:
+Puesto el 2026-08-14 en *Storage* → bucket `equipos` → *Edit bucket*:
 
 - **Allowed MIME types**: `image/jpeg`, `image/png`, `image/webp`
 - **File size limit**: 5 MB, para que coincida con `MAX_FOTO_MB` del JavaScript
@@ -122,6 +168,10 @@ puede saltar. El límite que de verdad manda se pone en el panel.
 Importa porque el bucket es público: lo que entre queda servido desde el
 dominio de Supabase. Sin este límite, un archivo HTML subido ahí se sirve como
 página.
+
+Si algún día se sube `MAX_FOTO_MB` en `js/equipos.js`, hay que subir también el
+límite del panel — si no, el navegador acepta la foto y Supabase la rechaza
+después, que es peor que rechazarla de entrada.
 
 ---
 
