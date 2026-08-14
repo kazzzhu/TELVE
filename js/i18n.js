@@ -106,7 +106,13 @@ en: {
     saveError: "The item could not be saved. Check the details and try again.",
     uploadError: "The photo could not be uploaded. Please try again.",
     fotoTipo: "The file must be an image.",
-    fotoPeso: "The photo cannot be larger than 5 MB."
+    fotoPeso: "The photo cannot be larger than 5 MB.",
+    nuevaClaveTitle: "Choose a new password",
+    escribeCorreo: "Type your email above and click again.",
+    resetError: "The link could not be sent. Please try again in a moment.",
+    claveIgual: "That is already your current password. Choose a different one.",
+    claveError: "The password could not be changed. Please try again.",
+    enlaceCaducado: "That link no longer works. Request a new one from “Forgot your password?”."
   },
   equipos: {
     marca: "Brand: ",
@@ -380,7 +386,12 @@ en: {
     "Crear cuenta": "Create account",
     "Contraseña": "Password",
     "Entrar": "Log in",
-    "Revisa tu correo para confirmar la cuenta.": "Check your email to confirm your account."
+    "Revisa tu correo para confirmar la cuenta.": "Check your email to confirm your account.",
+    "¿Olvidaste tu contraseña?": "Forgot your password?",
+    "Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.": "If that email has an account, we've sent a link to change the password. Check your inbox.",
+    "Contraseña nueva": "New password",
+    "Guardar contraseña": "Save password",
+    "Contraseña actualizada. Ya puedes entrar con ella.": "Password updated. You can log in with it now."
   }
 
 },  /* ---- fin del inglés ---- */
@@ -413,7 +424,13 @@ pt: {
     saveError: "Não foi possível salvar o equipamento. Confira os dados e tente novamente.",
     uploadError: "Não foi possível enviar a foto. Tente novamente.",
     fotoTipo: "O arquivo deve ser uma imagem.",
-    fotoPeso: "A foto não pode ter mais de 5 MB."
+    fotoPeso: "A foto não pode ter mais de 5 MB.",
+    nuevaClaveTitle: "Escolha uma senha nova",
+    escribeCorreo: "Escreva seu e-mail acima e clique de novo.",
+    resetError: "Não foi possível enviar o link. Tente novamente em instantes.",
+    claveIgual: "Essa já é a sua senha atual. Escolha outra.",
+    claveError: "Não foi possível trocar a senha. Tente novamente.",
+    enlaceCaducado: "Esse link não vale mais. Peça um novo em “Esqueceu sua senha?”."
   },
   equipos: {
     marca: "Marca: ",
@@ -669,7 +686,12 @@ pt: {
     "Crear cuenta": "Criar conta",
     "Contraseña": "Senha",
     "Entrar": "Entrar",
-    "Revisa tu correo para confirmar la cuenta.": "Confira seu e-mail para confirmar a conta."
+    "Revisa tu correo para confirmar la cuenta.": "Confira seu e-mail para confirmar a conta.",
+    "¿Olvidaste tu contraseña?": "Esqueceu sua senha?",
+    "Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.": "Se esse e-mail tiver uma conta, enviamos um link para trocar a senha. Confira sua caixa de entrada.",
+    "Contraseña nueva": "Senha nova",
+    "Guardar contraseña": "Salvar senha",
+    "Contraseña actualizada. Ya puedes entrar con ella.": "Senha atualizada. Já pode entrar com ela."
   }
 
 },  /* ---- fin del portugués ---- */
@@ -702,7 +724,13 @@ it: {
     saveError: "Non è stato possibile salvare l'attrezzatura. Controlla i dati e riprova.",
     uploadError: "Non è stato possibile caricare la foto. Riprova.",
     fotoTipo: "Il file deve essere un'immagine.",
-    fotoPeso: "La foto non può superare i 5 MB."
+    fotoPeso: "La foto non può superare i 5 MB.",
+    nuevaClaveTitle: "Scegli una nuova password",
+    escribeCorreo: "Scrivi la tua email qui sopra e premi di nuovo.",
+    resetError: "Non è stato possibile inviare il link. Riprova tra poco.",
+    claveIgual: "Questa è già la tua password attuale. Scegline un'altra.",
+    claveError: "Non è stato possibile cambiare la password. Riprova.",
+    enlaceCaducado: "Quel link non è più valido. Chiedine uno nuovo da “Hai dimenticato la password?”."
   },
   equipos: {
     marca: "Marca: ",
@@ -958,7 +986,12 @@ it: {
     "Crear cuenta": "Crea account",
     "Contraseña": "Password",
     "Entrar": "Accedi",
-    "Revisa tu correo para confirmar la cuenta.": "Controlla la tua email per confermare l'account."
+    "Revisa tu correo para confirmar la cuenta.": "Controlla la tua email per confermare l'account.",
+    "¿Olvidaste tu contraseña?": "Hai dimenticato la password?",
+    "Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.": "Se quell'email ha un account, ti abbiamo inviato un link per cambiare la password. Controlla la posta.",
+    "Contraseña nueva": "Nuova password",
+    "Guardar contraseña": "Salva password",
+    "Contraseña actualizada. Ya puedes entrar con ella.": "Password aggiornata. Ora puoi accedere con questa."
   }
 
 }   /* ---- fin del italiano. El siguiente idioma va aquí, al mismo nivel ---- */

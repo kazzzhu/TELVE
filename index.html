@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.25">
+  <link rel="stylesheet" href="css/styles.css?v=2.27">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -808,7 +808,9 @@
         <label class="authModal__label" for="authLoginPass">Contraseña</label>
         <input class="authModal__input" type="password" id="authLoginPass" autocomplete="current-password" required>
         <button class="btn btn--primary authModal__submit" type="submit">Entrar</button>
+        <button class="authModal__link" id="authForgot" type="button">¿Olvidaste tu contraseña?</button>
         <p class="authModal__error" id="authLoginError" hidden></p>
+        <p class="authModal__note" id="authLoginNote" hidden>Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.</p>
       </form>
 
       <form id="formAuthRegister" class="authModal__form" hidden>
@@ -819,6 +821,17 @@
         <button class="btn btn--primary authModal__submit" type="submit">Crear cuenta</button>
         <p class="authModal__error" id="authRegError" hidden></p>
         <p class="authModal__note" id="authRegNote" hidden>Revisa tu correo para confirmar la cuenta.</p>
+      </form>
+
+      <!-- Segundo tramo del "olvidé mi contraseña": aparece solo cuando el
+           visitante vuelve desde el enlace del correo. No tiene pestaña
+           porque no es un sitio al que se pueda llegar navegando. -->
+      <form id="formAuthNueva" class="authModal__form" hidden>
+        <label class="authModal__label" for="authNuevaPass">Contraseña nueva</label>
+        <input class="authModal__input" type="password" id="authNuevaPass" autocomplete="new-password" minlength="6" required>
+        <button class="btn btn--primary authModal__submit" type="submit">Guardar contraseña</button>
+        <p class="authModal__error" id="authNuevaError" hidden></p>
+        <p class="authModal__note" id="authNuevaNote" hidden>Contraseña actualizada. Ya puedes entrar con ella.</p>
       </form>
     </div>
   </div>
@@ -841,11 +854,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=2.25"></script>
+  <script src="js/equipos.js?v=2.27"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.25"></script>
-  <script src="js/script.js?v=2.25"></script>
+  <script src="js/i18n.js?v=2.27"></script>
+  <script src="js/script.js?v=2.27"></script>
 </body>
 
 </html>

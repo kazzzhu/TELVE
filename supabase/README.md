@@ -81,6 +81,12 @@ En *Authentication* → *Emails* → *Templates*, pegar en "Message body":
 | Confirm signup | `plantillas-correo/confirmar-cuenta.html` |
 | Reset password | `plantillas-correo/recuperar-clave.html` |
 
+La de *Reset password* la dispara el enlace "¿Olvidaste tu contraseña?" del
+modal de acceso. El visitante vuelve a `https://telveca.com/` con
+`#type=recovery` en la URL; `js/equipos.js` lo detecta al arrancar y abre el
+modal directo en el formulario de contraseña nueva. No hace falta ninguna
+URL extra en la lista blanca: `https://telveca.com/**` ya la cubre.
+
 Están en español porque Supabase tiene **una sola plantilla por proyecto**: no
 puede elegir idioma según el visitante, aunque el sitio hable cuatro. El español
 es el idioma base y el de la clientela.
@@ -177,8 +183,6 @@ después, que es peor que rechazarla de entrada.
 
 ## Pendientes conocidos
 
-- **No hay pantalla de "olvidé mi contraseña"** en el sitio. La plantilla existe,
-  pero nada la dispara todavía; hoy solo se puede resetear a mano desde el panel.
 - **No hay forma de reenviar el correo de confirmación.** Quien lo borre o no lo
   reciba se queda con una cuenta sin confirmar y sin salida por la interfaz;
   hay que borrar el usuario en *Authentication* → *Users* para que pueda

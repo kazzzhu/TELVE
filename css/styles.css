@@ -1111,6 +1111,7 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 .authModal__close:hover { background: var(--surface-2); color: var(--text); }
 .authModal__close svg { width: 18px; height: 18px; }
 
+.authModal__tabs[hidden] { display: none; }
 .authModal__tabs {
   display: flex; gap: 4px; background: var(--surface-2);
   border-radius: 8px; padding: 4px; margin-bottom: 24px;
@@ -1145,6 +1146,19 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 }
 .authModal__input:focus { border-color: var(--teal); outline: none; }
 .authModal__submit { margin-top: 20px; width: 100%; }
+.authModal__link {
+  align-self: center;
+  margin-top: 12px;
+  padding: 4px;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--teal-dark);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.authModal__link:hover { color: var(--red); }
 .authModal__error { color: var(--red); font-size: 13.5px; margin-top: 10px; }
 .authModal__note { color: var(--teal-dark); font-size: 13.5px; margin-top: 10px; }
 

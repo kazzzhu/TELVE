@@ -21,6 +21,12 @@
     });
     return;
   }
+  /* El enlace de "cambiar contraseña" del correo devuelve al visitante con
+     #type=recovery en la URL. Se mira AQUÍ, antes de crear el cliente:
+     supabase-js detecta ese hash al arrancar, abre la sesión de recuperación
+     y limpia la URL, así que para cuando corre initAuthModal ya no está. */
+  var ES_RECUPERACION = location.hash.indexOf("type=recovery") > -1;
+
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
   /* Textos que este archivo escribe directo en el DOM se traducen en vivo
@@ -77,24 +83,39 @@
     var tabReg     = document.getElementById("tabRegister");
     var formLogin  = document.getElementById("formAuthLogin");
     var formReg    = document.getElementById("formAuthRegister");
+    var formNueva  = document.getElementById("formAuthNueva");
     var loginError = document.getElementById("authLoginError");
+    var loginNote  = document.getElementById("authLoginNote");
     var regError   = document.getElementById("authRegError");
     var regNote    = document.getElementById("authRegNote");
+    var nuevaError = document.getElementById("authNuevaError");
+    var nuevaNote  = document.getElementById("authNuevaNote");
+    var forgotBtn  = document.getElementById("authForgot");
+    var tabsWrap   = modal.querySelector(".authModal__tabs");
     var titulo     = document.getElementById("authModalTitle");
 
     var sesionActual = null;
+    var tabActual = "login";
 
     function mostrarTab(tab) {
+      tabActual = tab;
       var esLogin = tab === "login";
+      var esReg   = tab === "register";
+      var esNueva = tab === "nueva";
+      // En recuperación no hay nada que elegir: se esconden las pestañas.
+      if (tabsWrap) tabsWrap.hidden = esNueva;
       tabLogin.classList.toggle("is-active", esLogin);
-      tabReg.classList.toggle("is-active", !esLogin);
+      tabReg.classList.toggle("is-active", esReg);
       tabLogin.setAttribute("aria-selected", esLogin ? "true" : "false");
-      tabReg.setAttribute("aria-selected", !esLogin ? "true" : "false");
+      tabReg.setAttribute("aria-selected", esReg ? "true" : "false");
       formLogin.hidden = !esLogin;
-      formReg.hidden = esLogin;
-      titulo.textContent = esLogin
-        ? tAuth("loginTitle", "Bienvenido de nuevo")
-        : tAuth("registerTitle", "Crear cuenta");
+      formReg.hidden   = !esReg;
+      if (formNueva) formNueva.hidden = !esNueva;
+      titulo.textContent = esNueva
+        ? tAuth("nuevaClaveTitle", "Elige una contraseña nueva")
+        : esLogin
+          ? tAuth("loginTitle", "Bienvenido de nuevo")
+          : tAuth("registerTitle", "Crear cuenta");
     }
 
     function alEscape(e) { if (e.key === "Escape") cerrarModal(); }
@@ -138,18 +159,20 @@
        Se traducen por CÓDIGO, no por texto: el código es estable entre
        versiones de la librería, el mensaje no. Lo que no esté en la lista
        cae en un mensaje genérico — nunca se muestra el crudo. */
-    var ERRORES_REGISTRO = {
+    var ERRORES_AUTH = {
       user_already_exists:        ["yaRegistrado",   "Ese correo ya tiene una cuenta. Inicia sesión."],
       email_exists:               ["yaRegistrado",   "Ese correo ya tiene una cuenta. Inicia sesión."],
       weak_password:              ["claveDebil",     "La contraseña debe tener al menos 6 caracteres."],
       email_address_invalid:      ["correoInvalido", "Ese correo no parece válido."],
       over_email_send_rate_limit: ["muchosCorreos",  "Se enviaron demasiados correos. Espera unos minutos y vuelve a intentar."],
-      signup_disabled:            ["registroCerrado","El registro de cuentas nuevas está cerrado por ahora."]
+      signup_disabled:            ["registroCerrado","El registro de cuentas nuevas está cerrado por ahora."],
+      same_password:              ["claveIgual",     "Esa ya es tu contraseña actual. Elige otra."]
     };
-    function mensajeErrorRegistro(err) {
-      var par = ERRORES_REGISTRO[err && err.code];
+    // El mensaje de reserva cambia según de qué formulario venga el error.
+    function mensajeError(err, claveGenerica, textoGenerico) {
+      var par = ERRORES_AUTH[err && err.code];
       if (par) return tAuth(par[0], par[1]);
-      return tAuth("registroError", "No se pudo crear la cuenta. Intenta de nuevo en un momento.");
+      return tAuth(claveGenerica, textoGenerico);
     }
 
     formReg.addEventListener("submit", function (e) {
@@ -172,7 +195,7 @@
         options: { emailRedirectTo: location.origin + location.pathname }
       }).then(function (r) {
         if (r.error) {
-          regError.textContent = mensajeErrorRegistro(r.error);
+          regError.textContent = mensajeError(r.error, "registroError", "No se pudo crear la cuenta. Intenta de nuevo en un momento.");
           regError.hidden = false;
           return;
         }
@@ -186,6 +209,58 @@
       });
     });
 
+    /* ---------- Olvidé mi contraseña, primer tramo: pedir el enlace ----------
+       Se reutiliza el correo ya escrito arriba en vez de montar un tercer
+       formulario. Supabase contesta OK aunque ese correo no exista, a
+       propósito: si dijera "no hay cuenta", cualquiera podría averiguar quién
+       está registrado probando direcciones. Por eso el aviso empieza con "si
+       ese correo tiene una cuenta". */
+    if (forgotBtn) forgotBtn.addEventListener("click", function () {
+      loginError.hidden = true;
+      loginNote.hidden = true;
+      var email = document.getElementById("authLoginEmail").value.trim();
+      if (!email) {
+        loginError.textContent = tAuth("escribeCorreo", "Escribe tu correo arriba y vuelve a pulsar.");
+        loginError.hidden = false;
+        return;
+      }
+      sb.auth.resetPasswordForEmail(email, {
+        redirectTo: location.origin + location.pathname
+      }).then(function (r) {
+        if (r.error) {
+          loginError.textContent = mensajeError(r.error, "resetError", "No se pudo enviar el enlace. Intenta de nuevo en un momento.");
+          loginError.hidden = false;
+          return;
+        }
+        loginNote.hidden = false;
+      });
+    });
+
+    /* ---------- Segundo tramo: guardar la contraseña nueva ----------
+       El visitante vuelve del correo con la sesión de recuperación ya abierta,
+       así que no hay que verificar nada más: basta con cambiar la clave. */
+    if (formNueva) formNueva.addEventListener("submit", function (e) {
+      e.preventDefault();
+      nuevaError.hidden = true;
+      nuevaNote.hidden = true;
+      sb.auth.updateUser({ password: document.getElementById("authNuevaPass").value }).then(function (r) {
+        if (r.error) {
+          // Sin sesión = el enlace caducó o ya se usó. Es el fallo más común
+          // de este flujo y merece decirlo con nombre propio.
+          var sinSesion = r.error.name === "AuthSessionMissingError" || r.error.status === 401;
+          nuevaError.textContent = sinSesion
+            ? tAuth("enlaceCaducado", "Ese enlace ya no sirve. Pide uno nuevo desde “¿Olvidaste tu contraseña?”.")
+            : mensajeError(r.error, "claveError", "No se pudo cambiar la contraseña. Intenta de nuevo.");
+          nuevaError.hidden = false;
+          return;
+        }
+        formNueva.reset();
+        nuevaNote.hidden = false;
+      });
+    });
+
+    if (ES_RECUPERACION) abrirModal("nueva");
+
     function pintarBoton(sesion) {
       sesionActual = sesion;
       navBtn.textContent = sesion ? tAuth("logout", "Cerrar sesión") : tAuth("login", "Iniciar sesión");
@@ -197,7 +272,7 @@
     // para refrescar el botón y, si el modal está abierto, su título.
     window.TELVE_refrescarAuthUI = function () {
       pintarBoton(sesionActual);
-      if (!modal.hidden) mostrarTab(formLogin.hidden ? "register" : "login");
+      if (!modal.hidden) mostrarTab(tabActual);
     };
   }
 
