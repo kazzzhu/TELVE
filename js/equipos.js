@@ -96,7 +96,6 @@
 
     var sesionActual = null;
     var tabActual = "login";
-    var claveCambiada = false;
 
     /* A dónde vuelve el visitante desde el correo. Se manda la pestaña en la
        QUERY y no en el hash porque Supabase reemplaza el fragmento entero por
@@ -154,12 +153,12 @@
     }
     function cerrarModal() {
       /* Volver desde el enlace del correo abre una SESIÓN DE VERDAD: es lo que
-         permite llamar a updateUser para cambiar la contraseña, no se puede
-         hacer sin ella. Pero si se cierra esta ventana sin escribir nada, esa
-         sesión no se pidió ni se usó: el visitante quería cambiar su
-         contraseña, no entrar. Se cierra, para que no se quede dentro por
-         haber abierto un correo. */
-      if (tabActual === "nueva" && !claveCambiada) sb.auth.signOut();
+         permite llamar a updateUser, no se puede cambiar la contraseña sin
+         ella. Esa sesión se cierra SIEMPRE al salir de aquí, haya cambiado la
+         contraseña o no. Quien abrió el enlace pidió cambiar su contraseña,
+         no entrar; y si la cambió, entra con la nueva, que además es la única
+         forma de comprobar que quedó como esperaba. */
+      if (tabActual === "nueva") sb.auth.signOut();
       modal.hidden = true;
       document.removeEventListener("keydown", alEscape);
     }
@@ -307,7 +306,6 @@
           nuevaError.hidden = false;
           return;
         }
-        claveCambiada = true;
         formNueva.reset();
         nuevaNote.hidden = false;
         /* La ventana ya no pinta nada: la contraseña está cambiada y el
