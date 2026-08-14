@@ -91,6 +91,8 @@
     var nuevaError = document.getElementById("authNuevaError");
     var nuevaNote  = document.getElementById("authNuevaNote");
     var forgotBtn  = document.getElementById("authForgot");
+    var resendBtn  = document.getElementById("authResend");
+    var resendNote = document.getElementById("authResendNote");
     var tabsWrap   = modal.querySelector(".authModal__tabs");
     var titulo     = document.getElementById("authModalTitle");
 
@@ -126,6 +128,9 @@
 
     function mostrarTab(tab) {
       tabActual = tab;
+      // Los avisos del formulario anterior no pintan nada en el nuevo.
+      [loginError, loginNote, regError, regNote, nuevaError, nuevaNote,
+       resendBtn, resendNote].forEach(function (el) { if (el) el.hidden = true; });
       var esLogin = tab === "login";
       var esReg   = tab === "register";
       var esNueva = tab === "nueva";
@@ -176,6 +181,8 @@
       e.preventDefault();
       loginError.hidden = true;
       loginNote.hidden = true;
+      if (resendBtn) resendBtn.hidden = true;
+      if (resendNote) resendNote.hidden = true;
       var email = document.getElementById("authLoginEmail").value.trim();
       var clave = document.getElementById("authLoginPass").value;
       var falta = faltaCorreo(email) || faltaClave(clave);
@@ -186,8 +193,16 @@
       }
       sb.auth.signInWithPassword({ email: email, password: clave }).then(function (r) {
         if (r.error) {
-          loginError.textContent = tAuth("loginError", "Correo o contraseña incorrectos.");
+          /* Cuenta creada pero sin confirmar: quien borró o nunca recibió ese
+             correo se queda encallado aquí, y hasta ahora la única salida era
+             que alguien lo borrara a mano desde el panel. Se le ofrece el
+             reenvío en el mismo sitio donde se topa con el problema. */
+          var sinConfirmar = r.error.code === "email_not_confirmed";
+          loginError.textContent = sinConfirmar
+            ? tAuth("noConfirmado", "Tu cuenta todavía no está confirmada. Revisa tu correo.")
+            : tAuth("loginError", "Correo o contraseña incorrectos.");
           loginError.hidden = false;
+          if (resendBtn) resendBtn.hidden = !sinConfirmar;
           return;
         }
         formLogin.reset();
@@ -278,6 +293,35 @@
           return;
         }
         loginNote.hidden = false;
+      });
+    });
+
+    /* ---------- Reenviar el correo de confirmación ----------
+       Mismo correo y misma plantilla que el del registro; Supabase invalida
+       el enlace anterior al mandar el nuevo. El tope de correos por hora del
+       panel también cuenta aquí: si se agota, llega "muchosCorreos" traducido
+       por mensajeError. */
+    if (resendBtn) resendBtn.addEventListener("click", function () {
+      loginError.hidden = true;
+      resendNote.hidden = true;
+      var email = document.getElementById("authLoginEmail").value.trim();
+      if (!email || !RE_CORREO.test(email)) {
+        loginError.textContent = tAuth("escribeCorreo", "Escribe tu correo arriba y vuelve a pulsar.");
+        loginError.hidden = false;
+        return;
+      }
+      sb.auth.resend({
+        type: "signup",
+        email: email,
+        options: { emailRedirectTo: urlVuelta() }
+      }).then(function (r) {
+        if (r.error) {
+          loginError.textContent = mensajeError(r.error, "resetError", "No se pudo enviar el enlace. Intenta de nuevo en un momento.");
+          loginError.hidden = false;
+          return;
+        }
+        resendBtn.hidden = true;
+        resendNote.hidden = false;
       });
     });
 

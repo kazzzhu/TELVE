@@ -107,6 +107,7 @@ en: {
     uploadError: "The photo could not be uploaded. Please try again.",
     fotoTipo: "The file must be an image.",
     fotoPeso: "The photo cannot be larger than 5 MB.",
+    noConfirmado: "Your account is not confirmed yet. Check your email.",
     camposVacios: "Type your email and your password.",
     nuevaClaveTitle: "Choose a new password",
     escribeCorreo: "Type your email above and click again.",
@@ -392,7 +393,9 @@ en: {
     "Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.": "If that email has an account, we've sent a link to change the password. Check your inbox.",
     "Contraseña nueva": "New password",
     "Guardar contraseña": "Save password",
-    "Contraseña actualizada. Ya puedes entrar con ella.": "Password updated. You can log in with it now."
+    "Contraseña actualizada. Ya puedes entrar con ella.": "Password updated. You can log in with it now.",
+    "Reenviar el correo de confirmación": "Resend the confirmation email",
+    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "We've resent the confirmation email. Check your inbox."
   }
 
 },  /* ---- fin del inglés ---- */
@@ -426,6 +429,7 @@ pt: {
     uploadError: "Não foi possível enviar a foto. Tente novamente.",
     fotoTipo: "O arquivo deve ser uma imagem.",
     fotoPeso: "A foto não pode ter mais de 5 MB.",
+    noConfirmado: "Sua conta ainda não está confirmada. Confira seu e-mail.",
     camposVacios: "Escreva seu e-mail e sua senha.",
     nuevaClaveTitle: "Escolha uma senha nova",
     escribeCorreo: "Escreva seu e-mail acima e clique de novo.",
@@ -693,7 +697,9 @@ pt: {
     "Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.": "Se esse e-mail tiver uma conta, enviamos um link para trocar a senha. Confira sua caixa de entrada.",
     "Contraseña nueva": "Senha nova",
     "Guardar contraseña": "Salvar senha",
-    "Contraseña actualizada. Ya puedes entrar con ella.": "Senha atualizada. Já pode entrar com ela."
+    "Contraseña actualizada. Ya puedes entrar con ella.": "Senha atualizada. Já pode entrar com ela.",
+    "Reenviar el correo de confirmación": "Reenviar o e-mail de confirmação",
+    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "Reenviamos o e-mail de confirmação. Confira sua caixa de entrada."
   }
 
 },  /* ---- fin del portugués ---- */
@@ -727,6 +733,7 @@ it: {
     uploadError: "Non è stato possibile caricare la foto. Riprova.",
     fotoTipo: "Il file deve essere un'immagine.",
     fotoPeso: "La foto non può superare i 5 MB.",
+    noConfirmado: "Il tuo account non è ancora confermato. Controlla la tua email.",
     camposVacios: "Scrivi la tua email e la tua password.",
     nuevaClaveTitle: "Scegli una nuova password",
     escribeCorreo: "Scrivi la tua email qui sopra e premi di nuovo.",
@@ -994,7 +1001,9 @@ it: {
     "Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.": "Se quell'email ha un account, ti abbiamo inviato un link per cambiare la password. Controlla la posta.",
     "Contraseña nueva": "Nuova password",
     "Guardar contraseña": "Salva password",
-    "Contraseña actualizada. Ya puedes entrar con ella.": "Password aggiornata. Ora puoi accedere con questa."
+    "Contraseña actualizada. Ya puedes entrar con ella.": "Password aggiornata. Ora puoi accedere con questa.",
+    "Reenviar el correo de confirmación": "Invia di nuovo l'email di conferma",
+    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "Ti abbiamo inviato di nuovo l'email di conferma. Controlla la posta."
   }
 
 }   /* ---- fin del italiano. El siguiente idioma va aquí, al mismo nivel ---- */

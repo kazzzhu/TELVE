@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.32">
+  <link rel="stylesheet" href="css/styles.css?v=2.35">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -817,6 +817,11 @@
         <button class="authModal__link" id="authForgot" type="button">¿Olvidaste tu contraseña?</button>
         <p class="authModal__error" id="authLoginError" hidden></p>
         <p class="authModal__note" id="authLoginNote" hidden>Si ese correo tiene una cuenta, te enviamos un enlace para cambiar la contraseña. Revisa tu bandeja.</p>
+        <!-- Solo aparece si el intento de entrar falla porque la cuenta está
+             sin confirmar. Es el único momento en que alguien descubre que
+             perdió ese correo, así que la salida se ofrece ahí mismo. -->
+        <button class="authModal__link" id="authResend" type="button" hidden>Reenviar el correo de confirmación</button>
+        <p class="authModal__note" id="authResendNote" hidden>Te reenviamos el correo de confirmación. Revisa tu bandeja.</p>
       </form>
 
       <form id="formAuthRegister" class="authModal__form" novalidate hidden>
@@ -860,11 +865,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=2.32"></script>
+  <script src="js/equipos.js?v=2.35"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.32"></script>
-  <script src="js/script.js?v=2.32"></script>
+  <script src="js/i18n.js?v=2.35"></script>
+  <script src="js/script.js?v=2.35"></script>
 </body>
 
 </html>

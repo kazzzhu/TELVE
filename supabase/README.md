@@ -216,10 +216,6 @@ después, que es peor que rechazarla de entrada.
   funcionar sin redesplegar. Propuesto el 2026-08-14, aplazado.
 - **Nadie mira los logs.** Supabase guarda registros de autenticación y de API
   en su panel, pero no hay alertas ni nadie que entre a revisarlos.
-- **No hay forma de reenviar el correo de confirmación.** Quien lo borre o no lo
-  reciba se queda con una cuenta sin confirmar y sin salida por la interfaz;
-  hay que borrar el usuario en *Authentication* → *Users* para que pueda
-  registrarse de nuevo.
 - **Una cuenta registrada no sirve de nada todavía.** El catálogo se lee sin
   sesión y lo único que desbloquea una sesión es el panel del administrador.
   El registro público está abierto por decisión del dueño del sitio, previendo
