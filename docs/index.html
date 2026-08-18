@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.39">
+  <link rel="stylesheet" href="css/styles.css?v=3.0">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -818,6 +818,11 @@
         <input class="authModal__input" type="email" id="authLoginEmail" autocomplete="username" required>
         <label class="authModal__label" for="authLoginPass">Contraseña</label>
         <input class="authModal__input" type="password" id="authLoginPass" autocomplete="current-password" required>
+        <!-- Turnstile. Un solo widget por formulario: el de acceso da el token
+             para entrar, para "olvidé mi contraseña" y para reenviar la
+             confirmación. Como el token es de un solo uso, equipos.js lo
+             reinicia después de cada intento. -->
+        <div class="authModal__captcha" id="captchaLogin"></div>
         <button class="btn btn--primary authModal__submit" type="submit">Entrar</button>
         <button class="authModal__link" id="authForgot" type="button">¿Olvidaste tu contraseña?</button>
         <p class="authModal__error" id="authLoginError" hidden></p>
@@ -834,6 +839,7 @@
         <input class="authModal__input" type="email" id="authRegEmail" autocomplete="username" required>
         <label class="authModal__label" for="authRegPass">Contraseña</label>
         <input class="authModal__input" type="password" id="authRegPass" autocomplete="new-password" minlength="6" required>
+        <div class="authModal__captcha" id="captchaRegister"></div>
         <button class="btn btn--primary authModal__submit" type="submit">Crear cuenta</button>
         <p class="authModal__error" id="authRegError" hidden></p>
         <p class="authModal__note" id="authRegNote" hidden>Revisa tu correo para confirmar la cuenta.</p>
@@ -867,14 +873,20 @@
          curl -sL <url-nueva> | openssl dgst -sha384 -binary | openssl base64 -A
        crossorigin="anonymous" es obligatorio: sin él el navegador no puede
        verificar un archivo de otro dominio. -->
+  <!-- Turnstile (CAPTCHA de Cloudflare) para el registro y el acceso. Sin
+       huella SRI a propósito: Cloudflare actualiza este archivo en caliente y
+       no publica un hash estable, al revés que la librería de Supabase. Si no
+       carga, equipos.js sigue funcionando sin captcha (ver CAPTCHA_SITE_KEY). -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=TELVE_captchaListo"
+    async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=2.39"></script>
+  <script src="js/equipos.js?v=3.0"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.39"></script>
-  <script src="js/script.js?v=2.39"></script>
+  <script src="js/i18n.js?v=3.0"></script>
+  <script src="js/script.js?v=3.0"></script>
 </body>
 
 </html>

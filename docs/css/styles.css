@@ -1176,6 +1176,14 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 }
 .authModal__input:focus { border-color: var(--teal); outline: none; }
 .authModal__submit { margin-top: 20px; width: 100%; }
+/* Hueco del widget de Turnstile. El alto reservado (65px) es el del widget
+   de Cloudflare: sin esto, el botón de enviar da un salto hacia abajo cuando
+   el widget termina de dibujarse. min-height y no height porque en modo
+   Gestionado puede crecer si le toca pedirle algo al visitante.
+   Queda vacío y sin borde si el captcha está apagado o si el script de
+   Cloudflare no llegó a cargar. */
+.authModal__captcha { margin-top: 18px; min-height: 65px; }
+.authModal__captcha:empty { min-height: 0; }
 .authModal__link {
   align-self: center;
   margin-top: 12px;

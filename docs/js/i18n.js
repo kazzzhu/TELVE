@@ -113,6 +113,7 @@ en: {
     escribeCorreo: "Type your email above and click again.",
     resetError: "The link could not be sent. Please try again in a moment.",
     claveIgual: "That is already your current password. Choose a different one.",
+    captchaFallo: "Please complete the security check and try again.",
     claveError: "The password could not be changed. Please try again.",
     enlaceCaducado: "That link no longer works. Request a new one from “Forgot your password?”."
   },
@@ -435,6 +436,7 @@ pt: {
     escribeCorreo: "Escreva seu e-mail acima e clique de novo.",
     resetError: "Não foi possível enviar o link. Tente novamente em instantes.",
     claveIgual: "Essa já é a sua senha atual. Escolha outra.",
+    captchaFallo: "Conclua a verificação de segurança e tente novamente.",
     claveError: "Não foi possível trocar a senha. Tente novamente.",
     enlaceCaducado: "Esse link não vale mais. Peça um novo em “Esqueceu sua senha?”."
   },
@@ -739,6 +741,7 @@ it: {
     escribeCorreo: "Scrivi la tua email qui sopra e premi di nuovo.",
     resetError: "Non è stato possibile inviare il link. Riprova tra poco.",
     claveIgual: "Questa è già la tua password attuale. Scegline un'altra.",
+    captchaFallo: "Completa la verifica di sicurezza e riprova.",
     claveError: "Non è stato possibile cambiare la password. Riprova.",
     enlaceCaducado: "Quel link non è più valido. Chiedine uno nuovo da “Hai dimenticato la password?”."
   },

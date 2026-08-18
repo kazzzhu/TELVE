@@ -198,6 +198,69 @@ después, que es peor que rechazarla de entrada.
 
 ---
 
+## 6. CAPTCHA del registro y el acceso (Turnstile)
+
+Sin esto, cualquiera puede pulsar "Crear cuenta" en bucle: cada intento manda
+un correo, y entre el tope de Supabase (30/hora) y el de Resend (3.000/mes) un
+script deja sin correo de confirmación a los clientes de verdad. No es robo de
+datos, es dejar el registro inservible.
+
+El proveedor es **Turnstile**, de Cloudflare (gratis, sin límite de uso). Da
+dos claves con usos distintos:
+
+| Clave | Dónde va | Se puede publicar |
+|---|---|---|
+| *Site key* | `CAPTCHA_SITE_KEY` en `docs/js/equipos.js` | sí, es pública |
+| *Secret key* | Supabase → *Authentication* → *Attack Protection* | **no, nunca** |
+
+Widget creado el 2026-08-18: nombres de host `telveca.com` y `localhost`, modo
+*Managed*. La pre-autorización se dejó apagada a propósito — solo sirve si el
+sitio pasa por el proxy de Cloudflare, y `telveca.com` está en Cloudflare solo
+como DNS (nube gris): las cabeceras de producción responden `server: GitHub.com`
+vía Fastly, sin `cf-ray`.
+
+### Las llamadas que hay que cubrir son CUATRO, no tres
+
+Marcar la casilla del panel vuelve el token obligatorio **al instante** en
+todas ellas:
+
+| Llamada | Dónde | Widget que usa |
+|---|---|---|
+| `signInWithPassword` | entrar | `captchaLogin` |
+| `signUp` | crear cuenta | `captchaRegister` |
+| `resetPasswordForEmail` | ¿olvidaste tu contraseña? | `captchaLogin` |
+| `resend` | reenviar confirmación | `captchaLogin` |
+
+Una nota anterior de este archivo decía "las tres llamadas": se escribió antes
+de que la versión 2.35 agregara el reenvío de confirmación. Si se sigue esa
+lista, ese botón se rompe en cuanto se marque la casilla.
+
+El token es de **un solo uso**, por eso `equipos.js` llama a `turnstile.reset()`
+después de cada intento. Sin eso, el segundo intento seguido en el mismo
+formulario manda un token gastado y el servidor lo rechaza.
+
+### Orden de encendido
+
+1. Publicar el código (hecho en la 3.0). Mientras la casilla del panel esté
+   apagada, el sitio se comporta igual que antes: el widget se dibuja pero el
+   servidor todavía no exige nada.
+2. Pegar la *secret key* en *Authentication* → *Attack Protection*, elegir
+   Turnstile y guardar.
+3. Probar en un navegador de verdad: crear una cuenta, entrar, pedir enlace de
+   contraseña y reenviar la confirmación.
+
+**Para desactivarlo**: desmarcar esa casilla. Todo vuelve a funcionar al
+momento y no hace falta redesplegar. Vaciar `CAPTCHA_SITE_KEY` en el código
+**no** lo desactiva — el servidor seguiría exigiendo un token que ya nadie
+manda, y el acceso quedaría roto.
+
+Si el script de Cloudflare no carga (red que lo bloquea, sin internet),
+`equipos.js` no revienta: no monta el widget y no manda token. Comprobado. Con
+la casilla del panel encendida, ese visitante no podrá entrar — es el precio de
+la protección, igual que con cualquier CAPTCHA.
+
+---
+
 ## Pendientes conocidos
 
 - **Sin verificación en dos pasos** en `telveca@gmail.com`, Supabase ni
@@ -205,15 +268,7 @@ después, que es peor que rechazarla de entrada.
   quien entre ahí recupera Supabase y Resend, y ninguna política RLS lo frena.
   Es el punto débil más grande que le queda al proyecto y el más barato de
   cerrar. Propuesto el 2026-08-14, aplazado por el dueño del sitio.
-- **Sin CAPTCHA en el registro.** Alguien registrando en bucle agota el tope de
-  30 correos/hora y los 3.000/mes de Resend, y los clientes de verdad se quedan
-  sin su correo de confirmación. Se cierra con Turnstile de Cloudflare: crear
-  un widget, pegar la *secret key* en *Authentication → Attack Protection* y
-  pasar `options.captchaToken` en las tres llamadas de `docs/js/equipos.js`
-  (`signUp`, `signInWithPassword`, `resetPasswordForEmail`). Ojo con el orden:
-  activarlo en el panel lo vuelve obligatorio en las tres al instante, así que
-  el código va primero. Si algo falla, se desactiva la casilla y todo vuelve a
-  funcionar sin redesplegar. Propuesto el 2026-08-14, aplazado.
+- **CAPTCHA: el código ya está, falta la casilla del panel.** Ver la sección 6.
 - **Nadie mira los logs.** Supabase guarda registros de autenticación y de API
   en su panel, pero no hay alertas ni nadie que entre a revisarlos.
 - **Una cuenta registrada no sirve de nada todavía.** El catálogo se lee sin

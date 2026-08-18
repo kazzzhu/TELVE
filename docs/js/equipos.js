@@ -11,6 +11,68 @@
   var SUPABASE_KEY = "sb_publishable_eKbEmIEBrVtoiWXVYRYI9A_jTesbBCw";
   var ADMIN_EMAIL  = "telveca@gmail.com";
 
+  /* Clave PÚBLICA del widget de Turnstile (el CAPTCHA de Cloudflare). Va en el
+     código a propósito, como la de Supabase: la que no puede salir de aquí es
+     la "secret key", que vive solo en el panel de Supabase.
+
+     Existe para que nadie pueda registrarse en bucle: cada intento manda un
+     correo, y entre el tope de Supabase (30/hora) y el de Resend (3.000/mes)
+     un script deja sin correo de confirmación a los clientes de verdad.
+
+     Dejarla en "" apaga el captcha por completo y el sitio se comporta como
+     antes de agregarlo. Eso NO basta para desactivarlo: si la casilla del
+     panel de Supabase está marcada, el servidor exige el token igual y el
+     acceso deja de funcionar. Para desactivarlo de verdad hay que desmarcarla
+     allí, y entonces no hace falta redesplegar nada. */
+  var CAPTCHA_SITE_KEY = "0x4AAAAAAEUqWgI-NrkKWhgZ";
+
+  /* ---------- Turnstile: montar, leer el token y reiniciarlo ----------
+     Un widget por formulario. El del acceso sirve a TRES llamadas (entrar,
+     pedir enlace de contraseña y reenviar la confirmación) porque las tres
+     salen de esa misma pestaña. */
+  var captchaIds = { login: null, registro: null };
+
+  function captchaActivo() { return !!CAPTCHA_SITE_KEY && !!window.turnstile; }
+
+  function montarCaptcha() {
+    if (!captchaActivo()) return;
+    [["login", "captchaLogin"], ["registro", "captchaRegister"]].forEach(function (par) {
+      if (captchaIds[par[0]] !== null) return;      // ya montado, no se duplica
+      var caja = document.getElementById(par[1]);
+      if (!caja) return;
+      captchaIds[par[0]] = window.turnstile.render(caja, {
+        sitekey: CAPTCHA_SITE_KEY,
+        theme: "light",
+        // El widget habla el idioma del sitio, no el del navegador.
+        language: document.documentElement.getAttribute("data-lang") || "es"
+      });
+    });
+  }
+
+  /* Cloudflare llama a esto cuando su script termina de bajar. Se define aquí
+     arriba y no dentro de initAuthModal porque api.js va con async: puede
+     terminar antes de que corra DOMContentLoaded, y entonces la función
+     todavía no existiría. Solo monta si la ventana ya estaba abierta; en el
+     caso normal monta abrirModal, con el contenedor ya visible (Turnstile no
+     se lleva bien con dibujarse dentro de algo oculto). */
+  window.TELVE_captchaListo = function () {
+    var m = document.getElementById("authModal");
+    if (m && !m.hidden) montarCaptcha();
+  };
+
+  function captchaToken(cual) {
+    if (!captchaActivo() || captchaIds[cual] === null) return undefined;
+    return window.turnstile.getResponse(captchaIds[cual]) || undefined;
+  }
+
+  /* El token es de UN SOLO USO. Sin esto, el segundo intento seguido en el
+     mismo formulario (fallo de contraseña y reintento, o entrar y luego
+     pulsar "reenviar") manda un token ya gastado y el servidor lo rechaza. */
+  function captchaReiniciar(cual) {
+    if (!captchaActivo() || captchaIds[cual] === null) return;
+    window.turnstile.reset(captchaIds[cual]);
+  }
+
   // La librería viene de un CDN: si no cargó (sin internet, red que lo
   // bloquea), la página de Equipos quedaría vacía y sin explicación. Se
   // avisa y se corta aquí; el resto del sitio funciona igual.
@@ -153,6 +215,7 @@
     function alEscape(e) { if (e.key === "Escape") cerrarModal(); }
     function abrirModal(tab) {
       modal.hidden = false;
+      montarCaptcha();
       mostrarTab(tab || "login");
       document.addEventListener("keydown", alEscape);
     }
@@ -191,7 +254,12 @@
         loginError.hidden = false;
         return;
       }
-      sb.auth.signInWithPassword({ email: email, password: clave }).then(function (r) {
+      sb.auth.signInWithPassword({
+        email: email,
+        password: clave,
+        options: { captchaToken: captchaToken("login") }
+      }).then(function (r) {
+        captchaReiniciar("login");
         if (r.error) {
           /* Cuenta creada pero sin confirmar: quien borró o nunca recibió ese
              correo se queda encallado aquí, y hasta ahora la única salida era
@@ -222,7 +290,8 @@
       email_address_invalid:      ["correoInvalido", "Ese correo no parece válido."],
       over_email_send_rate_limit: ["muchosCorreos",  "Se enviaron demasiados correos. Espera unos minutos y vuelve a intentar."],
       signup_disabled:            ["registroCerrado","El registro de cuentas nuevas está cerrado por ahora."],
-      same_password:              ["claveIgual",     "Esa ya es tu contraseña actual. Elige otra."]
+      same_password:              ["claveIgual",     "Esa ya es tu contraseña actual. Elige otra."],
+      captcha_failed:             ["captchaFallo",   "Completa la comprobación de seguridad y vuelve a intentar."]
     };
     // El mensaje de reserva cambia según de qué formulario venga el error.
     function mensajeError(err, claveGenerica, textoGenerico) {
@@ -254,8 +323,9 @@
       sb.auth.signUp({
         email: email,
         password: clave,
-        options: { emailRedirectTo: urlVuelta() }
+        options: { emailRedirectTo: urlVuelta(), captchaToken: captchaToken("registro") }
       }).then(function (r) {
+        captchaReiniciar("registro");
         if (r.error) {
           regError.textContent = mensajeError(r.error, "registroError", "No se pudo crear la cuenta. Intenta de nuevo en un momento.");
           regError.hidden = false;
@@ -286,7 +356,11 @@
         loginError.hidden = false;
         return;
       }
-      sb.auth.resetPasswordForEmail(email, { redirectTo: urlVuelta() }).then(function (r) {
+      sb.auth.resetPasswordForEmail(email, {
+        redirectTo: urlVuelta(),
+        captchaToken: captchaToken("login")
+      }).then(function (r) {
+        captchaReiniciar("login");
         if (r.error) {
           loginError.textContent = mensajeError(r.error, "resetError", "No se pudo enviar el enlace. Intenta de nuevo en un momento.");
           loginError.hidden = false;
@@ -313,8 +387,9 @@
       sb.auth.resend({
         type: "signup",
         email: email,
-        options: { emailRedirectTo: urlVuelta() }
+        options: { emailRedirectTo: urlVuelta(), captchaToken: captchaToken("login") }
       }).then(function (r) {
+        captchaReiniciar("login");
         if (r.error) {
           loginError.textContent = mensajeError(r.error, "resetError", "No se pudo enviar el enlace. Intenta de nuevo en un momento.");
           loginError.hidden = false;
