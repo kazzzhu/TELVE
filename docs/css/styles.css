@@ -1037,11 +1037,19 @@ body {
   background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
   padding: 22px 26px;
 }
+/* Los íconos de esta sección heredan el color de su etiqueta (currentColor),
+   así que el de la ficha de emergencias sale rojo y los de la tarjeta de
+   referencia salen en verde petróleo sin repetir el color en ninguna regla.
+   Mismo vocabulario de formas que los pasos del proceso y el botón "Cómo
+   llegar": trazo de 2.4, sin relleno, extremos redondeados. El pin de
+   Dirección es literalmente el mismo trazado que el del mapa. */
 .info__label {
   font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--red); font-weight: 600;
   margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 9px;
 }
+.info__label svg { width: 17px; height: 17px; flex: none; }
 .info__value { font-size: 16px; color: var(--text); line-height: 1.5; }
 .info__value a { color: var(--teal-dark); font-weight: 600; }
 
@@ -1061,7 +1069,9 @@ body {
   padding: 4px 26px; margin: 0;
 }
 .contact-ref__row {
-  display: grid; grid-template-columns: 110px 1fr; gap: 16px;
+  /* 135px y no 110: la columna ahora carga ícono + etiqueta, y "Dirección"
+     es la más larga de las cuatro. */
+  display: grid; grid-template-columns: 135px 1fr; gap: 16px;
   padding: 16px 0; border-bottom: 1px solid var(--border);
 }
 .contact-ref__row:last-child { border-bottom: none; }
@@ -1069,7 +1079,11 @@ body {
   font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--text-muted); font-weight: 600;
   padding-top: 2px; margin: 0;
+  display: flex; align-items: center; gap: 9px;
 }
+/* El ícono lleva el verde de marca; la etiqueta se queda apagada, que es su
+   papel: esto es información de consulta, no una acción. */
+.contact-ref__row dt svg { width: 16px; height: 16px; flex: none; color: var(--teal); }
 .contact-ref__row dd {
   font-size: 15px; color: var(--text); line-height: 1.5; margin: 0;
 }
