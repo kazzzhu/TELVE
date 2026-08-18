@@ -623,9 +623,22 @@ body {
   display: block; font-family: 'Oswald', sans-serif; font-weight: 600;
   font-size: 14.5px; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.2;
 }
+/* El cargo, debajo del nombre. Usa el salmón claro que DESIGN.md ya tenía
+   declarado para este uso ("rol del equipo sobre foto oscura") y que hasta
+   ahora no estaba puesto en ninguna parte: el rojo señal puro no aguanta el
+   contraste sobre la foto. Antes las tres fichas mostraban solo el cargo, y
+   dos de ellas repetían "Generación de relevo"; los nombres ya estaban en el
+   alt de cada foto, así que no se inventa información nueva. */
+.team__role {
+  display: block; margin-top: 3px;
+  font-family: 'Oswald', sans-serif; font-weight: 500;
+  font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.09em;
+  line-height: 1.2; color: #ffb3ab;
+}
 @media (max-width: 560px) {
   .split__team { min-height: 300px; }
   .team__name { font-size: 12.5px; }
+  .team__role { font-size: 10.5px; letter-spacing: 0.06em; }
 }
 .split__body .h2 { color: #fff; }
 .split__body .lead-muted { color: #d5e3e2; }
@@ -973,8 +986,15 @@ body {
 }
 
 /* ---------- Clientes ---------- */
+/* Rejilla fija, no flex-wrap. Con wrap, el número de tarjetas por fila lo
+   decidía el ancho disponible: a 1440 entraban 7 y la octava quedaba sola y
+   centrada en una segunda fila, que parecía un descuido. Los clientes son 8,
+   así que 4 y 2 columnas reparten exacto (2 filas de 4, o 4 filas de 2) y no
+   dejan huérfanas en ningún tamaño de pantalla. Si algún día se agrega o se
+   quita un cliente, hay que revisar este número. */
 .clients {
-  display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+  display: grid; grid-template-columns: repeat(4, 160px);
+  gap: 14px; justify-content: center;
 }
 .client {
   position: relative;
@@ -1001,7 +1021,10 @@ body {
 }
 .client--dark { background: #0e1626; color: #fff; }
 .client--dark .client__logo { background: #0e1626; }
-@media (max-width: 560px) { .client { width: 132px; height: 74px; } }
+@media (max-width: 560px) {
+  .clients { grid-template-columns: repeat(2, 132px); }
+  .client { width: 132px; height: 74px; }
+}
 
 /* ---------- Distribuidores ---------- */
 .brands { display: flex; flex-wrap: wrap; gap: 12px; }

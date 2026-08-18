@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=2.35">
+  <link rel="stylesheet" href="css/styles.css?v=2.36">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -75,9 +75,14 @@
   <!-- ===================== NAV ===================== -->
   <header class="nav">
     <button class="nav__brand" data-nav="inicio" type="button" aria-label="TELVE, C.A. — ir al inicio">
-      <img class="nav__logoimg" src="img/logo-telve.png" width="260" height="68"
+      <!-- width/height = tamaño REAL del archivo, no el que se ve en pantalla. El
+           navegador solo los usa para reservar el hueco con la proporción correcta
+           antes de descargar la imagen; el tamaño lo manda el CSS. Los valores
+           viejos (260×68 y 120×52) no eran la proporción de los archivos y el nav
+           daba un saltito al cargar. -->
+      <img class="nav__logoimg" src="img/logo-telve.png" width="600" height="108"
         alt="TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2">
-      <img class="nav__easa" src="img/easa-member.png" width="120" height="52"
+      <img class="nav__easa" src="img/easa-member.png" width="216" height="84"
         alt="Miembro EASA — The Electro-Mechanical Authority">
     </button>
     <button id="burger" class="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links"
@@ -113,7 +118,7 @@
           <p class="hero__lead">Reparación, mantenimiento y reconstrucción de equipos eléctricos industriales y
             residenciales. Rebobinado de motores eléctricos de media potencia hasta los 700 HP en baja tensión hasta los
             600 V y de generadores eléctricos hasta los 500 Kva, con más de medio siglo de experiencia en nuestro ramo y
-            brindadole nuestros servicios tanto a nuestra comunidad en Ciudad Bolívar como al resto del territorio
+            brindándole nuestros servicios tanto a nuestra comunidad en Ciudad Bolívar como al resto del territorio
             nacional.</p>
           <div class="hero__actions">
             <a href="#" data-wa class="btn btn--primary">Cotiza por WhatsApp</a>
@@ -175,16 +180,19 @@
           <figure class="team">
             <img class="team__img" loading="lazy" decoding="async" src="img/equipo-pier.jpg" alt="Pier Pianca, fundador de TELVE"
               onerror="this.remove()">
-            <figcaption class="team__cap"><span class="team__name">Fundador</span></figcaption>
+            <figcaption class="team__cap"><span class="team__name">Pier Pianca</span><span
+                class="team__role">Fundador</span></figcaption>
           </figure>
           <figure class="team">
             <img class="team__img" loading="lazy" decoding="async" src="img/equipo-christian.jpg" alt="Christian Pianca, gerente general de TELVE"
               onerror="this.remove()">
-            <figcaption class="team__cap"><span class="team__name">Generación de relevo</span></figcaption>
+            <figcaption class="team__cap"><span class="team__name">Christian Pianca</span><span
+                class="team__role">Gerente general</span></figcaption>
           </figure>
           <figure class="team">
             <img class="team__img" loading="lazy" decoding="async" src="img/equipo-gianpier.jpg" alt="Gian Pier Pianca" onerror="this.remove()">
-            <figcaption class="team__cap"><span class="team__name">Generación de relevo</span></figcaption>
+            <figcaption class="team__cap"><span class="team__name">Gian Pier Pianca</span><span
+                class="team__role">Generación de relevo</span></figcaption>
           </figure>
         </div>
         <div class="split__body">
@@ -865,11 +873,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=2.35"></script>
+  <script src="js/equipos.js?v=2.36"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=2.35"></script>
-  <script src="js/script.js?v=2.35"></script>
+  <script src="js/i18n.js?v=2.36"></script>
+  <script src="js/script.js?v=2.36"></script>
 </body>
 
 </html>

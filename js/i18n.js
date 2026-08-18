@@ -70,7 +70,8 @@ window.TELVE_I18N = {
     "700 HP", "500 KVA",
     "SIDOR", "Corpoelec", "C.V.G. Bauxilum", "C.V.G. Cabelum",
     "Hidrobolívar", "Fapco", "Tubo Concreto", "Ciudad Orinoco",
-    "WEG", "VOGES", "PEARL", "CALPEDA"
+    "WEG", "VOGES", "PEARL", "CALPEDA",
+    "Pier Pianca", "Christian Pianca", "Gian Pier Pianca"
   ],
 
 
@@ -175,7 +176,7 @@ en: {
     /* Hero de inicio */
     "Talleres Eléctricos Venezolanos · desde 1972": "Talleres Eléctricos Venezolanos · since 1972",
     "Mantenemos la industria en movimiento.": "We keep industry running.",
-    "Reparación, mantenimiento y reconstrucción de equipos eléctricos industriales y residenciales. Rebobinado de motores eléctricos de media potencia hasta los 700 HP en baja tensión hasta los 600 V y de generadores eléctricos hasta los 500 Kva, con más de medio siglo de experiencia en nuestro ramo y brindadole nuestros servicios tanto a nuestra comunidad en Ciudad Bolívar como al resto del territorio nacional.":
+    "Reparación, mantenimiento y reconstrucción de equipos eléctricos industriales y residenciales. Rebobinado de motores eléctricos de media potencia hasta los 700 HP en baja tensión hasta los 600 V y de generadores eléctricos hasta los 500 Kva, con más de medio siglo de experiencia en nuestro ramo y brindándole nuestros servicios tanto a nuestra comunidad en Ciudad Bolívar como al resto del territorio nacional.":
       "Repair, maintenance and rebuilding of industrial and residential electrical equipment. Rewinding of medium-power electric motors up to 700 HP at low voltage up to 600 V, and of electric generators up to 500 KVA, with more than half a century of experience in our trade, serving both our community in Ciudad Bolívar and the rest of the country.",
     "Cotiza por WhatsApp": "Get a quote on WhatsApp",
     "Ver servicios": "View services",
@@ -203,6 +204,7 @@ en: {
 
     /* Por qué TELVE */
     "Fundador": "Founder",
+    "Gerente general": "General manager",
     "Generación de relevo": "Next generation",
     "Por qué TELVE, C.A.": "Why TELVE, C.A.",
     "Más de medio siglo de trabajo ininterrumpido, calidad y seriedad… siempre estamos innovando.":
@@ -490,7 +492,7 @@ pt: {
 
     "Talleres Eléctricos Venezolanos · desde 1972": "Talleres Eléctricos Venezolanos · desde 1972",
     "Mantenemos la industria en movimiento.": "Mantemos a indústria em movimento.",
-    "Reparación, mantenimiento y reconstrucción de equipos eléctricos industriales y residenciales. Rebobinado de motores eléctricos de media potencia hasta los 700 HP en baja tensión hasta los 600 V y de generadores eléctricos hasta los 500 Kva, con más de medio siglo de experiencia en nuestro ramo y brindadole nuestros servicios tanto a nuestra comunidad en Ciudad Bolívar como al resto del territorio nacional.":
+    "Reparación, mantenimiento y reconstrucción de equipos eléctricos industriales y residenciales. Rebobinado de motores eléctricos de media potencia hasta los 700 HP en baja tensión hasta los 600 V y de generadores eléctricos hasta los 500 Kva, con más de medio siglo de experiencia en nuestro ramo y brindándole nuestros servicios tanto a nuestra comunidad en Ciudad Bolívar como al resto del territorio nacional.":
       "Reparo, manutenção e reconstrução de equipamentos elétricos industriais e residenciais. Rebobinamento de motores elétricos de média potência até 700 HP em baixa tensão até 600 V e de geradores elétricos até 500 KVA, com mais de meio século de experiência no ramo, atendendo tanto a nossa comunidade em Ciudad Bolívar quanto o restante do território nacional.",
     "Cotiza por WhatsApp": "Solicite orçamento no WhatsApp",
     "Ver servicios": "Ver serviços",
@@ -515,6 +517,7 @@ pt: {
     "Ver todos los servicios →": "Ver todos os serviços →",
 
     "Fundador": "Fundador",
+    "Gerente general": "Gerente geral",
     "Generación de relevo": "Nova geração",
     "Por qué TELVE, C.A.": "Por que a TELVE, C.A.",
     "Más de medio siglo de trabajo ininterrumpido, calidad y seriedad… siempre estamos innovando.":
@@ -794,7 +797,7 @@ it: {
 
     "Talleres Eléctricos Venezolanos · desde 1972": "Talleres Eléctricos Venezolanos · dal 1972",
     "Mantenemos la industria en movimiento.": "Manteniamo l'industria in movimento.",
-    "Reparación, mantenimiento y reconstrucción de equipos eléctricos industriales y residenciales. Rebobinado de motores eléctricos de media potencia hasta los 700 HP en baja tensión hasta los 600 V y de generadores eléctricos hasta los 500 Kva, con más de medio siglo de experiencia en nuestro ramo y brindadole nuestros servicios tanto a nuestra comunidad en Ciudad Bolívar como al resto del territorio nacional.":
+    "Reparación, mantenimiento y reconstrucción de equipos eléctricos industriales y residenciales. Rebobinado de motores eléctricos de media potencia hasta los 700 HP en baja tensión hasta los 600 V y de generadores eléctricos hasta los 500 Kva, con más de medio siglo de experiencia en nuestro ramo y brindándole nuestros servicios tanto a nuestra comunidad en Ciudad Bolívar como al resto del territorio nacional.":
       "Riparazione, manutenzione e ricostruzione di apparecchiature elettriche industriali e residenziali. Riavvolgimento di motori elettrici di media potenza fino a 700 HP in bassa tensione fino a 600 V e di generatori elettrici fino a 500 KVA, con oltre mezzo secolo di esperienza nel settore, al servizio sia della nostra comunità a Ciudad Bolívar sia del resto del paese.",
     "Cotiza por WhatsApp": "Richiedi un preventivo su WhatsApp",
     "Ver servicios": "Vedi i servizi",
@@ -819,6 +822,7 @@ it: {
     "Ver todos los servicios →": "Vedi tutti i servizi →",
 
     "Fundador": "Fondatore",
+    "Gerente general": "Direttore generale",
     "Generación de relevo": "Nuova generazione",
     "Por qué TELVE, C.A.": "Perché TELVE, C.A.",
     "Más de medio siglo de trabajo ininterrumpido, calidad y seriedad… siempre estamos innovando.":
