@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=3.1">
+  <link rel="stylesheet" href="css/styles.css?v=3.2">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -451,11 +451,21 @@
                   resistencias calefactoras, termistores, etc.)</li>
                 </ul>
                 <div class="drawer__foot">
+                  <!-- Todas las marcas que nombra la lista de arriba llevan recuadro.
+                       Antes solo lo tenían las cuatro primeras y las otras cinco
+                       quedaban sueltas dentro del texto. Megger, Ducter, Hi-Pot y
+                       Baker NO van aquí: son los instrumentos con los que TELVE hace
+                       los ensayos, no marcas que distribuye. -->
                   <div class="brands">
                     <span class="brand">WEG</span>
                     <span class="brand">VOGES</span>
                     <span class="brand">PEARL</span>
                     <span class="brand">CALPEDA</span>
+                    <span class="brand">SKF</span>
+                    <span class="brand">FAG</span>
+                    <span class="brand">NACHI</span>
+                    <span class="brand">POLAN</span>
+                    <span class="brand">ELECTRIC DIAMOND</span>
                   </div>
                 </div>
               </div>
@@ -924,11 +934,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=3.1"></script>
+  <script src="js/equipos.js?v=3.2"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=3.1"></script>
-  <script src="js/script.js?v=3.1"></script>
+  <script src="js/i18n.js?v=3.2"></script>
+  <script src="js/script.js?v=3.2"></script>
 </body>
 
 </html>

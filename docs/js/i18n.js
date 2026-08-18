@@ -70,7 +70,8 @@ window.TELVE_I18N = {
     "700 HP", "500 KVA",
     "SIDOR", "Corpoelec", "C.V.G. Bauxilum", "C.V.G. Cabelum",
     "Hidrobolívar", "Fapco", "Tubo Concreto", "Ciudad Orinoco",
-    "WEG", "VOGES", "PEARL", "CALPEDA"
+    "WEG", "VOGES", "PEARL", "CALPEDA",
+    "SKF", "FAG", "NACHI", "POLAN", "ELECTRIC DIAMOND"
   ],
 
 
