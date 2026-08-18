@@ -203,6 +203,7 @@ en: {
     "Ver todos los servicios →": "View all services →",
 
     /* Por qué TELVE */
+    "Navegación": "Navigation",
     "Fundador": "Founder",
     "Generación de relevo": "Next generation",
     "Por qué TELVE, C.A.": "Why TELVE, C.A.",
@@ -516,6 +517,7 @@ pt: {
       "Distribuidor autorizado de motores WEG e VOGES, bombas d'água PEARL e CALPEDA, grupos geradores, rolamentos e peças de reposição para máquinas elétricas rotativas.",
     "Ver todos los servicios →": "Ver todos os serviços →",
 
+    "Navegación": "Navegação",
     "Fundador": "Fundador",
     "Generación de relevo": "Nova geração",
     "Por qué TELVE, C.A.": "Por que a TELVE, C.A.",
@@ -821,6 +823,7 @@ it: {
       "Distributore autorizzato di motori WEG e VOGES, pompe dell'acqua PEARL e CALPEDA, gruppi elettrogeni, cuscinetti e ricambi per macchine elettriche rotanti.",
     "Ver todos los servicios →": "Vedi tutti i servizi →",
 
+    "Navegación": "Navigazione",
     "Fundador": "Fondatore",
     "Generación de relevo": "Nuova generazione",
     "Por qué TELVE, C.A.": "Perché TELVE, C.A.",

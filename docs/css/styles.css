@@ -35,6 +35,26 @@
      decisión de marca. */
   --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);      /* entradas y salidas */
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);     /* movimiento en pantalla */
+
+  /* Rayas diagonales muy tenues sobre fondo oscuro. Ya estaban escritas a
+     mano en .split__media; se nombran aquí porque los heroes de las páginas
+     internas las reusan y no conviene tener el mismo valor copiado en dos
+     sitios. Es la misma familia de textura que las fichas del equipo y los
+     marcadores de foto, solo que en su versión más suave. */
+  --rayas-claras: repeating-linear-gradient(45deg,
+    rgba(255,255,255,.04), rgba(255,255,255,.04) 14px, transparent 14px, transparent 28px);
+
+  /* Misma raya, pero más separada y algo más tenue. La versión de 14px se
+     diseñó para bloques chicos (fichas del equipo, marcadores de foto); a lo
+     ancho de un hero de 1440px esa frecuencia se vuelve inquieta y produce
+     muaré. A 22px el material se reconoce igual y la banda se queda quieta. */
+  --rayas-tenues: repeating-linear-gradient(45deg,
+    rgba(255,255,255,.035), rgba(255,255,255,.035) 22px, transparent 22px, transparent 44px);
+
+  /* El velo del hero, aparte para que las páginas internas puedan
+     superponerle las rayas sin repetir los tres puntos de color. */
+  --hero-velo: linear-gradient(150deg,
+    rgba(27,59,59,.92) 0%, rgba(36,77,77,.90) 55%, rgba(51,102,102,.88) 100%);
 }
 
 @media (max-width: 900px) {
@@ -399,13 +419,18 @@ body {
 .hero {
   position: relative;
   padding: var(--space-2xl) var(--pad-x);
-  background:
-    linear-gradient(150deg, rgba(27,59,59,.92) 0%, rgba(36,77,77,.90) 55%, rgba(51,102,102,.88) 100%),
-    var(--teal);
+  background: var(--hero-velo), var(--teal);
   color: #fff;
   border-bottom: 3px solid var(--red);
 }
-.hero--sub { padding: var(--space-2xl) var(--pad-x) var(--space-xl); }
+/* Los heroes de las páginas internas (Servicios, Equipos, Nosotros,
+   Contacto) no tienen foto: eran una banda de color plano y se sentían sin
+   terminar al lado del de Inicio. Las rayas les dan cuerpo sin una sola
+   imagen nueva y los amarran con el resto del sistema. */
+.hero--sub {
+  padding: var(--space-2xl) var(--pad-x) var(--space-xl);
+  background: var(--rayas-tenues), var(--hero-velo), var(--teal);
+}
 
 /* ----- Carrusel del hero ----- */
 .hero--slider { overflow: hidden; }
@@ -582,9 +607,7 @@ body {
 /* ---------- Split ---------- */
 .split { display: grid; grid-template-columns: 1fr 1.05fr; background: var(--teal); color: #fff; }
 .split__media {
-  background:
-    repeating-linear-gradient(45deg, rgba(255,255,255,.04), rgba(255,255,255,.04) 14px, transparent 14px, transparent 28px),
-    var(--teal-dark);
+  background: var(--rayas-claras), var(--teal-dark);
   min-height: 380px; display: flex; align-items: center; justify-content: center;
 }
 .split__body { padding: var(--space-2xl) var(--pad-x); display: flex; flex-direction: column; justify-content: center; }
@@ -1225,15 +1248,68 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 
 /* ---------- Footer ---------- */
 .footer {
-  background: var(--teal-darker); color: #b9cccb; padding: var(--space-lg) var(--pad-x);
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 13px; border-top: 3px solid var(--red); flex-wrap: wrap; gap: 16px;
+  background: var(--teal-darker); color: #b9cccb;
+  padding: var(--space-xl) var(--pad-x) 0;
+  font-size: 13px; border-top: 3px solid var(--red);
 }
-.footer__brand { display: flex; flex-direction: column; gap: 4px; }
+/* La marca ocupa algo más que las otras tres columnas: lleva el logotipo, el
+   RIF y el sello EASA, que es una credencial y no relleno. */
+.footer__grid {
+  display: grid; grid-template-columns: 1.3fr 1fr 1.2fr .8fr;
+  gap: 40px; align-items: start;
+  max-width: 1280px; margin: 0 auto;
+}
+.footer__col { display: flex; flex-direction: column; gap: 10px; }
 .footer__logo { font-family: 'Anton', sans-serif; font-size: 22px; color: #fff; letter-spacing: 0.03em; }
 .footer__addr, .footer__copy {
   font-family: 'Oswald', sans-serif; letter-spacing: 0.05em;
   text-transform: uppercase; font-size: 12px;
+}
+.footer__easa {
+  height: 44px; width: auto; margin-top: 8px;
+  background: #fff; padding: 5px 9px; border-radius: 6px; align-self: flex-start;
+}
+/* Rosa de placa: DESIGN.md lo reserva para texto de etiqueta sobre fondo
+   oscuro, que es exactamente lo que es un encabezado de columna aquí. */
+.footer__head {
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #ffd0cb;
+  margin: 0 0 2px;
+}
+.footer__head--sep { margin-top: 16px; }
+.footer__list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; }
+/* mist-500 de DESIGN.md, no un tono inventado: a 10,5px el gris que había
+   puesto (#7f9998) daba 3,98:1 sobre el verde del pie y no llegaba al 4,5:1
+   que exige WCAG. Este da 4,87:1. */
+.footer__k {
+  display: block;
+  font-family: 'Oswald', sans-serif; font-size: 10.5px; letter-spacing: 0.09em;
+  text-transform: uppercase; color: #9aa7a7;
+}
+.footer__v { color: #fff; font-weight: 600; font-size: 14px; }
+.footer__v--emg { color: var(--red-bright); }
+.footer__txt { font-size: 13.5px; line-height: 1.55; margin: 0; }
+/* Botones, no enlaces: la navegación del sitio es estado de cliente, igual
+   que en la cabecera. Se les quita la apariencia de botón. */
+.footer__nav {
+  background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
+  font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 0.05em;
+  text-transform: uppercase; color: #b9cccb;
+  transition: color .15s ease;
+}
+.footer__nav:hover, .footer__v:hover { color: #fff; text-decoration: underline; }
+.footer__nav:hover { text-decoration: none; }
+.footer__bottom {
+  max-width: 1280px; margin: 0 auto;
+  margin-top: var(--space-lg); padding: 18px 0;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+@media (max-width: 900px) {
+  .footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+@media (max-width: 560px) {
+  .footer__grid { grid-template-columns: 1fr; gap: 28px; }
 }
 
 /* ---------- Panel de ajustes (movimiento + idioma) ----------
@@ -1487,7 +1563,6 @@ html[data-motion="full"] .prefs__callout {
   .h2 { font-size: 32px; }
   .h2--sm { font-size: 28px; }
 
-  .footer { flex-direction: column; align-items: flex-start; text-align: left; }
 }
 
 @media (max-width: 560px) {

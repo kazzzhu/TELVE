@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=3.0">
+  <link rel="stylesheet" href="css/styles.css?v=3.1">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -735,13 +735,55 @@
   </main>
 
   <!-- ===================== FOOTER ===================== -->
+  <!-- El pie era una sola línea con el nombre y el copyright. Es la última
+       oportunidad de la página de dar lo que el visitante vino a buscar, así
+       que ahora lleva los teléfonos, el horario y la navegación. Los textos
+       en español son LOS MISMOS que ya usa la sección Contacto, a propósito:
+       la clave del diccionario es la frase exacta, así que se traducen solos
+       sin agregar nada a js/i18n.js. -->
   <footer class="footer">
-    <div class="footer__brand">
-      <span class="footer__logo">TELVE C.A.</span>
-      <span class="footer__addr">RIF: J-08002579-2</span>
+    <div class="footer__grid">
+      <div class="footer__col footer__col--brand">
+        <span class="footer__logo">TELVE C.A.</span>
+        <span class="footer__addr">RIF: J-08002579-2</span>
+        <img class="footer__easa" loading="lazy" decoding="async" src="img/easa-member.png" width="216" height="84"
+          alt="Miembro EASA — The Electro-Mechanical Authority" onerror="this.remove()">
+      </div>
+
+      <div class="footer__col">
+        <h2 class="footer__head">Contacto</h2>
+        <ul class="footer__list">
+          <li><span class="footer__k">Emergencias 24h</span><a class="footer__v footer__v--emg" href="tel:+584148531112">+58 414 853.1112</a></li>
+          <li><span class="footer__k">Recepción / WhatsApp</span><a class="footer__v" href="tel:+584145632964">+58 414 563.2964</a></li>
+          <li><span class="footer__k">Oficina</span><a class="footer__v" href="tel:+582856320986">0285 632.0986</a></li>
+          <li><span class="footer__k">Correo</span><a class="footer__v" href="https://mail.google.com/mail/?view=cm&fs=1&to=telveca@gmail.com" target="_blank" rel="noopener">telveca@gmail.com</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h2 class="footer__head">Horario</h2>
+        <p class="footer__txt">Lun – Vie · 7:00 a.m. – 12:00 m. y 1:00 p.m. – 3:00 p.m.</p>
+        <h2 class="footer__head footer__head--sep">Dirección</h2>
+        <p class="footer__txt">Calle Columbo Silva Nro. 33, frente a la Escuela de Medicina de la UDO, Barrio Ajuro, Galpón
+          Industrial TELVE. Ciudad Bolívar — Estado Bolívar.</p>
+      </div>
+
+      <div class="footer__col">
+        <h2 class="footer__head">Navegación</h2>
+        <ul class="footer__list footer__list--nav">
+          <li><button class="footer__nav" data-nav="inicio" type="button">Inicio</button></li>
+          <li><button class="footer__nav" data-nav="servicios" type="button">Servicios</button></li>
+          <li><button class="footer__nav" data-nav="equipos" type="button">Equipos</button></li>
+          <li><button class="footer__nav" data-nav="nosotros" type="button">Nosotros</button></li>
+          <li><button class="footer__nav" data-nav="contacto" type="button">Contacto</button></li>
+        </ul>
+      </div>
     </div>
-    <span class="footer__copy">© 2026 Talleres Eléctricos Venezolanos, C.A. · Motores · Generadores · Equipos
-      industriales</span>
+
+    <div class="footer__bottom">
+      <span class="footer__copy">© 2026 Talleres Eléctricos Venezolanos, C.A. · Motores · Generadores · Equipos
+        industriales</span>
+    </div>
   </footer>
 
   <!-- ===================== AJUSTES (movimiento + idioma) ===================== -->
@@ -882,11 +924,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=3.0"></script>
+  <script src="js/equipos.js?v=3.1"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=3.0"></script>
-  <script src="js/script.js?v=3.0"></script>
+  <script src="js/i18n.js?v=3.1"></script>
+  <script src="js/script.js?v=3.1"></script>
 </body>
 
 </html>
