@@ -70,8 +70,7 @@ window.TELVE_I18N = {
     "700 HP", "500 KVA",
     "SIDOR", "Corpoelec", "C.V.G. Bauxilum", "C.V.G. Cabelum",
     "Hidrobolívar", "Fapco", "Tubo Concreto", "Ciudad Orinoco",
-    "WEG", "VOGES", "PEARL", "CALPEDA",
-    "Pier Pianca", "Christian Pianca", "Gian Pier Pianca"
+    "WEG", "VOGES", "PEARL", "CALPEDA"
   ],
 
 
@@ -204,7 +203,6 @@ en: {
 
     /* Por qué TELVE */
     "Fundador": "Founder",
-    "Gerente general": "General manager",
     "Generación de relevo": "Next generation",
     "Por qué TELVE, C.A.": "Why TELVE, C.A.",
     "Más de medio siglo de trabajo ininterrumpido, calidad y seriedad… siempre estamos innovando.":
@@ -517,7 +515,6 @@ pt: {
     "Ver todos los servicios →": "Ver todos os serviços →",
 
     "Fundador": "Fundador",
-    "Gerente general": "Gerente geral",
     "Generación de relevo": "Nova geração",
     "Por qué TELVE, C.A.": "Por que a TELVE, C.A.",
     "Más de medio siglo de trabajo ininterrumpido, calidad y seriedad… siempre estamos innovando.":
@@ -822,7 +819,6 @@ it: {
     "Ver todos los servicios →": "Vedi tutti i servizi →",
 
     "Fundador": "Fondatore",
-    "Gerente general": "Direttore generale",
     "Generación de relevo": "Nuova generazione",
     "Por qué TELVE, C.A.": "Perché TELVE, C.A.",
     "Más de medio siglo de trabajo ininterrumpido, calidad y seriedad… siempre estamos innovando.":
