@@ -30,21 +30,21 @@ Más de 54 años operando de forma ininterrumpida desde 1972, con capital 100% v
 ## Capabilities and Constraints
 
 - Sitio 100% estático, sin backend ni formulario propio: el "formulario de contacto" reenvía a WhatsApp (`wa.me`).
-- Sin build/CI: lo que está en `index.html`, `css/styles.css` y `js/script.js` es exactamente lo que se publica.
+- Sin build/CI: lo que está en `docs/index.html`, `docs/css/styles.css` y `docs/js/script.js` es exactamente lo que se publica.
 - **Alcance del trabajo pedido: rediseño de estilo/visual únicamente.** El usuario fue explícito: mantener la información ya redactada (todos los textos de servicios, misión, historia, contacto, etc.), mantener los colores representativos de la marca, y mantener las imágenes (logo, fotos de clientes, fotos del equipo/fachada). Solo el estilo visual (layout, tipografía, composición, motion, etc.) está abierto a rediseño — esto no es un rebranding.
 
 ## Brand Commitments
 
 - Nombre: TELVE, C.A. — Talleres Eléctricos Venezolanos. RIF: J-08002579-2.
-- Logo (`img/logo-telve.png`, `img/logo-telve-full.png`) y sello de miembro EASA (`img/easa-member.png`) se mantienen tal cual.
-- Paleta de colores de marca actual (definida en `css/styles.css`) se mantiene — no se rediseña la paleta.
+- Logo (`docs/img/logo-telve.png`, `docs/img/logo-telve-full.png`) y sello de miembro EASA (`docs/img/easa-member.png`) se mantienen tal cual.
+- Paleta de colores de marca actual (definida en `docs/css/styles.css`) se mantiene — no se rediseña la paleta.
 - Todo el copy existente en español (misión, historia, descripciones de servicios, textos de contacto) se preserva sin reescritura de contenido.
 
 ## Evidence on Hand
 
-- Logos de clientes reales en `img/cliente-*.jpeg|png` (SIDOR, Corpoelec, Bauxilum, Cabelum, Hidrobolívar, Fapco, Tubo Concreto, Ciudad Orinoco).
-- Fotos de fundador/equipo (`img/equipo-*.jpg`), fachada (`img/fachada.JPG`), motor WEG (`img/motor-weg.png`).
-- Dirección, teléfonos y correo reales ya publicados en el sitio (ver sección Contacto de `index.html`).
+- Logos de clientes reales en `docs/img/cliente-*.jpeg|png` (SIDOR, Corpoelec, Bauxilum, Cabelum, Hidrobolívar, Fapco, Tubo Concreto, Ciudad Orinoco).
+- Fotos de fundador/equipo (`docs/img/equipo-*.jpg`), fachada (`docs/img/fachada.JPG`), motor WEG (`docs/img/motor-weg.png`).
+- Dirección, teléfonos y correo reales ya publicados en el sitio (ver sección Contacto de `docs/index.html`).
 - Sin testimonios, casos de estudio, cifras de desempeño adicionales, ni certificaciones más allá de la membresía EASA — no inventar ninguno de estos.
 
 ## Product Principles

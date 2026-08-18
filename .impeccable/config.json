@@ -19,7 +19,7 @@
         "rule": "border-accent-on-rounded",
         "value": "*",
         "files": [
-          "css/styles.css"
+          "docs/css/styles.css"
         ],
         "createdAt": "2026-08-07T14:03:24.469Z",
         "reason": "DESIGN.md Components/Cards define la combinacion como firma deliberada: 'Corner Style: 8px' + 'Accent: borde superior de 3px en Rojo Senal - firma de tarjeta de contenido en todo el sitio'."
@@ -34,7 +34,7 @@
         "rule": "layout-transition",
         "value": "*",
         "files": [
-          "css/styles.css"
+          "docs/css/styles.css"
         ],
         "createdAt": "2026-08-07T18:29:45.990Z",
         "reason": "Barra deslizante del nav (documentada en DESIGN.md Navigation: 'transicion de posicion y ancho') y puntito del hero. Son elementos de 3px y 10px; el ancho es la animacion, no un efecto secundario. Confirmado por Ricardo."

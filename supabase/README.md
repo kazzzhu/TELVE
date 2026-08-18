@@ -19,7 +19,7 @@ sola y **no debe usarse** en configuración nueva.
 | Redirect URLs | `https://telveca.com/**` |
 | Redirect URLs | `http://localhost:8000/**` (para probar en local) |
 
-`js/equipos.js` manda `emailRedirectTo: location.origin + location.pathname`,
+`docs/js/equipos.js` manda `emailRedirectTo: location.origin + location.pathname`,
 pero Supabase **ignora en silencio** cualquier redirección que no esté en esa
 lista blanca y vuelve a caer en la Site URL. Los dos lados tienen que estar bien.
 
@@ -83,7 +83,7 @@ En *Authentication* → *Emails* → *Templates*, pegar en "Message body":
 
 La de *Reset password* la dispara el enlace "¿Olvidaste tu contraseña?" del
 modal de acceso. El visitante vuelve a `https://telveca.com/` con
-`#type=recovery` en la URL; `js/equipos.js` lo detecta al arrancar y abre el
+`#type=recovery` en la URL; `docs/js/equipos.js` lo detecta al arrancar y abre el
 modal directo en el formulario de contraseña nueva.
 
 Los dos correos vuelven con un `?p=<pestaña>` en la dirección, para aterrizar
@@ -116,7 +116,7 @@ descartan `<style>`, flexbox y grid.
 ## 4. Permisos (RLS)
 
 La regla de quién puede publicar equipos vive en las **políticas RLS de la base
-de datos**, no en el JavaScript. `js/equipos.js` compara contra `ADMIN_EMAIL`
+de datos**, no en el JavaScript. `docs/js/equipos.js` compara contra `ADMIN_EMAIL`
 solo para no mostrar un botón que la base de datos igual rechazaría.
 
 Nunca confiar en el chequeo del cliente para permisos: cualquiera puede editar
@@ -152,7 +152,7 @@ subir. Ninguno de los dos puede tocar las fotos.
 panel: era `bucket_id = 'equipos'` para `public`, y permitía pedir el
 **listado completo** de archivos del bucket. Las fotos se siguen viendo igual
 porque un bucket público las sirve por `/storage/v1/object/public/...`, ruta
-que no pasa por RLS. `js/equipos.js` no llama nunca a `.list()`, y
+que no pasa por RLS. `docs/js/equipos.js` no llama nunca a `.list()`, y
 `getPublicUrl()` arma la URL como texto sin tocar la red. Si alguna vez hace
 falta listar el bucket desde el sitio, habrá que volver a crear la política —
 y entonces conviene acotarla a un prefijo, no al bucket entero.
@@ -168,7 +168,7 @@ from pg_policies
 where schemaname = 'storage' and tablename = 'objects';
 ```
 
-Consecuencia práctica, no de seguridad: `js/equipos.js` borra la fila de la
+Consecuencia práctica, no de seguridad: `docs/js/equipos.js` borra la fila de la
 tabla pero nunca el archivo del bucket, y encima el archivo es imborrable por
 API. Cada equipo eliminado deja su foto huérfana en Storage para siempre. Son
 unos pocos megabytes; si algún día molesta, hay que limpiarlas a mano desde el
@@ -179,7 +179,7 @@ panel, o agregar una política DELETE para el administrador y llamar a
 
 ## 5. Límites del bucket de fotos (Storage)
 
-`js/equipos.js` rechaza archivos que no sean imagen y los de más de 5 MB antes
+`docs/js/equipos.js` rechaza archivos que no sean imagen y los de más de 5 MB antes
 de subirlos, pero eso es **comodidad, no seguridad**: es código de cliente y se
 puede saltar. El límite que de verdad manda se pone en el panel.
 
@@ -192,7 +192,7 @@ Importa porque el bucket es público: lo que entre queda servido desde el
 dominio de Supabase. Sin este límite, un archivo HTML subido ahí se sirve como
 página.
 
-Si algún día se sube `MAX_FOTO_MB` en `js/equipos.js`, hay que subir también el
+Si algún día se sube `MAX_FOTO_MB` en `docs/js/equipos.js`, hay que subir también el
 límite del panel — si no, el navegador acepta la foto y Supabase la rechaza
 después, que es peor que rechazarla de entrada.
 
@@ -209,7 +209,7 @@ después, que es peor que rechazarla de entrada.
   30 correos/hora y los 3.000/mes de Resend, y los clientes de verdad se quedan
   sin su correo de confirmación. Se cierra con Turnstile de Cloudflare: crear
   un widget, pegar la *secret key* en *Authentication → Attack Protection* y
-  pasar `options.captchaToken` en las tres llamadas de `js/equipos.js`
+  pasar `options.captchaToken` en las tres llamadas de `docs/js/equipos.js`
   (`signUp`, `signInWithPassword`, `resetPasswordForEmail`). Ojo con el orden:
   activarlo en el panel lo vuelve obligatorio en las tres al instante, así que
   el código va primero. Si algo falla, se desactiva la casilla y todo vuelve a

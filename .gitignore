@@ -7,3 +7,8 @@
 # Impeccable vive como plugin global (claude plugin install impeccable@impeccable),
 # no vendorizado aqui: pesaba 3,3 MB y GitHub Pages lo publicaba en el sitio.
 .claude/skills/impeccable/
+
+# Material crudo del cliente (PDFs, fotos sin procesar). No lo referencia el
+# sitio y GitHub Pages publicaba la carpeta entera en telveca.com, incluidos
+# documentos internos. Se queda en el disco, fuera del repositorio.
+Material Miscelanio/
