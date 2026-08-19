@@ -938,7 +938,15 @@ body {
 .drawer__media .ph { position: relative; z-index: 2; }
 
 .tags, .brands { display: flex; flex-wrap: wrap; gap: 10px; }
-.tag {
+/* Chip. .tag (capacidades de una ficha de servicio) y .brand (marcas del
+   cajón de suministro) son EL MISMO componente con distinto relleno de
+   fondo, así que se declaran juntos. Estaban escritos por separado y el de
+   marcas se fue del sistema tres veces seguidas —borde gris en vez de teal,
+   15px y peso 600 en vez de 13px, y 9/16 de relleno en vez de 6/12—: cada
+   arreglo dejaba la siguiente diferencia esperando. Compartiendo la regla no
+   se pueden volver a separar sin querer. Radio 4px = escalón de "chips/tags
+   pequeños" de DESIGN.md:271. */
+.tag, .brand {
   border: 1px solid var(--teal); border-radius: 4px; padding: 6px 12px;
   font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 0.04em;
   text-transform: uppercase; color: var(--teal-dark);
@@ -1063,15 +1071,9 @@ body {
 }
 .brands__head--sep { margin-top: 20px; }
 .brands { display: flex; flex-wrap: wrap; gap: 12px; }
-/* Mismo tratamiento que .tag, que es el chip que el sitio ya tenía: borde
-   teal y no gris neutro, y radio 4px, el escalón que DESIGN.md asigna a
-   "chips/tags pequeños" (tenían 6px, el de botones). Antes eran los únicos
-   recuadros del sitio sin relación con la paleta y se veían prestados. */
-.brand {
-  background: var(--surface); border: 1px solid var(--teal); border-radius: 4px;
-  padding: 9px 16px; font-family: 'Oswald', sans-serif;
-  letter-spacing: 0.04em; color: var(--teal-dark); text-transform: uppercase; font-size: 13px;
-}
+/* Métrica y tipografía: ver el bloque compartido con .tag, más arriba.
+   Aquí solo va lo que diferencia a una marca de una capacidad. */
+.brand { background: var(--surface); }
 /* El grupo secundario conserva el recuadro pero apagado: mismo borde de
    línea que el resto de la ficha y texto en gris. El tamaño NO cambia entre
    los dos grupos — la jerarquía la llevan el color del borde y el del texto,
