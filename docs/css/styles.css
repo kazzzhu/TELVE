@@ -595,6 +595,10 @@ body {
   content: ""; display: block; width: 28px; height: 3px;
   background: var(--red); margin-bottom: 18px;
 }
+/* Con insignia no va además el guion: es el mismo acento rojo dos veces. Se
+   apaga solo aquí; las tarjetas del catálogo, que también son .card--plain
+   (las arma equipos.js), lo conservan. */
+.card--ico::before { display: none; }
 @media (max-width: 900px) {
   .grid--divided { grid-template-columns: 1fr !important; border-top: none; }
   .grid--divided .card--plain {
@@ -968,14 +972,18 @@ body {
 /* Un ícono propio por paso en vez de un número — el orden ya lo dice el
    título ("Inspección" -> "Reparación" -> "Pruebas"); el ícono muestra
    qué es cada paso, no solo en qué lugar de la fila va. */
-.step__icon {
+/* Insignia de icono. La usan los pasos de El Proceso (.step__icon) y las tres
+   columnas de "Capacidad instalada" (.card__icon). Se declara una sola vez a
+   propósito: cuando .brand se escribió como copia de .tag, se separaron tres
+   veces seguidas sin que nadie lo notara. */
+.step__icon, .card__icon {
   display: inline-flex; align-items: center; justify-content: center;
   width: 40px; height: 40px;
   background: var(--red); color: #fff;
   border-radius: 50%;
   margin-bottom: 18px;
 }
-.step__icon svg { width: 20px; height: 20px; }
+.step__icon svg, .card__icon svg { width: 20px; height: 20px; }
 .step__title {
   font-family: 'Oswald', sans-serif; font-size: 20px;
   font-weight: 600; line-height: 1.3; margin-bottom: 8px; color: var(--teal-dark);
