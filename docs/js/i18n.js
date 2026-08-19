@@ -132,6 +132,8 @@ en: {
 
   /* ---- Atributos (alt, aria-label, title) ---- */
   attrs: {
+    "Hola TELVE C.A., quiero consultar disponibilidad y precio de un equipo (motor, bomba o generador).":
+      "Hello TELVE C.A., I would like to ask about the availability and price of a unit (motor, pump or generator).",
     "TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2":
       "TELVE, C.A. — Talleres Eléctricos Venezolanos · Tax ID J-08002579-2",
     "Miembro EASA — The Electro-Mechanical Authority":
@@ -379,7 +381,10 @@ en: {
     "Motores, bombas y generadores en stock": "Motors, pumps and generators in stock",
     "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
       "Single-phase and three-phase electric motors, PEARL and CALPEDA water pumps, and generators, ready to install.",
-    "Por ahora no hay equipos cargados.": "No equipment loaded yet.",
+    "Todavía no hay equipos publicados": "No equipment listed yet",
+    "Trabajamos con motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores. Si buscas algo puntual, escríbenos y te decimos si lo tenemos o te lo conseguimos.":
+      "We work with single-phase and three-phase electric motors, PEARL and CALPEDA water pumps, and generators. If you are after something specific, write to us and we will tell you whether we have it or can source it for you.",
+    "Pedir por WhatsApp": "Ask on WhatsApp",
     "No se pudo cargar el catálogo de equipos. Revisa tu conexión a internet y recarga la página.": "The equipment catalogue could not be loaded. Check your internet connection and reload the page.",
     "Administrador": "Administrator",
     "Agregar equipo": "Add item",
@@ -457,6 +462,8 @@ pt: {
   },
 
   attrs: {
+    "Hola TELVE C.A., quiero consultar disponibilidad y precio de un equipo (motor, bomba o generador).":
+      "Olá TELVE C.A., quero consultar a disponibilidade e o preço de um equipamento (motor, bomba ou gerador).",
     "TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2":
       "TELVE, C.A. — Talleres Eléctricos Venezolanos · CNPJ J-08002579-2",
     "Miembro EASA — The Electro-Mechanical Authority":
@@ -687,7 +694,10 @@ pt: {
     "Motores, bombas y generadores en stock": "Motores, bombas e geradores em estoque",
     "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
       "Motores elétricos monofásicos e trifásicos, bombas d'água PEARL e CALPEDA, e geradores, prontos para instalar.",
-    "Por ahora no hay equipos cargados.": "Ainda não há equipamentos cadastrados.",
+    "Todavía no hay equipos publicados": "Ainda não há equipamentos publicados",
+    "Trabajamos con motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores. Si buscas algo puntual, escríbenos y te decimos si lo tenemos o te lo conseguimos.":
+      "Trabalhamos com motores elétricos monofásicos e trifásicos, bombas d'água PEARL e CALPEDA, e geradores. Se você procura algo específico, escreva para nós e dizemos se temos ou se conseguimos para você.",
+    "Pedir por WhatsApp": "Consultar pelo WhatsApp",
     "No se pudo cargar el catálogo de equipos. Revisa tu conexión a internet y recarga la página.": "Não foi possível carregar o catálogo de equipamentos. Verifique sua conexão com a internet e recarregue a página.",
     "Administrador": "Administrador",
     "Agregar equipo": "Adicionar item",
@@ -765,6 +775,8 @@ it: {
   },
 
   attrs: {
+    "Hola TELVE C.A., quiero consultar disponibilidad y precio de un equipo (motor, bomba o generador).":
+      "Ciao TELVE C.A., vorrei sapere disponibilità e prezzo di un'unità (motore, pompa o generatore).",
     "TELVE, C.A. — Talleres Eléctricos Venezolanos · RIF J-08002579-2":
       "TELVE, C.A. — Talleres Eléctricos Venezolanos · P. IVA J-08002579-2",
     "Miembro EASA — The Electro-Mechanical Authority":
@@ -995,7 +1007,10 @@ it: {
     "Motores, bombas y generadores en stock": "Motori, pompe e generatori disponibili",
     "Motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores, listos para instalación.":
       "Motori elettrici monofase e trifase, pompe dell'acqua PEARL e CALPEDA, e generatori, pronti per l'installazione.",
-    "Por ahora no hay equipos cargados.": "Al momento non ci sono attrezzature caricate.",
+    "Todavía no hay equipos publicados": "Non ci sono ancora attrezzature pubblicate",
+    "Trabajamos con motores eléctricos monofásicos y trifásicos, bombas de agua PEARL y CALPEDA, y generadores. Si buscas algo puntual, escríbenos y te decimos si lo tenemos o te lo conseguimos.":
+      "Lavoriamo con motori elettrici monofase e trifase, pompe dell'acqua PEARL e CALPEDA e generatori. Se cerchi qualcosa di preciso, scrivici e ti diciamo se ce l'abbiamo o se possiamo procurartelo.",
+    "Pedir por WhatsApp": "Richiedi su WhatsApp",
     "No se pudo cargar el catálogo de equipos. Revisa tu conexión a internet y recarga la página.": "Non è stato possibile caricare il catalogo delle attrezzature. Controlla la connessione a internet e ricarica la pagina.",
     "Administrador": "Amministratore",
     "Agregar equipo": "Aggiungi articolo",

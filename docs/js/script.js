@@ -124,7 +124,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Se vuelve a llamar al cambiar de idioma para refrescar el mensaje.
   window.TELVE_refrescarWhatsapp = function () {
     document.querySelectorAll("[data-wa]").forEach(function (a) {
-      a.setAttribute("href", urlWhatsapp());
+      /* data-wa-msg deja que un botón concreto lleve su propio mensaje. Lo usa
+         el catálogo vacío: el mensaje general habla de reparar un motor, y
+         quien pulsa ahí quiere comprar uno. Se traduce solo, porque
+         data-wa-msg está en la lista de atributos que cachaTextos guarda. */
+      var propio = a.getAttribute("data-wa-msg");
+      a.setAttribute("href", urlWhatsapp(propio));
       a.setAttribute("target", "_blank");
       a.setAttribute("rel", "noopener");
     });
@@ -339,8 +344,8 @@ function cacharTextos() {
     TELVE_originales.push({ nodo: n, texto: n.nodeValue });
   }
 
-  var ATRIBUTOS = ["alt", "aria-label", "title", "placeholder"];
-  document.querySelectorAll("[alt],[aria-label],[title],[placeholder]").forEach(function (el) {
+  var ATRIBUTOS = ["alt", "aria-label", "title", "placeholder", "data-wa-msg"];
+  document.querySelectorAll("[alt],[aria-label],[title],[placeholder],[data-wa-msg]").forEach(function (el) {
     ATRIBUTOS.forEach(function (a) {
       if (el.hasAttribute(a)) {
         TELVE_origAttrs.push({ el: el, attr: a, valor: el.getAttribute(a) });

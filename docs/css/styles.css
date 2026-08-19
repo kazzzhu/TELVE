@@ -1258,6 +1258,21 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 .authModal__note { color: var(--teal-dark); font-size: 13.5px; margin-top: 10px; }
 
 /* ---------- Equipos en venta (catálogo + acceso admin) ---------- */
+/* Estado vacío del catálogo. Centrado y acotado en ancho: es un mensaje que
+   se lee de una vez, no una columna de texto. El ícono va a trazo fino (1.6
+   en vez de 2.4) y apagado — acompaña, no anuncia. */
+.empty {
+  max-width: 560px; margin: 0 auto;
+  padding: 40px 0 8px;
+  text-align: center;
+}
+.empty__icon { width: 46px; height: 46px; color: var(--teal); opacity: .45; }
+.empty__title {
+  font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 600;
+  color: var(--teal-dark); line-height: 1.3; margin: 16px 0 10px;
+}
+.empty__text { color: var(--text-muted); font-size: 15px; line-height: 1.6; margin: 0 0 24px; }
+.empty .btn--wa { display: inline-flex; }
 .equipos-admin { border-top: 1px solid var(--border); padding-top: var(--space-xl); }
 .equipos-form { display: flex; flex-direction: column; gap: 12px; max-width: 420px; }
 .equipos-form input,
