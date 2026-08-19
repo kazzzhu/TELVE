@@ -1069,15 +1069,17 @@ body {
    recuadros del sitio sin relación con la paleta y se veían prestados. */
 .brand {
   background: var(--surface); border: 1px solid var(--teal); border-radius: 4px;
-  padding: 12px 22px; font-family: 'Oswald', sans-serif; font-weight: 600;
-  letter-spacing: 0.04em; color: var(--teal-dark); text-transform: uppercase; font-size: 15px;
+  padding: 9px 16px; font-family: 'Oswald', sans-serif;
+  letter-spacing: 0.04em; color: var(--teal-dark); text-transform: uppercase; font-size: 13px;
 }
 /* El grupo secundario conserva el recuadro pero apagado: mismo borde de
-   línea que el resto de la ficha, texto en gris y algo más chico. */
+   línea que el resto de la ficha y texto en gris. El tamaño NO cambia entre
+   los dos grupos — la jerarquía la llevan el color del borde y el del texto,
+   que ya alcanzan; variar también el cuerpo metía un tercer tamaño de chip
+   en una ficha que solo debería tener uno. */
 .brand--sec {
   background: transparent; border-color: var(--border);
-  color: var(--text-muted); font-weight: 500;
-  padding: 10px 18px; font-size: 14px;
+  color: var(--text-muted);
 }
 
 /* ---------- CTA centrado ---------- */
