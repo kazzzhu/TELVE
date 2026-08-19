@@ -205,6 +205,8 @@ en: {
 
     /* Por qué TELVE */
     "Navegación": "Navigation",
+    "Distribuidor autorizado": "Authorised distributor",
+    "Otras marcas que manejamos": "Other brands we carry",
     "Fundador": "Founder",
     "Generación de relevo": "Next generation",
     "Por qué TELVE, C.A.": "Why TELVE, C.A.",
@@ -519,6 +521,8 @@ pt: {
     "Ver todos los servicios →": "Ver todos os serviços →",
 
     "Navegación": "Navegação",
+    "Distribuidor autorizado": "Distribuidor autorizado",
+    "Otras marcas que manejamos": "Outras marcas que trabalhamos",
     "Fundador": "Fundador",
     "Generación de relevo": "Nova geração",
     "Por qué TELVE, C.A.": "Por que a TELVE, C.A.",
@@ -825,6 +829,8 @@ it: {
     "Ver todos los servicios →": "Vedi tutti i servizi →",
 
     "Navegación": "Navigazione",
+    "Distribuidor autorizado": "Distributore autorizzato",
+    "Otras marcas que manejamos": "Altri marchi che trattiamo",
     "Fundador": "Fondatore",
     "Generación de relevo": "Nuova generazione",
     "Por qué TELVE, C.A.": "Perché TELVE, C.A.",

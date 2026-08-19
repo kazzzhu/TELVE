@@ -1043,11 +1043,25 @@ body {
 }
 
 /* ---------- Distribuidores ---------- */
+/* Dos grupos con peso visual distinto, y no es decoración: "distribuidor
+   autorizado" es una afirmación comercial que solo aplica a cuatro marcas.
+   El segundo grupo conserva el recuadro pero en tono apagado, para que el
+   peso en pantalla se corresponda con lo que se está afirmando. */
+.brands__head {
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  margin: 0 0 10px;
+}
+.brands__head--sep { margin-top: 20px; }
 .brands { display: flex; flex-wrap: wrap; gap: 12px; }
 .brand {
   background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
   padding: 12px 22px; font-family: 'Oswald', sans-serif; font-weight: 600;
   letter-spacing: 0.04em; color: var(--teal-dark); text-transform: uppercase; font-size: 15px;
+}
+.brand--sec {
+  background: transparent; color: var(--text-muted); font-weight: 500;
+  padding: 10px 18px; font-size: 14px;
 }
 
 /* ---------- CTA centrado ---------- */
