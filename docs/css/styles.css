@@ -1303,6 +1303,56 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 .equipos-form__error { color: var(--red); font-size: 14px; }
 .card__tag { margin-bottom: 10px; }
 
+/* ---------- Mi equipo (seguimiento de reparación) ---------- */
+/* Indicador de etapa: 5 segmentos, se rellenan hasta la etapa actual.
+   No hay valor numérico que mostrar, así que el color es la única señal. */
+.etapa-track { display: flex; gap: 4px; margin: 4px 0 12px; }
+.etapa-track__seg { flex: 1; height: 5px; border-radius: 3px; background: var(--border); }
+.etapa-track__seg.is-done { background: var(--teal); }
+.etapa-label {
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--teal-dark);
+  margin: 0 0 4px;
+}
+.proceso-notas { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
+.proceso-nota__texto { font-size: 14.5px; line-height: 1.5; margin: 0; }
+.proceso-nota__fecha { color: var(--text-muted); font-size: 12.5px; margin: 0 0 3px; }
+.proceso-nota__foto { display: block; width: 72px; height: 72px; object-fit: cover; border-radius: 6px; margin-top: 6px; cursor: pointer; }
+/* Panel admin por tarjeta: cambiar etapa y agregar nota sin salir de la tarjeta. */
+.proceso-admin { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+.proceso-admin select,
+.proceso-admin input,
+.proceso-admin textarea {
+  width: 100%;
+  font-family: 'Barlow', sans-serif; font-size: 14px;
+  color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 10px;
+}
+.proceso-admin textarea { resize: vertical; min-height: 56px; }
+
+/* ---------- Menú del ícono de sesión (nav) ---------- */
+.nav__auth { position: relative; }
+.nav__authBtn { display: inline-flex; align-items: center; gap: 8px; }
+.nav__authIcon { width: 17px; height: 17px; flex: none; }
+.nav__authMenu {
+  position: absolute; right: 0; top: calc(100% + 8px);
+  background: var(--surface); border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  padding: 6px; min-width: 160px; z-index: 60;
+}
+.nav__authMenu__item {
+  display: block; width: 100%; text-align: left;
+  padding: 9px 12px; border-radius: 6px;
+  font-family: 'Barlow', sans-serif; font-size: 14.5px; color: var(--text);
+  background: transparent; border: none; cursor: pointer;
+}
+.nav__authMenu__item:hover { background: var(--bg); }
+@media (max-width: 860px) {
+  .nav__auth { width: 100%; }
+  .nav__authMenu { position: static; box-shadow: none; margin-top: 4px; }
+}
+
 /* ---------- Footer ---------- */
 .footer {
   background: var(--teal-darker); color: #b9cccb;

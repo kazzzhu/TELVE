@@ -107,10 +107,27 @@
     var dic = diccionario();
     return (dic && dic.equipos && dic.equipos[clave]) || porDefecto;
   }
+  function tProceso(clave, porDefecto) {
+    var dic = diccionario();
+    return (dic && dic.proceso && dic.proceso[clave]) || porDefecto;
+  }
+
+  /* Escapa para meter texto dentro de HTML, incluidos los ATRIBUTOS.
+     Antes esto se hacía con textContent → innerHTML, que escapa < > &
+     pero NO las comillas: un valor con una comilla doble cerraba el
+     atributo de al lado y permitía inyectar código (por ejemplo un
+     onerror= dentro de la etiqueta img de la foto). Se escapan también
+     las dos comillas, que es lo que hace segura la interpolación en
+     src="..." y data-id="..." de tarjeta() y de las tarjetas de proceso. */
+  var ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+  function escapar(txt) {
+    return String(txt).replace(/[&<>"']/g, function (c) { return ESCAPES[c]; });
+  }
 
   document.addEventListener("DOMContentLoaded", function () {
     initAuthModal();
     initEquipos();
+    initProceso();
   });
 
   /* ---------- Lightbox: agrandar la foto de un equipo con un clic ---------- */
@@ -231,9 +248,35 @@
       document.removeEventListener("keydown", alEscape);
     }
 
-    navBtn.addEventListener("click", function () {
-      if (sesionActual) { sb.auth.signOut(); return; }
-      abrirModal("login");
+    var authMenu   = document.getElementById("navAuthMenu");
+    var signOutBtn = document.getElementById("navSignOut");
+
+    function cerrarAuthMenu() {
+      if (authMenu) authMenu.hidden = true;
+      navBtn.setAttribute("aria-expanded", "false");
+    }
+
+    navBtn.addEventListener("click", function (e) {
+      if (!sesionActual) { abrirModal("login"); return; }
+      // Con sesión, el botón ya no cierra sesión al toque: abre el menú
+      // (Mi equipo / Cerrar sesión). data-nav de "Mi equipo" navega solo.
+      if (!authMenu) { sb.auth.signOut(); return; }
+      e.stopPropagation();
+      var abierto = !authMenu.hidden;
+      authMenu.hidden = abierto;
+      navBtn.setAttribute("aria-expanded", abierto ? "false" : "true");
+    });
+    if (authMenu) {
+      document.addEventListener("click", function (e) {
+        if (!authMenu.hidden && !authMenu.contains(e.target) && e.target !== navBtn) cerrarAuthMenu();
+      });
+      authMenu.addEventListener("click", function (e) {
+        if (e.target.hasAttribute("data-nav")) cerrarAuthMenu(); // deja que script.js navegue
+      });
+    }
+    if (signOutBtn) signOutBtn.addEventListener("click", function () {
+      cerrarAuthMenu();
+      sb.auth.signOut();
     });
     if (cerrarBtn) cerrarBtn.addEventListener("click", cerrarModal);
     if (backdrop)  backdrop.addEventListener("click", cerrarModal);
@@ -444,7 +487,8 @@
 
     function pintarBoton(sesion) {
       sesionActual = sesion;
-      navBtn.textContent = sesion ? tAuth("logout", "Cerrar sesión") : tAuth("login", "Iniciar sesión");
+      navBtn.setAttribute("aria-label", sesion ? tAuth("miCuenta", "Mi cuenta") : tAuth("login", "Iniciar sesión"));
+      if (!sesion) cerrarAuthMenu();
     }
     sb.auth.getSession().then(function (r) { pintarBoton(r.data.session); });
     sb.auth.onAuthStateChange(function (_evento, sesion) { pintarBoton(sesion); });
@@ -469,18 +513,6 @@
     var formEquipo = document.getElementById("formEquipo");
     var equipoMsg  = document.getElementById("equipoMsg");
     var esAdminActual = false;
-
-    /* Escapa para meter texto dentro de HTML, incluidos los ATRIBUTOS.
-       Antes esto se hacía con textContent → innerHTML, que escapa < > &
-       pero NO las comillas: un valor con una comilla doble cerraba el
-       atributo de al lado y permitía inyectar código (por ejemplo un
-       onerror= dentro de la etiqueta img de la foto). Se escapan también
-       las dos comillas, que es lo que hace segura la interpolación en
-       src="..." y data-id="..." de tarjeta(). */
-    var ESCAPES = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
-    function escapar(txt) {
-      return String(txt).replace(/[&<>"']/g, function (c) { return ESCAPES[c]; });
-    }
 
     function tarjeta(e) {
       var especs = [];
@@ -661,5 +693,180 @@
     // El sitio llama a esto al cambiar de idioma, para redibujar las
     // tarjetas con las etiquetas (Marca/Modelo/…) en el idioma nuevo.
     window.TELVE_refrescarEquipos = cargarEquipos;
+  }
+
+  /* ---------- Mi equipo: seguimiento de reparación ----------
+     El cliente ve los registros cuyo cliente_email coincide con su sesión
+     (lo filtra la política RLS, no este archivo); el admin ve todos. Los
+     valores de "etapa" se muestran tal cual vienen de la base, en español —
+     mismo criterio que tarjeta() usa para tipo/marca/modelo en el catálogo:
+     no hay diccionario de traducción por valor, solo de las etiquetas fijas
+     de la interfaz (ver tProceso). */
+  var ETAPAS = ["Diagnóstico", "En reparación", "Pruebas", "Listo para entrega", "Entregado"];
+
+  function initProceso() {
+    var grid       = document.getElementById("procesoGrid");
+    if (!grid) return;
+
+    var MAX_FOTO_MB  = 5;
+    var vacio        = document.getElementById("procesoVacio");
+    var adminPanel   = document.getElementById("procesoAdminPanel");
+    var formProceso  = document.getElementById("formProceso");
+    var procesoMsg   = document.getElementById("procesoMsg");
+    var esAdminActual = false;
+
+    function adminControles(r) {
+      var opciones = ETAPAS.map(function (et) {
+        return '<option value="' + escapar(et) + '"' + (et === r.etapa ? " selected" : "") + ">" + escapar(et) + "</option>";
+      }).join("");
+      return '<div class="proceso-admin" data-id="' + escapar(r.id) + '">' +
+        '<select class="proceso-etapa-select">' + opciones + "</select>" +
+        '<textarea class="proceso-nota-texto" placeholder="' + escapar(tProceso("notaPlaceholder", "Nota (opcional)")) + '"></textarea>' +
+        '<input type="file" class="proceso-nota-foto" accept="image/*">' +
+        '<button type="button" class="btn btn--primary proceso-nota-guardar">' + escapar(tProceso("guardarNota", "Guardar nota")) + "</button>" +
+        "</div>";
+    }
+
+    function tarjeta(r) {
+      var idx = ETAPAS.indexOf(r.etapa);
+      var segs = ETAPAS.map(function (_, i) {
+        return '<span class="etapa-track__seg' + (i <= idx ? " is-done" : "") + '"></span>';
+      }).join("");
+      var notas = (r.reparacion_notas || []).slice().sort(function (a, b) {
+        return new Date(a.created_at) - new Date(b.created_at);
+      });
+      var notasHtml = notas.map(function (n) {
+        return '<div class="proceso-nota">' +
+          '<p class="proceso-nota__fecha">' + escapar(new Date(n.created_at).toLocaleDateString()) + "</p>" +
+          '<p class="proceso-nota__texto">' + escapar(n.texto) + "</p>" +
+          (n.foto_url ? '<img class="proceso-nota__foto" loading="lazy" decoding="async" src="' + escapar(n.foto_url) + '" alt="" onerror="this.remove()">' : "") +
+          "</div>";
+      }).join("");
+
+      var div = document.createElement("div");
+      div.className = "card card--plain";
+      div.innerHTML =
+        '<h3 class="card__title">' + escapar(r.equipo) + "</h3>" +
+        '<p class="card__text">' + tProceso("numero", "Nº de servicio: ") + escapar(r.numero_servicio) + "</p>" +
+        '<p class="etapa-label">' + tProceso("etapaActual", "Etapa actual: ") + escapar(r.etapa) + "</p>" +
+        '<div class="etapa-track">' + segs + "</div>" +
+        (notasHtml ? '<div class="proceso-notas">' + notasHtml + "</div>" : "") +
+        (esAdminActual ? adminControles(r) : "");
+      return div;
+    }
+
+    function cargarProceso() {
+      sb.from("reparaciones").select("*, reparacion_notas(*)").order("created_at", { ascending: false })
+        .then(function (r) {
+          if (r.error) { console.error("[TELVE] error cargando proceso:", r.error); return; }
+          grid.innerHTML = "";
+          if (!r.data.length) { if (vacio) vacio.hidden = false; return; }
+          if (vacio) vacio.hidden = true;
+          r.data.forEach(function (reg) { grid.appendChild(tarjeta(reg)); });
+        });
+    }
+    cargarProceso();
+
+    grid.addEventListener("click", function (ev) {
+      var img = ev.target.closest(".proceso-nota__foto");
+      if (img) { abrirLightbox(img.src); return; }
+
+      var guardarBtn = ev.target.closest(".proceso-nota-guardar");
+      if (!guardarBtn) return;
+      var panel   = guardarBtn.closest(".proceso-admin");
+      var id      = panel.getAttribute("data-id");
+      var texto   = panel.querySelector(".proceso-nota-texto").value.trim();
+      var archivo = panel.querySelector(".proceso-nota-foto").files[0];
+      if (!texto) return;
+
+      function insertarNota(fotoUrl) {
+        sb.from("reparacion_notas").insert({ reparacion_id: id, texto: texto, foto_url: fotoUrl }).then(function (r) {
+          if (r.error) {
+            console.error("[TELVE] error guardando nota:", r.error);
+            alert(tProceso("notaError", "No se pudo guardar la nota. Intenta de nuevo."));
+            return;
+          }
+          cargarProceso();
+        });
+      }
+
+      if (!archivo) { insertarNota(null); return; }
+      // Mismo criterio que la foto de equipos: filtro de comodidad en el
+      // cliente, el límite real lo pone el bucket en el panel de Supabase.
+      if (archivo.type.indexOf("image/") !== 0 || archivo.size > MAX_FOTO_MB * 1024 * 1024) {
+        alert(tAuth("fotoTipo", "El archivo debe ser una imagen."));
+        return;
+      }
+      var ruta = Date.now() + "-" + archivo.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+      sb.storage.from("reparaciones").upload(ruta, archivo).then(function (r) {
+        if (r.error) {
+          console.error("[TELVE] error subiendo foto de nota:", r.error);
+          alert(tAuth("uploadError", "No se pudo subir la foto. Intenta de nuevo."));
+          return;
+        }
+        var url = sb.storage.from("reparaciones").getPublicUrl(ruta).data.publicUrl;
+        insertarNota(url);
+      });
+    });
+
+    grid.addEventListener("change", function (ev) {
+      var sel = ev.target.closest(".proceso-etapa-select");
+      if (!sel) return;
+      var panel = sel.closest(".proceso-admin");
+      var id    = panel.getAttribute("data-id");
+      sb.from("reparaciones").update({ etapa: sel.value }).eq("id", id).then(function (r) {
+        if (r.error) {
+          console.error("[TELVE] error actualizando etapa:", r.error);
+          alert(tProceso("etapaError", "No se pudo actualizar la etapa."));
+          return;
+        }
+        cargarProceso();
+      });
+    });
+
+    function pintarAdmin(sesion) {
+      var esAdmin = !!sesion && sesion.user.email === ADMIN_EMAIL;
+      if (esAdmin !== esAdminActual) {
+        esAdminActual = esAdmin;
+        cargarProceso();
+      }
+      if (adminPanel) adminPanel.hidden = !esAdmin;
+    }
+    sb.auth.getSession().then(function (r) { pintarAdmin(r.data.session); });
+    sb.auth.onAuthStateChange(function (_evento, sesion) { pintarAdmin(sesion); });
+
+    var RE_CORREO_PROCESO = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    if (formProceso) formProceso.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (procesoMsg) procesoMsg.hidden = true;
+      var correo = document.getElementById("pCorreo").value.trim();
+      var numero = document.getElementById("pNumero").value.trim();
+      var equipo = document.getElementById("pEquipo").value.trim();
+      var etapa  = document.getElementById("pEtapa").value;
+      if (!correo || !RE_CORREO_PROCESO.test(correo) || !numero || !equipo) {
+        if (procesoMsg) {
+          procesoMsg.textContent = tProceso("registroError", "No se pudo guardar el registro. Revisa los datos e intenta de nuevo.");
+          procesoMsg.hidden = false;
+        }
+        return;
+      }
+      sb.from("reparaciones").insert({
+        cliente_email: correo, numero_servicio: numero, equipo: equipo, etapa: etapa
+      }).then(function (r) {
+        if (r.error) {
+          console.error("[TELVE] error creando reparación:", r.error);
+          if (procesoMsg) {
+            procesoMsg.textContent = tProceso("registroError", "No se pudo guardar el registro. Revisa los datos e intenta de nuevo.");
+            procesoMsg.hidden = false;
+          }
+          return;
+        }
+        formProceso.reset();
+        cargarProceso();
+      });
+    });
+
+    // El sitio llama a esto al cambiar de idioma, igual que TELVE_refrescarEquipos.
+    window.TELVE_refrescarProceso = cargarProceso;
   }
 })();

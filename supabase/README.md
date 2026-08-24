@@ -261,6 +261,45 @@ la protección, igual que con cualquier CAPTCHA.
 
 ---
 
+## 7. Mi equipo (seguimiento de reparación)
+
+Agregado el 2026-08-24. Le da utilidad al login para un cliente normal (antes
+solo servía para que el administrador publicara el catálogo de venta): ve en
+qué etapa está la reparación de su equipo y las notas que el taller agregue
+en el camino, con foto opcional.
+
+Dos tablas nuevas en `public`, aplicadas con `mcp__supabase__apply_migration`
+(no hay carpeta `supabase/migrations` en el repo — el schema completo vive en
+el proyecto remoto):
+
+- **`reparaciones`**: `cliente_email`, `numero_servicio` (el que ya usa el
+  taller, por ejemplo con FAPCO), `equipo` (descripción libre), `etapa`
+  (una de las 5 fijas, ver abajo). La vinculación con el cliente es por
+  **correo**, no por un código nuevo: el administrador escribe el correo con
+  el que ese cliente tiene (o va a tener) su cuenta.
+- **`reparacion_notas`**: `reparacion_id`, `texto`, `foto_url` opcional.
+
+Etapas fijas, en orden (sin "Recibido": eso se resuelve en persona, no por el
+sitio): `Diagnóstico → En reparación → Pruebas → Listo para entrega →
+Entregado`. Se guardan en español y se muestran tal cual — mismo criterio que
+ya usa el catálogo de equipos con tipo/marca/modelo (ver §4): no hay
+diccionario de traducción por valor, solo de las etiquetas fijas de la
+interfaz.
+
+Permisos, mismo patrón que `equipos` (§4): RLS agrupa por `auth.jwt() ->>
+'email'`, un cliente ve solo las filas cuyo `cliente_email` coincida con su
+sesión, el administrador (`telveca@gmail.com`) ve y escribe todo. Sin
+política de DELETE en ninguna de las dos tablas — igual que `equipos` hoy, si
+hace falta borrar un registro viejo se hace a mano desde el panel.
+
+Bucket de Storage nuevo, `reparaciones`, público, mismo límite que el de
+`equipos` (5 MB, `image/jpeg`/`image/png`/`image/webp`). Solo el admin puede
+subir (`INSERT`); sin política de `SELECT`/`UPDATE`/`DELETE` — mismas fotos
+huérfanas para siempre si se borra un registro, documentado como límite
+conocido igual que en `equipos` (§4).
+
+---
+
 ## Pendientes conocidos
 
 - **Sin verificación en dos pasos** en `telveca@gmail.com`, Supabase ni
@@ -275,3 +314,10 @@ la protección, igual que con cualquier CAPTCHA.
   sesión y lo único que desbloquea una sesión es el panel del administrador.
   El registro público está abierto por decisión del dueño del sitio, previendo
   funciones de cliente más adelante.
+- **Leaked Password Protection (HaveIBeenPwned) apagada.** *Authentication →
+  Sign In / Providers → Email → Prevent use of leaked passwords.* Rechazaría
+  contraseñas ya filtradas en otros sitios al registrarse o cambiar clave.
+  Intentado activar el 2026-08-24: el plan **free** no la deja guardar
+  ("available on Pro Plans and up"). Queda pendiente si el proyecto pasa a
+  plan Pro. Mientras tanto, el CAPTCHA de Turnstile y el mínimo de 6
+  caracteres (`equipos.js`) son la única barrera contra contraseñas débiles.

@@ -94,7 +94,7 @@ en: {
      recorrido corre). Se consultan en vivo, ver TELVE_refrescarAuthUI. */
   auth: {
     login: "Log in",
-    logout: "Log out",
+    miCuenta: "My account",
     loginTitle: "Welcome back",
     registerTitle: "Create account",
     loginError: "Incorrect email or password.",
@@ -128,6 +128,17 @@ en: {
     eje: "Shaft dia.: ",
     borrar: "Delete item",
     borrarError: "The item could not be deleted. Please try again."
+  },
+  proceso: {
+    numero: "Service #: ",
+    etapaActual: "Current stage: ",
+    notas: "Notes",
+    agregarNota: "Add note",
+    notaPlaceholder: "Note (optional)",
+    guardarNota: "Save note",
+    notaError: "The note could not be saved. Please try again.",
+    etapaError: "The stage could not be updated.",
+    registroError: "The record could not be saved. Check the details and try again."
   },
 
   /* ---- Atributos (alt, aria-label, title) ---- */
@@ -425,7 +436,7 @@ pt: {
 
   auth: {
     login: "Entrar",
-    logout: "Sair",
+    miCuenta: "Minha conta",
     loginTitle: "Bem-vindo de volta",
     registerTitle: "Criar conta",
     loginError: "E-mail ou senha incorretos.",
@@ -459,6 +470,17 @@ pt: {
     eje: "Diâm. eixo: ",
     borrar: "Excluir item",
     borrarError: "Não foi possível excluir o equipamento. Tente novamente."
+  },
+  proceso: {
+    numero: "Nº de serviço: ",
+    etapaActual: "Etapa atual: ",
+    notas: "Notas",
+    agregarNota: "Adicionar nota",
+    notaPlaceholder: "Nota (opcional)",
+    guardarNota: "Salvar nota",
+    notaError: "Não foi possível salvar a nota. Tente novamente.",
+    etapaError: "Não foi possível atualizar a etapa.",
+    registroError: "Não foi possível salvar o registro. Confira os dados e tente novamente."
   },
 
   attrs: {
@@ -738,7 +760,7 @@ it: {
 
   auth: {
     login: "Accedi",
-    logout: "Esci",
+    miCuenta: "Il mio account",
     loginTitle: "Bentornato",
     registerTitle: "Crea account",
     loginError: "Email o password errati.",
@@ -772,6 +794,17 @@ it: {
     eje: "Diam. albero: ",
     borrar: "Elimina articolo",
     borrarError: "Non è stato possibile eliminare l'attrezzatura. Riprova."
+  },
+  proceso: {
+    numero: "Nº di servizio: ",
+    etapaActual: "Fase attuale: ",
+    notas: "Note",
+    agregarNota: "Aggiungi nota",
+    notaPlaceholder: "Nota (opzionale)",
+    guardarNota: "Salva nota",
+    notaError: "Non è stato possibile salvare la nota. Riprova.",
+    etapaError: "Non è stato possibile aggiornare la fase.",
+    registroError: "Non è stato possibile salvare il registro. Controlla i dati e riprova."
   },
 
   attrs: {

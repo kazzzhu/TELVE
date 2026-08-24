@@ -412,6 +412,7 @@ function aplicarIdioma(lang) {
   // su propio texto por JS, así que no los alcanza el recorrido de arriba.
   if (window.TELVE_refrescarAuthUI) window.TELVE_refrescarAuthUI();
   if (window.TELVE_refrescarEquipos) window.TELVE_refrescarEquipos();
+  if (window.TELVE_refrescarProceso) window.TELVE_refrescarProceso();
   // Los enlaces del menú cambian de ancho: hay que recolocar la barra roja.
   window.dispatchEvent(new Event("resize"));
   // La insignia del círculo debe reflejar el idioma recién elegido.
