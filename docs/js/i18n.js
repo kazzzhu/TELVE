@@ -416,7 +416,22 @@ en: {
     "Guardar contraseña": "Save password",
     "Contraseña actualizada. Ya puedes entrar con ella.": "Password updated. You can log in with it now.",
     "Reenviar el correo de confirmación": "Resend the confirmation email",
-    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "We've resent the confirmation email. Check your inbox."
+    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "We've resent the confirmation email. Check your inbox.",
+    "Cerrar sesión": "Log out",
+
+    /* Mi equipo */
+    "Mi equipo": "My equipment",
+    "Seguimiento de tu reparación": "Track your repair",
+    "Aquí ves en qué etapa está tu equipo y las notas que agregue el taller durante el proceso.":
+      "Here you can see what stage your equipment is at, and any notes the shop adds along the way.",
+    "Todavía no tienes equipos en proceso": "You don't have any equipment in progress yet",
+    "Cuando traigas un equipo a reparar y quede registrado con este correo, vas a ver aquí en qué etapa está.":
+      "Once you bring in equipment for repair and it's registered with this email, you'll see its stage here.",
+    "Registrar equipo en proceso": "Register equipment in progress",
+    "Correo del cliente": "Customer's email",
+    "Número de servicio": "Service number",
+    "Equipo (ej. Bomba centrífuga 5HP)": "Equipment (e.g. 5HP centrifugal pump)",
+    "Registrar": "Register"
   }
 
 },  /* ---- fin del inglés ---- */
@@ -740,7 +755,22 @@ pt: {
     "Guardar contraseña": "Salvar senha",
     "Contraseña actualizada. Ya puedes entrar con ella.": "Senha atualizada. Já pode entrar com ela.",
     "Reenviar el correo de confirmación": "Reenviar o e-mail de confirmação",
-    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "Reenviamos o e-mail de confirmação. Confira sua caixa de entrada."
+    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "Reenviamos o e-mail de confirmação. Confira sua caixa de entrada.",
+    "Cerrar sesión": "Sair",
+
+    /* Mi equipo */
+    "Mi equipo": "Meu equipamento",
+    "Seguimiento de tu reparación": "Acompanhe seu reparo",
+    "Aquí ves en qué etapa está tu equipo y las notas que agregue el taller durante el proceso.":
+      "Aqui você vê em que etapa está seu equipamento e as notas que a oficina adicionar durante o processo.",
+    "Todavía no tienes equipos en proceso": "Você ainda não tem equipamentos em processo",
+    "Cuando traigas un equipo a reparar y quede registrado con este correo, vas a ver aquí en qué etapa está.":
+      "Quando você trouxer um equipamento para reparo e ele for registrado com este e-mail, verá aqui em que etapa está.",
+    "Registrar equipo en proceso": "Registrar equipamento em processo",
+    "Correo del cliente": "E-mail do cliente",
+    "Número de servicio": "Número de serviço",
+    "Equipo (ej. Bomba centrífuga 5HP)": "Equipamento (ex. Bomba centrífuga 5HP)",
+    "Registrar": "Registrar"
   }
 
 },  /* ---- fin del portugués ---- */
@@ -1064,7 +1094,22 @@ it: {
     "Guardar contraseña": "Salva password",
     "Contraseña actualizada. Ya puedes entrar con ella.": "Password aggiornata. Ora puoi accedere con questa.",
     "Reenviar el correo de confirmación": "Invia di nuovo l'email di conferma",
-    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "Ti abbiamo inviato di nuovo l'email di conferma. Controlla la posta."
+    "Te reenviamos el correo de confirmación. Revisa tu bandeja.": "Ti abbiamo inviato di nuovo l'email di conferma. Controlla la posta.",
+    "Cerrar sesión": "Esci",
+
+    /* Mi equipo */
+    "Mi equipo": "La mia attrezzatura",
+    "Seguimiento de tu reparación": "Segui la tua riparazione",
+    "Aquí ves en qué etapa está tu equipo y las notas que agregue el taller durante el proceso.":
+      "Qui vedi a che punto è la tua attrezzatura e le note che l'officina aggiunge durante il processo.",
+    "Todavía no tienes equipos en proceso": "Non hai ancora attrezzature in lavorazione",
+    "Cuando traigas un equipo a reparar y quede registrado con este correo, vas a ver aquí en qué etapa está.":
+      "Quando porterai un'attrezzatura da riparare e verrà registrata con questa email, vedrai qui a che punto è.",
+    "Registrar equipo en proceso": "Registra attrezzatura in lavorazione",
+    "Correo del cliente": "Email del cliente",
+    "Número de servicio": "Numero di servizio",
+    "Equipo (ej. Bomba centrífuga 5HP)": "Attrezzatura (es. Pompa centrifuga 5HP)",
+    "Registrar": "Registra"
   }
 
 }   /* ---- fin del italiano. El siguiente idioma va aquí, al mismo nivel ---- */
