@@ -138,7 +138,10 @@ en: {
     guardarNota: "Save note",
     notaError: "The note could not be saved. Please try again.",
     etapaError: "The stage could not be updated.",
-    registroError: "The record could not be saved. Check the details and try again."
+    registroError: "The record could not be saved. Check the details and try again.",
+    adjuntarFoto: "Attach photo (optional)",
+    siguienteEtapa: "Next stage",
+    confirmarEntrega: "Confirm delivery"
   },
 
   /* ---- Atributos (alt, aria-label, title) ---- */
@@ -431,7 +434,8 @@ en: {
     "Correo del cliente": "Customer's email",
     "Número de servicio": "Service number",
     "Equipo (ej. Bomba centrífuga 5HP)": "Equipment (e.g. 5HP centrifugal pump)",
-    "Registrar": "Register"
+    "Registrar": "Register",
+    "Historial": "History"
   }
 
 },  /* ---- fin del inglés ---- */
@@ -495,7 +499,10 @@ pt: {
     guardarNota: "Salvar nota",
     notaError: "Não foi possível salvar a nota. Tente novamente.",
     etapaError: "Não foi possível atualizar a etapa.",
-    registroError: "Não foi possível salvar o registro. Confira os dados e tente novamente."
+    registroError: "Não foi possível salvar o registro. Confira os dados e tente novamente.",
+    adjuntarFoto: "Anexar foto (opcional)",
+    siguienteEtapa: "Próxima etapa",
+    confirmarEntrega: "Confirmar entrega"
   },
 
   attrs: {
@@ -770,7 +777,8 @@ pt: {
     "Correo del cliente": "E-mail do cliente",
     "Número de servicio": "Número de serviço",
     "Equipo (ej. Bomba centrífuga 5HP)": "Equipamento (ex. Bomba centrífuga 5HP)",
-    "Registrar": "Registrar"
+    "Registrar": "Registrar",
+    "Historial": "Histórico"
   }
 
 },  /* ---- fin del portugués ---- */
@@ -834,7 +842,10 @@ it: {
     guardarNota: "Salva nota",
     notaError: "Non è stato possibile salvare la nota. Riprova.",
     etapaError: "Non è stato possibile aggiornare la fase.",
-    registroError: "Non è stato possibile salvare il registro. Controlla i dati e riprova."
+    registroError: "Non è stato possibile salvare il registro. Controlla i dati e riprova.",
+    adjuntarFoto: "Allega foto (opzionale)",
+    siguienteEtapa: "Fase successiva",
+    confirmarEntrega: "Conferma consegna"
   },
 
   attrs: {
@@ -1109,7 +1120,8 @@ it: {
     "Correo del cliente": "Email del cliente",
     "Número de servicio": "Numero di servizio",
     "Equipo (ej. Bomba centrífuga 5HP)": "Attrezzatura (es. Pompa centrifuga 5HP)",
-    "Registrar": "Registra"
+    "Registrar": "Registra",
+    "Historial": "Cronologia"
   }
 
 }   /* ---- fin del italiano. El siguiente idioma va aquí, al mismo nivel ---- */

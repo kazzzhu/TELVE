@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=3.10">
+  <link rel="stylesheet" href="css/styles.css?v=3.11">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -666,6 +666,17 @@
         </div>
       </div>
 
+      <!-- Historial: solo para el admin, equipos ya "Entregado". Se arma
+           por JS filtrando la misma consulta de #procesoGrid, no hay
+           columna ni consulta aparte en la base. -->
+      <div class="section container" id="procesoHistorialWrap" hidden>
+        <div class="section-head section-head--tight">
+          <span class="section-head__label">Administrador</span>
+          <h2 class="h2 h2--sm">Historial</h2>
+        </div>
+        <div id="procesoHistorial" class="grid grid--3 grid--divided"></div>
+      </div>
+
       <!-- ==================================================================
            ADMIN: solo visible cuando la sesión activa es la del correo
            administrador (js/equipos.js lo decide llamando a Supabase).
@@ -1029,11 +1040,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=3.10"></script>
+  <script src="js/equipos.js?v=3.11"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=3.10"></script>
-  <script src="js/script.js?v=3.10"></script>
+  <script src="js/i18n.js?v=3.11"></script>
+  <script src="js/script.js?v=3.11"></script>
 </body>
 
 </html>

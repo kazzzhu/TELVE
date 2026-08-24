@@ -1304,23 +1304,43 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 .card__tag { margin-bottom: 10px; }
 
 /* ---------- Mi equipo (seguimiento de reparación) ---------- */
-/* Indicador de etapa: 5 segmentos, se rellenan hasta la etapa actual.
-   No hay valor numérico que mostrar, así que el color es la única señal. */
-.etapa-track { display: flex; gap: 4px; margin: 4px 0 12px; }
-.etapa-track__seg { flex: 1; height: 5px; border-radius: 3px; background: var(--border); }
-.etapa-track__seg.is-done { background: var(--teal); }
-.etapa-label {
-  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
-  letter-spacing: .06em; text-transform: uppercase; color: var(--teal-dark);
-  margin: 0 0 4px;
+/* Indicador de etapa: 5 insignias circulares conectadas por una línea, mismo
+   lenguaje visual que .step__icon/.card__icon (círculo de color + ícono
+   blanco). Gris = todavía no llega, teal = ya pasó, rojo = la actual. */
+.etapa-stepper { display: flex; align-items: flex-start; margin: 4px 0 12px; }
+.etapa-stepper__item {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  text-align: center; position: relative;
 }
+.etapa-stepper__item:not(:first-child)::before {
+  content: ""; position: absolute; top: 15px; right: 50%; width: 100%;
+  height: 2px; background: var(--border); z-index: 0;
+}
+.etapa-stepper__item.is-done:not(:first-child)::before,
+.etapa-stepper__item.is-current:not(:first-child)::before { background: var(--teal); }
+.etapa-stepper__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--border); color: #fff; position: relative; z-index: 1;
+  margin-bottom: 6px;
+}
+.etapa-stepper__icon svg { width: 16px; height: 16px; }
+.etapa-stepper__item.is-done .etapa-stepper__icon { background: var(--teal); }
+.etapa-stepper__item.is-current .etapa-stepper__icon { background: var(--red); }
+.etapa-stepper__label {
+  font-family: 'Oswald', sans-serif; font-size: 10.5px; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--text-muted);
+  line-height: 1.25;
+}
+.etapa-stepper__item.is-current .etapa-stepper__label { color: var(--teal-dark); }
+
 .proceso-notas { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
 .proceso-nota__texto { font-size: 14.5px; line-height: 1.5; margin: 0; }
 .proceso-nota__fecha { color: var(--text-muted); font-size: 12.5px; margin: 0 0 3px; }
 .proceso-nota__foto { display: block; width: 72px; height: 72px; object-fit: cover; border-radius: 6px; margin-top: 6px; cursor: pointer; }
-/* Panel admin por tarjeta: cambiar etapa y agregar nota sin salir de la tarjeta. */
+
+/* Panel admin por tarjeta: avanzar de etapa y agregar nota sin salir de la tarjeta. */
 .proceso-admin { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
-.proceso-admin select,
 .proceso-admin input,
 .proceso-admin textarea {
   width: 100%;
@@ -1330,6 +1350,29 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
   padding: 8px 10px;
 }
 .proceso-admin textarea { resize: vertical; min-height: 56px; }
+
+/* Dropzone de foto: input file nativo, oculto y disparado por su label, con
+   vista previa del archivo elegido antes de guardar la nota. */
+.proceso-dropzone {
+  position: relative;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  overflow: hidden;
+  transition: border-color .15s ease;
+}
+.proceso-dropzone:hover,
+.proceso-dropzone:focus-within { border-color: var(--teal); }
+.proceso-dropzone__label {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; cursor: pointer;
+  font-family: 'Barlow', sans-serif; font-size: 14px; color: var(--text-muted);
+}
+.proceso-dropzone__icon { width: 20px; height: 20px; flex: none; color: var(--teal); }
+.proceso-dropzone__preview {
+  display: block; width: 100%; max-height: 140px; object-fit: cover;
+}
+.proceso-dropzone[data-empty] .proceso-dropzone__preview { display: none; }
 
 /* ---------- Menú del ícono de sesión (nav) ---------- */
 .nav__auth { position: relative; }

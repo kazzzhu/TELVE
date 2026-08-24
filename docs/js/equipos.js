@@ -704,34 +704,68 @@
      de la interfaz (ver tProceso). */
   var ETAPAS = ["Diagnóstico", "En reparación", "Pruebas", "Listo para entrega", "Entregado"];
 
+  /* Un ícono propio por etapa, mismo estilo que el resto del sitio
+     (viewBox 24x24, trazo 2.4, extremos redondeados). Se usan en el stepper
+     de progreso; el de "Listo para entrega" es el mismo path del ícono de
+     caja que ya existe en el estado vacío de esta página. */
+  var ETAPA_ICONOS = [
+    '<circle cx="10.5" cy="10.5" r="6"/><path d="m20 20-4.35-4.35"/>',                                   // Diagnóstico: lupa
+    '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2z"/>',           // En reparación: llave
+    '<path d="M20 6 9 17l-5-5"/>',                                                                        // Pruebas: check
+    '<path d="M3 8.5 12 4l9 4.5v7L12 20l-9-4.5z"/><path d="M3 8.5 12 13l9-4.5M12 13v7"/>',                // Listo para entrega: caja
+    '<path d="M20 6 9 17l-5-5"/>'                                                                         // Entregado: check
+  ];
+
   function initProceso() {
     var grid       = document.getElementById("procesoGrid");
     if (!grid) return;
 
-    var MAX_FOTO_MB  = 5;
-    var vacio        = document.getElementById("procesoVacio");
-    var adminPanel   = document.getElementById("procesoAdminPanel");
-    var formProceso  = document.getElementById("formProceso");
-    var procesoMsg   = document.getElementById("procesoMsg");
+    var MAX_FOTO_MB      = 5;
+    var vacio             = document.getElementById("procesoVacio");
+    var adminPanel        = document.getElementById("procesoAdminPanel");
+    var historialWrap     = document.getElementById("procesoHistorialWrap");
+    var historialGrid     = document.getElementById("procesoHistorial");
+    var formProceso       = document.getElementById("formProceso");
+    var procesoMsg        = document.getElementById("procesoMsg");
     var esAdminActual = false;
 
+    function progresoStepper(r) {
+      var idx = ETAPAS.indexOf(r.etapa);
+      return '<div class="etapa-stepper" role="list">' +
+        ETAPAS.map(function (et, i) {
+          var estado = i < idx ? " is-done" : i === idx ? " is-current" : "";
+          return '<div class="etapa-stepper__item' + estado + '" role="listitem">' +
+            '<span class="etapa-stepper__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ETAPA_ICONOS[i] + "</svg></span>" +
+            '<span class="etapa-stepper__label">' + escapar(et) + "</span>" +
+            "</div>";
+        }).join("") +
+        "</div>";
+    }
+
     function adminControles(r) {
-      var opciones = ETAPAS.map(function (et) {
-        return '<option value="' + escapar(et) + '"' + (et === r.etapa ? " selected" : "") + ">" + escapar(et) + "</option>";
-      }).join("");
+      if (r.etapa === "Entregado") return ""; // ya está en el historial, de solo lectura
+      var idx      = ETAPAS.indexOf(r.etapa);
+      var siguiente = ETAPAS[idx + 1];
+      var esUltimoPaso = siguiente === "Entregado";
+      var textoBoton = esUltimoPaso
+        ? tProceso("confirmarEntrega", "Confirmar entrega")
+        : tProceso("siguienteEtapa", "Siguiente etapa");
       return '<div class="proceso-admin" data-id="' + escapar(r.id) + '">' +
-        '<select class="proceso-etapa-select">' + opciones + "</select>" +
+        '<button type="button" class="btn btn--primary proceso-avanzar" data-id="' + escapar(r.id) + '" data-next="' + escapar(siguiente) + '">' + escapar(textoBoton) + "</button>" +
         '<textarea class="proceso-nota-texto" placeholder="' + escapar(tProceso("notaPlaceholder", "Nota (opcional)")) + '"></textarea>' +
-        '<input type="file" class="proceso-nota-foto" accept="image/*">' +
+        '<div class="proceso-dropzone" data-empty="1">' +
+        '<label class="proceso-dropzone__label" for="notaFoto-' + escapar(r.id) + '">' +
+        '<svg class="proceso-dropzone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h2l1.2-1.8a1 1 0 0 1 .8-.4h3a1 1 0 0 1 .8.4L15.5 6h2A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z"/><circle cx="12" cy="12.5" r="3.3"/></svg>' +
+        '<span class="proceso-dropzone__text">' + escapar(tProceso("adjuntarFoto", "Adjuntar foto (opcional)")) + "</span>" +
+        "</label>" +
+        '<input type="file" id="notaFoto-' + escapar(r.id) + '" class="proceso-nota-foto proceso-dropzone__input" accept="image/*" hidden>' +
+        '<img class="proceso-dropzone__preview" alt="" hidden>' +
+        "</div>" +
         '<button type="button" class="btn btn--primary proceso-nota-guardar">' + escapar(tProceso("guardarNota", "Guardar nota")) + "</button>" +
         "</div>";
     }
 
     function tarjeta(r) {
-      var idx = ETAPAS.indexOf(r.etapa);
-      var segs = ETAPAS.map(function (_, i) {
-        return '<span class="etapa-track__seg' + (i <= idx ? " is-done" : "") + '"></span>';
-      }).join("");
       var notas = (r.reparacion_notas || []).slice().sort(function (a, b) {
         return new Date(a.created_at) - new Date(b.created_at);
       });
@@ -748,8 +782,7 @@
       div.innerHTML =
         '<h3 class="card__title">' + escapar(r.equipo) + "</h3>" +
         '<p class="card__text">' + tProceso("numero", "Nº de servicio: ") + escapar(r.numero_servicio) + "</p>" +
-        '<p class="etapa-label">' + tProceso("etapaActual", "Etapa actual: ") + escapar(r.etapa) + "</p>" +
-        '<div class="etapa-track">' + segs + "</div>" +
+        progresoStepper(r) +
         (notasHtml ? '<div class="proceso-notas">' + notasHtml + "</div>" : "") +
         (esAdminActual ? adminControles(r) : "");
       return div;
@@ -760,20 +793,33 @@
         .then(function (r) {
           if (r.error) { console.error("[TELVE] error cargando proceso:", r.error); return; }
           grid.innerHTML = "";
-          if (!r.data.length) { if (vacio) vacio.hidden = false; return; }
-          if (vacio) vacio.hidden = true;
-          r.data.forEach(function (reg) { grid.appendChild(tarjeta(reg)); });
+          if (historialGrid) historialGrid.innerHTML = "";
+
+          var datos = r.data;
+          if (esAdminActual) {
+            // Al admin no le sirve ver mezclado lo entregado con lo activo:
+            // lo entregado se archiva solo en un historial aparte.
+            var activos    = datos.filter(function (x) { return x.etapa !== "Entregado"; });
+            var entregados = datos.filter(function (x) { return x.etapa === "Entregado"; });
+            if (!activos.length) { if (vacio) vacio.hidden = false; } else {
+              if (vacio) vacio.hidden = true;
+              activos.forEach(function (reg) { grid.appendChild(tarjeta(reg)); });
+            }
+            if (historialWrap) historialWrap.hidden = !entregados.length;
+            entregados.forEach(function (reg) { if (historialGrid) historialGrid.appendChild(tarjeta(reg)); });
+          } else {
+            // El cliente ve todo junto, activo y entregado, como siempre.
+            if (historialWrap) historialWrap.hidden = true;
+            if (!datos.length) { if (vacio) vacio.hidden = false; } else {
+              if (vacio) vacio.hidden = true;
+              datos.forEach(function (reg) { grid.appendChild(tarjeta(reg)); });
+            }
+          }
         });
     }
     cargarProceso();
 
-    grid.addEventListener("click", function (ev) {
-      var img = ev.target.closest(".proceso-nota__foto");
-      if (img) { abrirLightbox(img.src); return; }
-
-      var guardarBtn = ev.target.closest(".proceso-nota-guardar");
-      if (!guardarBtn) return;
-      var panel   = guardarBtn.closest(".proceso-admin");
+    function guardarNotaDesdePanel(panel) {
       var id      = panel.getAttribute("data-id");
       var texto   = panel.querySelector(".proceso-nota-texto").value.trim();
       var archivo = panel.querySelector(".proceso-nota-foto").files[0];
@@ -807,21 +853,49 @@
         var url = sb.storage.from("reparaciones").getPublicUrl(ruta).data.publicUrl;
         insertarNota(url);
       });
+    }
+
+    grid.addEventListener("click", function (ev) {
+      var img = ev.target.closest(".proceso-nota__foto");
+      if (img) { abrirLightbox(img.src); return; }
+
+      var avanzarBtn = ev.target.closest(".proceso-avanzar");
+      if (avanzarBtn) {
+        var id2  = avanzarBtn.getAttribute("data-id");
+        var next = avanzarBtn.getAttribute("data-next");
+        avanzarBtn.disabled = true; // evita doble click mientras viaja el pedido
+        sb.from("reparaciones").update({ etapa: next }).eq("id", id2).then(function (r) {
+          if (r.error) {
+            console.error("[TELVE] error actualizando etapa:", r.error);
+            alert(tProceso("etapaError", "No se pudo actualizar la etapa."));
+            avanzarBtn.disabled = false;
+            return;
+          }
+          cargarProceso();
+        });
+        return;
+      }
+
+      var guardarBtn = ev.target.closest(".proceso-nota-guardar");
+      if (guardarBtn) { guardarNotaDesdePanel(guardarBtn.closest(".proceso-admin")); return; }
     });
 
+    // Vista previa inmediata al elegir una foto, antes de guardar la nota.
     grid.addEventListener("change", function (ev) {
-      var sel = ev.target.closest(".proceso-etapa-select");
-      if (!sel) return;
-      var panel = sel.closest(".proceso-admin");
-      var id    = panel.getAttribute("data-id");
-      sb.from("reparaciones").update({ etapa: sel.value }).eq("id", id).then(function (r) {
-        if (r.error) {
-          console.error("[TELVE] error actualizando etapa:", r.error);
-          alert(tProceso("etapaError", "No se pudo actualizar la etapa."));
-          return;
-        }
-        cargarProceso();
-      });
+      var input = ev.target.closest(".proceso-dropzone__input");
+      if (!input) return;
+      var zona    = input.closest(".proceso-dropzone");
+      var preview = zona.querySelector(".proceso-dropzone__preview");
+      var archivo = input.files[0];
+      if (!archivo) { preview.hidden = true; zona.setAttribute("data-empty", "1"); return; }
+      if (archivo.type.indexOf("image/") !== 0 || archivo.size > MAX_FOTO_MB * 1024 * 1024) {
+        alert(tAuth("fotoTipo", "El archivo debe ser una imagen."));
+        input.value = "";
+        return;
+      }
+      preview.src = URL.createObjectURL(archivo);
+      preview.hidden = false;
+      zona.removeAttribute("data-empty");
     });
 
     function pintarAdmin(sesion) {
