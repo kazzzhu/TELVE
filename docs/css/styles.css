@@ -1374,10 +1374,15 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 }
 .proceso-dropzone[data-empty] .proceso-dropzone__preview { display: none; }
 
-/* ---------- Menú del ícono de sesión (nav) ---------- */
+/* ---------- Menú del ícono de sesión (nav) ----------
+   Dos estados bien distintos a simple vista: sin sesión es una píldora con
+   texto igual a los demás botones del nav; con sesión se achica a un círculo
+   de solo ícono, para que se note de un vistazo si hay sesión activa. */
 .nav__auth { position: relative; }
-.nav__authBtn { display: inline-flex; align-items: center; gap: 8px; }
+.nav__authBtn { display: inline-flex; align-items: center; gap: 8px; transition: padding .15s ease, border-radius .15s ease; }
 .nav__authIcon { width: 17px; height: 17px; flex: none; }
+.nav__authBtn.is-logged-in { padding: 10px; border-radius: 50%; }
+.nav__authBtn.is-logged-in .nav__authText { display: none; }
 .nav__authMenu {
   position: absolute; right: 0; top: calc(100% + 8px);
   background: var(--surface); border-radius: 8px;
@@ -1391,7 +1396,7 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
   background: transparent; border: none; cursor: pointer;
 }
 .nav__authMenu__item:hover { background: var(--bg); }
-@media (max-width: 860px) {
+@media (max-width: 1300px) {
   .nav__auth { width: 100%; }
   .nav__authMenu { position: static; box-shadow: none; margin-top: 4px; }
 }
@@ -1727,7 +1732,11 @@ html[data-motion="full"] .prefs__callout {
   .hero__lead { font-size: 16px; }
 }
 
-@media (max-width: 860px) {
+/* 1300px y no 860px: el logo+sello+5 links+botón de sesión no entran en una
+   sola fila por debajo de ~1250px (probado visualmente), así que el menú
+   hamburguesa tiene que aparecer antes de esa franja, no en el punto viejo
+   pensado solo para celulares. */
+@media (max-width: 1300px) {
   .nav { flex-wrap: wrap; padding: 12px 20px; }
   .nav__logoimg { height: 54px; padding: 6px 10px; }
   .nav__easa { display: none; }
@@ -1751,6 +1760,9 @@ html[data-motion="full"] .prefs__callout {
   .nav__indicator { display: none; }
   .nav__links .btn--wa,
   .nav__links .btn--ghost { width: 100%; margin-top: 6px; }
+  /* El botón de sesión logueada es un círculo chico a propósito (ver arriba
+     .nav__authBtn.is-logged-in) — no lo estiramos como al resto. */
+  .nav__links .btn--ghost.is-logged-in { width: auto; align-self: flex-start; }
 }
 
 /* ===================================================================

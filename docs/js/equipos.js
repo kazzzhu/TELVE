@@ -487,6 +487,7 @@
 
     function pintarBoton(sesion) {
       sesionActual = sesion;
+      navBtn.classList.toggle("is-logged-in", !!sesion);
       navBtn.setAttribute("aria-label", sesion ? tAuth("miCuenta", "Mi cuenta") : tAuth("login", "Iniciar sesión"));
       if (!sesion) cerrarAuthMenu();
     }

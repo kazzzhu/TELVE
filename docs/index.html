@@ -20,7 +20,7 @@
        pegado al HTML nuevo y la página se ve rota (botones sin estilo, el
        enlace "Saltar al contenido" visible). Cambiar el número obliga al
        navegador a pedir el archivo de nuevo. -->
-  <link rel="stylesheet" href="css/styles.css?v=3.11">
+  <link rel="stylesheet" href="css/styles.css?v=3.12">
 
   <!-- Ícono de la pestaña (isotipo T7) -->
   <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
@@ -96,6 +96,7 @@
       <div class="nav__auth">
         <button id="navAuth" class="btn btn--ghost nav__authBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Iniciar sesión">
           <svg class="nav__authIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>
+          <span class="nav__authText">Iniciar sesión</span>
         </button>
         <!-- Solo con sesión iniciada: js/equipos.js decide entre esto y abrir
              el modal de acceso al tocar #navAuth. "Mi equipo" navega por el
@@ -1040,11 +1041,11 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3/dist/umd/supabase.js"
     integrity="sha384-qafw21c/iciq0VXsi9FzkfoQv5I/V0iqE4lSNcKXPnW9/UTJLnv5CcN4FHxVLnKg"
     crossorigin="anonymous"></script>
-  <script src="js/equipos.js?v=3.11"></script>
+  <script src="js/equipos.js?v=3.12"></script>
 
   <!-- Mismo motivo que el CSS: subir el ?v= al publicar una versión nueva. -->
-  <script src="js/i18n.js?v=3.11"></script>
-  <script src="js/script.js?v=3.11"></script>
+  <script src="js/i18n.js?v=3.12"></script>
+  <script src="js/script.js?v=3.12"></script>
 </body>
 
 </html>
