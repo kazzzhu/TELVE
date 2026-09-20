@@ -67,6 +67,7 @@ window.TELVE_I18N = {
      olvidos. Si añades un cliente o una marca nueva, agrégala aquí. */
   sinTraducir: [
     "WhatsApp", "TELVE C.A.", "telveca@gmail.com",
+    "Idioma · Language · Lingua",
     "700 HP", "500 KVA",
     "SIDOR", "Corpoelec", "C.V.G. Bauxilum", "C.V.G. Cabelum",
     "Hidrobolívar", "Fapco", "Tubo Concreto", "Ciudad Orinoco",
@@ -157,6 +158,7 @@ en: {
     "Cerrar menú": "Close menu",
     "Navegación principal": "Main navigation",
     "Ajustes de la página": "Page settings",
+    "Guía rápida": "Quick guide",
     "Pier Pianca, fundador de TELVE": "Pier Pianca, founder of TELVE",
     "Christian Pianca, gerente general de TELVE": "Christian Pianca, general manager of TELVE",
     "Gian Pier Pianca": "Gian Pier Pianca",
@@ -221,6 +223,8 @@ en: {
 
     /* Por qué TELVE */
     "Navegación": "Navigation",
+    "Llamar": "Call",
+    "Ver mapa y horario": "See map and opening hours",
     "Distribuidor autorizado": "Authorised distributor",
     "Otras marcas que manejamos": "Other brands we carry",
     "Fundador": "Founder",
@@ -385,9 +389,19 @@ en: {
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Reduced stops the stripe and the automatic carousels.",
     "Idioma": "Language",
-    "Cambia el idioma o reduce las animaciones aquí.":
-      "Change the language or reduce animations here.",
-    "Entendido": "Got it",
+
+    /* Guía de primera vez */
+    "Aquí cambias el idioma de la página y puedes reducir las animaciones.":
+      "This is where you change the language of the site and can reduce animations.",
+    "Inicia sesión para ver en qué etapa está el equipo que dejaste en el taller.":
+      "Log in to see what stage the unit you left at the workshop is at.",
+    "Ya estás dentro. Este botón es tu cuenta: aquí abres tu menú y cierras sesión.":
+      "You are in. This button is your account: open your menu and log out from here.",
+    "Entra a “Mi equipo” para ver la etapa de tu reparación y las notas que agrega el taller.":
+      "Go to “My equipment” to see the stage of your repair and the notes the workshop adds.",
+    "Anterior": "Back",
+    "Siguiente": "Next",
+    "Listo": "Done",
 
     /* Equipos en venta */
     "Equipos": "Equipment",
@@ -517,6 +531,7 @@ pt: {
     "Cerrar menú": "Fechar menu",
     "Navegación principal": "Navegação principal",
     "Ajustes de la página": "Configurações da página",
+    "Guía rápida": "Guia rápido",
     "Pier Pianca, fundador de TELVE": "Pier Pianca, fundador da TELVE",
     "Christian Pianca, gerente general de TELVE": "Christian Pianca, gerente geral da TELVE",
     "Gian Pier Pianca": "Gian Pier Pianca",
@@ -572,6 +587,8 @@ pt: {
     "Ver todos los servicios →": "Ver todos os serviços →",
 
     "Navegación": "Navegação",
+    "Llamar": "Ligar",
+    "Ver mapa y horario": "Ver mapa e horário",
     "Distribuidor autorizado": "Distribuidor autorizado",
     "Otras marcas que manejamos": "Outras marcas que trabalhamos",
     "Fundador": "Fundador",
@@ -728,9 +745,19 @@ pt: {
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Reduzidas para a faixa e os carrosséis automáticos.",
     "Idioma": "Idioma",
-    "Cambia el idioma o reduce las animaciones aquí.":
-      "Mude o idioma ou reduza as animações aqui.",
-    "Entendido": "Entendi",
+
+    /* Guía de primera vez */
+    "Aquí cambias el idioma de la página y puedes reducir las animaciones.":
+      "Aqui você muda o idioma da página e pode reduzir as animações.",
+    "Inicia sesión para ver en qué etapa está el equipo que dejaste en el taller.":
+      "Entre na sua conta para ver em que etapa está o equipamento que você deixou na oficina.",
+    "Ya estás dentro. Este botón es tu cuenta: aquí abres tu menú y cierras sesión.":
+      "Você já entrou. Este botão é a sua conta: aqui você abre o seu menu e sai.",
+    "Entra a “Mi equipo” para ver la etapa de tu reparación y las notas que agrega el taller.":
+      "Acesse “Meu equipamento” para ver a etapa do seu reparo e as observações que a oficina adiciona.",
+    "Anterior": "Anterior",
+    "Siguiente": "Seguinte",
+    "Listo": "Pronto",
 
     /* Equipos en venta */
     "Equipos": "Equipamentos",
@@ -860,6 +887,7 @@ it: {
     "Cerrar menú": "Chiudi menu",
     "Navegación principal": "Navigazione principale",
     "Ajustes de la página": "Impostazioni della pagina",
+    "Guía rápida": "Guida rapida",
     "Pier Pianca, fundador de TELVE": "Pier Pianca, fondatore di TELVE",
     "Christian Pianca, gerente general de TELVE": "Christian Pianca, direttore generale di TELVE",
     "Gian Pier Pianca": "Gian Pier Pianca",
@@ -915,6 +943,8 @@ it: {
     "Ver todos los servicios →": "Vedi tutti i servizi →",
 
     "Navegación": "Navigazione",
+    "Llamar": "Chiama",
+    "Ver mapa y horario": "Vedi mappa e orari",
     "Distribuidor autorizado": "Distributore autorizzato",
     "Otras marcas que manejamos": "Altri marchi che trattiamo",
     "Fundador": "Fondatore",
@@ -1071,9 +1101,19 @@ it: {
     "Reducidas detiene la franja y los carruseles automáticos.":
       "Ridotte ferma la fascia e i caroselli automatici.",
     "Idioma": "Lingua",
-    "Cambia el idioma o reduce las animaciones aquí.":
-      "Cambia lingua o riduci le animazioni qui.",
-    "Entendido": "Ho capito",
+
+    /* Guía de primera vez */
+    "Aquí cambias el idioma de la página y puedes reducir las animaciones.":
+      "Qui cambi la lingua della pagina e puoi ridurre le animazioni.",
+    "Inicia sesión para ver en qué etapa está el equipo que dejaste en el taller.":
+      "Accedi per vedere a che punto è l'apparecchiatura che hai lasciato in officina.",
+    "Ya estás dentro. Este botón es tu cuenta: aquí abres tu menú y cierras sesión.":
+      "Sei dentro. Questo pulsante è il tuo account: da qui apri il menu ed esci.",
+    "Entra a “Mi equipo” para ver la etapa de tu reparación y las notas que agrega el taller.":
+      "Vai su “La mia attrezzatura” per vedere la fase della riparazione e le note che aggiunge l'officina.",
+    "Anterior": "Indietro",
+    "Siguiente": "Avanti",
+    "Listo": "Fatto",
 
     /* Equipos en venta */
     "Equipos": "Attrezzature",

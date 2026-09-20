@@ -1407,11 +1407,14 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
   padding: var(--space-xl) var(--pad-x) 0;
   font-size: 13px; border-top: 3px solid var(--red);
 }
-/* La marca ocupa algo más que las otras tres columnas: lleva el logotipo, el
+/* La marca ocupa algo más que las otras dos columnas: lleva el logotipo, el
    RIF y el sello EASA, que es una credencial y no relleno. */
+/* Al quedar solo tres columnas, repartir el ancho a partes iguales dejaba un
+   hueco enorme bajo la marca: las otras dos ocupan lo que miden y se agrupan
+   contra el borde derecho. */
 .footer__grid {
-  display: grid; grid-template-columns: 1.3fr 1fr 1.2fr .8fr;
-  gap: 40px; align-items: start;
+  display: grid; grid-template-columns: 1fr auto auto;
+  gap: 40px 72px; align-items: start;
   max-width: 1280px; margin: 0 auto;
 }
 .footer__col { display: flex; flex-direction: column; gap: 10px; }
@@ -1454,6 +1457,16 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
 }
 .footer__nav:hover, .footer__v:hover { color: #fff; text-decoration: underline; }
 .footer__nav:hover { text-decoration: none; }
+/* Puente al resto de los datos de contacto (mapa, dirección, horario, correo),
+   que ya no se repiten aquí. Separado de la lista de navegación: no es una
+   sección más del sitio, es "sigue leyendo allá". */
+.footer__more {
+  margin-top: 6px; padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  color: #ffd0cb;
+}
+.footer__more::after { content: " →"; }
+.footer__wa { align-self: flex-start; margin-top: 4px; }
 .footer__bottom {
   max-width: 1280px; margin: 0 auto;
   margin-top: var(--space-lg); padding: 18px 0;
@@ -1526,80 +1539,6 @@ html[data-motion="reduced"] .authModal__box { animation: none; }
   width: 22px; height: 15px;
   object-fit: contain;
   border-radius: 2px;      /* {rounded.xs} */
-}
-
-/* ----- Aviso de primera visita -----
-   Sale del círculo hacia la izquierda, con una punta que lo señala. A la
-   izquierda y no arriba para no chocar con el panel cuando se abre. */
-.prefs__callout {
-  position: absolute;
-  right: 66px;
-  bottom: 2px;
-  width: 232px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;      /* {rounded.lg} */
-  box-shadow: 0 8px 22px rgba(27,59,59,.22);
-  padding: 14px 16px;
-  transform-origin: right center;
-}
-.prefs__callout[hidden] { display: none; }
-/* La punta: cuadrado girado, con el mismo borde que la burbuja. */
-.prefs__callout::after {
-  content: "";
-  position: absolute;
-  right: -6px; bottom: 22px;
-  width: 10px; height: 10px;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  border-top: 1px solid var(--border);
-  transform: rotate(45deg);
-}
-.prefs__callout-txt {
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--text);
-  margin: 0 0 10px;
-}
-.prefs__callout-ok {
-  font-family: 'Oswald', sans-serif;
-  font-size: 13px;         /* {typography.label} */
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--red);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-/* Entrada: crece desde el círculo que la origina. */
-html[data-motion="full"] .prefs__callout {
-  animation: calloutIn .24s var(--ease-out) both;
-}
-@keyframes calloutIn {
-  from { opacity: 0; transform: scale(.94) translateX(8px); }
-  to   { opacity: 1; transform: none; }
-}
-/* Salida: mismo camino que la entrada, al revés — antes desaparecía de
-   golpe (aria-hidden inmediato) mientras que aparecer sí era cuidado. */
-.prefs__callout.is-leaving {
-  animation: none;
-  opacity: 0;
-  transform: scale(.94) translateX(8px);
-  transition: opacity .18s var(--ease-in-out), transform .18s var(--ease-in-out);
-}
-
-@media (max-width: 560px) {
-  /* A este ancho no cabe al costado: se coloca encima del círculo. */
-  .prefs__callout {
-    right: 0; bottom: 66px;
-    width: min(248px, calc(100vw - 40px));
-    transform-origin: bottom right;
-  }
-  .prefs__callout::after { right: 18px; bottom: -6px; border: none;
-    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 }
 
 .prefs__panel {
@@ -1682,6 +1621,101 @@ html[data-motion="full"] .prefs__callout {
   .prefs { right: 14px; bottom: 14px; }
   .prefs__panel { width: 210px; }
 }
+
+/* ===================================================================
+   PRIMERA VISITA — ventana de idioma y guía
+   =================================================================== */
+
+/* ----- Ventana de idioma (solo la primerísima visita) ----- */
+.langModal {
+  position: fixed; inset: 0; z-index: 260;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.langModal[hidden] { display: none; }
+.langModal__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(15, 26, 25, .55);
+  backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+}
+.langModal__box {
+  position: relative;
+  width: 100%; max-width: 340px;
+  background: var(--surface);
+  border-radius: 8px;
+  border-top: 4px solid var(--red);
+  box-shadow: 0 24px 60px rgba(15,26,25,.35);
+  padding: 28px 24px 24px;
+  animation: authIn .28s var(--ease-out);
+}
+html[data-motion="reduced"] .langModal__box { animation: none; }
+.langModal__title {
+  font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--red);
+  margin-bottom: 16px;
+}
+.langModal__opts { display: grid; gap: 8px; }
+.langModal__opt {
+  display: flex; align-items: center; gap: 12px;
+  width: 100%; padding: 12px 14px;
+  font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 500;
+  letter-spacing: .03em;
+  color: var(--teal-dark); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 6px; cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+.langModal__opt:hover { border-color: var(--teal); background: var(--surface-2); }
+/* contain y no cover, por el mismo motivo que .prefs__flag. */
+.langModal__flag { width: 28px; height: 19px; object-fit: contain; border-radius: 2px; flex: none; }
+
+/* ----- Guía (tutorial) -----
+   El óvalo no tapa nada: el oscurecido es una sombra que se derrama HACIA
+   AFUERA del recuadro, así que lo que queda dentro se ve tal cual sin
+   tener que tocarle el z-index al elemento señalado. La capa entera deja
+   pasar el ratón; solo la burbuja lo recibe. */
+.tour { position: fixed; inset: 0; z-index: 250; pointer-events: none; }
+.tour[hidden] { display: none; }
+.tour__hole {
+  position: fixed;
+  border-radius: 10px;
+  box-shadow: 0 0 0 9999px rgba(15, 26, 25, .45);
+  /* El movimiento de un paso al siguiente es lo que hace de "cámara": el
+     recuadro viaja hasta el elemento nuevo en vez de saltar. */
+  transition: top .45s var(--ease-in-out), left .45s var(--ease-in-out),
+              width .45s var(--ease-in-out), height .45s var(--ease-in-out);
+}
+html[data-motion="reduced"] .tour__hole { transition: none; }
+.tour__box {
+  position: fixed;
+  width: min(300px, calc(100vw - 32px));
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--red);
+  border-radius: 8px;
+  box-shadow: 0 14px 34px rgba(15,26,25,.3);
+  padding: 16px;
+  pointer-events: auto;
+  transition: top .45s var(--ease-in-out), left .45s var(--ease-in-out);
+}
+html[data-motion="reduced"] .tour__box { transition: none; }
+.tour__txt {
+  font-size: 14.5px; line-height: 1.5; color: var(--text);
+  margin: 0 0 14px;
+}
+.tour__txt[hidden] { display: none; }
+.tour__nav { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+.tour__btn {
+  font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  cursor: pointer;
+}
+.tour__btn[hidden] { display: none; }
+#tourPrev {
+  margin-right: auto;
+  color: var(--text-muted); background: none; border: none; padding: 0;
+}
+#tourPrev:hover { color: var(--teal-dark); }
+.tour__btn--next { padding: 9px 18px; }
 
 /* ===================================================================
    RESPONSIVE

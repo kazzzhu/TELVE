@@ -490,6 +490,11 @@
       navBtn.classList.toggle("is-logged-in", !!sesion);
       navBtn.setAttribute("aria-label", sesion ? tAuth("miCuenta", "Mi cuenta") : tAuth("login", "Iniciar sesión"));
       if (!sesion) cerrarAuthMenu();
+      // Guía de la primera sesión: qué es este botón y qué hay en "Mi equipo".
+      // La guía se muestra una sola vez por navegador y ella misma lo recuerda,
+      // así que da igual cuántas veces se llame aquí (también entra por
+      // TELVE_refrescarAuthUI al cambiar de idioma).
+      if (sesion && window.TELVE_tour) window.TELVE_tour("login");
     }
     sb.auth.getSession().then(function (r) { pintarBoton(r.data.session); });
     sb.auth.onAuthStateChange(function (_evento, sesion) { pintarBoton(sesion); });

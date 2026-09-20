@@ -157,7 +157,209 @@ document.addEventListener("DOMContentLoaded", function () {
   /* ---------- 9. Panel de ajustes (movimiento + idioma) ---------- */
   initPrefs();
 
+  /* ---------- 10. Guía y ventana de idioma de la primera visita ---------- */
+  // El orden importa: initTour deja lista window.TELVE_tour, que es lo que
+  // arranca initPrimeraVisita al cerrarse la ventana de idioma.
+  initTour();
+  initPrimeraVisita();
+
 });
+
+/* ===================================================================
+   PRIMERA VISITA
+   Dos cosas seguidas y una sola vez: elegir idioma y, tras elegirlo, la
+   guía que señala la tuerca de ajustes y el botón de acceso.
+   =================================================================== */
+function initPrimeraVisita() {
+  var modal = document.getElementById("langModal");
+  var opts  = document.getElementById("langModalOpts");
+  var i18n  = window.TELVE_I18N;
+
+  function guia() { if (window.TELVE_tour) window.TELVE_tour("inicio"); }
+
+  var elegido;
+  try { elegido = localStorage.getItem("telve-lang"); } catch (e) { elegido = "es"; }
+
+  // Ya eligió idioma alguna vez (o no hay con qué armar la ventana): se salta
+  // directo a la guía, con un respiro para no competir con la portada.
+  if (elegido || !modal || !opts || !i18n || !i18n.idiomas) {
+    setTimeout(guia, 1400);
+    return;
+  }
+
+  i18n.idiomas.forEach(function (idioma) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "langModal__opt";
+    b.lang = idioma.code;          // cada nombre se lee en su propio idioma
+
+    // Misma convención que el resto del sitio: si la bandera no está, la
+    // imagen se borra sola y queda el nombre.
+    var img = new Image();
+    img.className = "langModal__flag";
+    img.alt = "";
+    img.onerror = function () { img.remove(); };
+    img.src = "img/bandera-" + idioma.code + ".png";
+
+    b.appendChild(img);
+    b.appendChild(document.createTextNode(idioma.nombre));
+    b.addEventListener("click", function () {
+      try { localStorage.setItem("telve-lang", idioma.code); } catch (e) {}
+      aplicarIdioma(idioma.code);
+      var select = document.getElementById("prefsLang");
+      if (select) select.value = idioma.code;
+      modal.hidden = true;
+      guia();
+    });
+    opts.appendChild(b);
+  });
+
+  modal.hidden = false;
+}
+
+/* ===================================================================
+   GUÍA (tutorial)
+   Un solo motor para las dos guías. Cada paso es un <p data-tour="...">
+   del HTML que dice a qué elemento apunta; aquí solo se colocan el óvalo
+   y la burbuja, y se pasa de uno a otro. Expone window.TELVE_tour(nombre),
+   que no hace nada si esa guía ya se vio (localStorage).
+   =================================================================== */
+function initTour() {
+  var capa  = document.getElementById("tour");
+  var hueco = document.getElementById("tourHole");
+  var caja  = document.getElementById("tourBox");
+  if (!capa || !hueco || !caja) return;
+
+  var btnPrev = document.getElementById("tourPrev");
+  var btnNext = document.getElementById("tourNext");
+  var btnFin  = document.getElementById("tourDone");
+
+  var pasos  = [];
+  var actual = 0;
+  var abierto = [];     // elementos que la guía destapó y hay que volver a tapar
+  var menuMovil = null; // menú hamburguesa, si la guía tuvo que abrirlo
+
+  var HOLGURA = 8;      // aire entre el elemento señalado y el borde del óvalo
+
+  function colocar() {
+    var paso = pasos[actual];
+
+    // Un paso puede necesitar que su objetivo esté desplegado (el menú de la
+    // cuenta, por ejemplo). Se destapa en cada paso porque cualquier clic
+    // fuera lo vuelve a cerrar.
+    var destapar = paso.getAttribute("data-tour-open");
+    if (destapar) {
+      var d = document.getElementById(destapar);
+      if (d && d.hidden) { d.hidden = false; abierto.push(d); }
+    }
+
+    var obj = document.querySelector(paso.getAttribute("data-tour-target"));
+    if (!obj) { terminar(); return; }
+
+    var r = obj.getBoundingClientRect();
+    // Ancho cero = está dentro del menú hamburguesa cerrado (móvil).
+    if (!r.width && obj.closest("[data-links]")) {
+      menuMovil = document.querySelector("[data-links]");
+      if (menuMovil) {
+        menuMovil.classList.add("is-open");
+        r = obj.getBoundingClientRect();
+      }
+    }
+    // Fuera de la pantalla, aunque sea a medias: se acerca antes de medir.
+    // Salto seco a propósito, un desplazamiento suave termina después de
+    // medir y deja el óvalo mal. Si el objetivo vive en un contenedor con
+    // desplazamiento propio (el menú móvil en apaisado), esto desplaza ese
+    // contenedor, que es justo lo que hace falta.
+    if (r.top < 0 || r.bottom > window.innerHeight) {
+      // behavior "instant" es obligatorio, no una preferencia: el sitio tiene
+      // scroll-behavior: smooth en el CSS, así que sin esto el desplazamiento
+      // termina DESPUÉS de medir y el óvalo se queda donde estaba el elemento
+      // antes de moverse.
+      obj.scrollIntoView({ block: "center", behavior: "instant" });
+      r = obj.getBoundingClientRect();
+    }
+
+    hueco.style.top    = (r.top - HOLGURA) + "px";
+    hueco.style.left   = (r.left - HOLGURA) + "px";
+    hueco.style.width  = (r.width + HOLGURA * 2) + "px";
+    hueco.style.height = (r.height + HOLGURA * 2) + "px";
+
+    // La burbuja debajo del elemento; si no cabe, encima.
+    var c = caja.getBoundingClientRect();
+    var debajo = r.bottom + 14;
+    var arriba = r.top - 14 - c.height;
+    caja.style.top = (debajo + c.height < window.innerHeight - 10 || arriba < 10
+      ? debajo : arriba) + "px";
+    caja.style.left = Math.min(
+      Math.max(10, r.left + r.width / 2 - c.width / 2),
+      window.innerWidth - c.width - 10
+    ) + "px";
+  }
+
+  function ocultarPasos() {
+    // Todos, no solo los de la guía en curso: si antes corrió otra guía en
+    // esta misma carga, su último paso quedó visible y saldrían dos textos
+    // juntos en la burbuja.
+    caja.querySelectorAll("[data-tour]").forEach(function (p) { p.hidden = true; });
+  }
+
+  function mostrar() {
+    ocultarPasos();
+    pasos[actual].hidden = false;
+    if (btnPrev) btnPrev.hidden = actual === 0;
+    var ultimo = actual === pasos.length - 1;
+    if (btnNext) btnNext.hidden = ultimo;
+    if (btnFin)  btnFin.hidden  = !ultimo;
+    colocar();
+  }
+
+  function terminar() {
+    capa.hidden = true;
+    ocultarPasos();
+    abierto.forEach(function (d) { d.hidden = true; });
+    abierto = [];
+    if (menuMovil) { menuMovil.classList.remove("is-open"); menuMovil = null; }
+  }
+
+  function ir(n) {
+    actual = n;
+    if (actual < 0 || actual >= pasos.length) { terminar(); return; }
+    mostrar();
+  }
+
+  if (btnPrev) btnPrev.addEventListener("click", function () { ir(actual - 1); });
+  if (btnNext) btnNext.addEventListener("click", function () { ir(actual + 1); });
+  if (btnFin)  btnFin.addEventListener("click", terminar);
+  // Los clics de la burbuja no deben llegar al documento: hay listeners que
+  // cierran el menú de la cuenta y el panel de ajustes con cualquier clic fuera.
+  caja.addEventListener("click", function (e) { e.stopPropagation(); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !capa.hidden) terminar();
+  });
+  // Al girar el teléfono o redimensionar, el elemento señalado se movió.
+  window.addEventListener("resize", function () { if (!capa.hidden) colocar(); });
+  // Y si algo desplaza la página o un contenedor con el óvalo puesto (el menú
+  // móvil tiene desplazamiento propio), hay que recolocarlo: el óvalo está
+  // fijo a la pantalla, el elemento señalado no. En captura, para enterarse
+  // también de los desplazamientos de esos contenedores.
+  window.addEventListener("scroll", function () { if (!capa.hidden) colocar(); }, true);
+
+  window.TELVE_tour = function (nombre) {
+    if (!capa.hidden) return;                       // ya hay una guía en pantalla
+    try {
+      if (localStorage.getItem("telve-tour-" + nombre)) return;
+      // Se marca al empezar, no al terminar: si algo sale mal a mitad de
+      // camino, la guía no vuelve a aparecer en cada carga.
+      localStorage.setItem("telve-tour-" + nombre, "1");
+    } catch (e) { return; }                         // sin localStorage, no se insiste
+
+    pasos = Array.prototype.slice.call(caja.querySelectorAll('[data-tour="' + nombre + '"]'));
+    if (!pasos.length) return;
+    actual = 0;
+    capa.hidden = false;
+    mostrar();
+  };
+}
 
 /* ===================================================================
    PANEL DE AJUSTES
@@ -240,47 +442,6 @@ function initPrefs() {
   var actual = raiz.getAttribute("data-lang") || base;
   if (actual !== base) aplicarIdioma(actual);
   pintarCodigoIdioma();
-
-  /* --- aviso de primera visita --- */
-  var aviso  = document.getElementById("prefsCallout");
-  var avisoOk = document.getElementById("prefsCalloutOk");
-
-  function cerrarAviso() {
-    if (!aviso || aviso.hidden) return;
-    guardar("telve-aviso-visto", "1");
-    // Espeja la entrada (calloutIn) en vez de desaparecer de golpe. Sin
-    // movimiento reducido no hay transición que esperar: se oculta directo.
-    if (prefiereMenosMovimiento()) { aviso.hidden = true; return; }
-    aviso.classList.add("is-leaving");
-    setTimeout(function () {
-      aviso.hidden = true;
-      aviso.classList.remove("is-leaving");
-    }, 180);
-  }
-
-  if (aviso) {
-    var yaVisto;
-    try { yaVisto = localStorage.getItem("telve-aviso-visto"); } catch (e) { yaVisto = "1"; }
-    if (!yaVisto) {
-      // Con un respiro tras la carga: si aparece de una compite con el hero
-      // y el visitante todavía no está mirando esa esquina.
-      setTimeout(function () {
-        // Si mientras tanto ya abrió el panel por su cuenta, sobra el aviso.
-        if (panel.hidden) aviso.hidden = false;
-        else cerrarAviso();
-      }, 1400);
-    }
-    if (avisoOk) avisoOk.addEventListener("click", function (e) {
-      e.stopPropagation();
-      cerrarAviso();
-      toggle.focus();
-    });
-    // Abrir los ajustes ya cumple el propósito del aviso.
-    toggle.addEventListener("click", cerrarAviso);
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") cerrarAviso();
-    });
-  }
 }
 
 /* Marca el idioma activo en la insignia del círculo.
